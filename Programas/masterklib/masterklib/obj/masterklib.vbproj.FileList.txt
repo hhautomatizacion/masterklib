@@ -1,0 +1,12 @@
+bin\Debug\MasterKlib.dll
+bin\Debug\MasterKlib.pdb
+bin\Debug\MasterKlib.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\MasterKlib.Resources.resources
+obj\Debug\masterklib.vbproj.GenerateResource.Cache
+obj\Debug\MasterKlib.dll
+obj\Debug\MasterKlib.xml
+obj\Debug\MasterKlib.pdb
+bin\Debug\TinyNET.dll
+bin\Debug\TinyNET.pdb
+bin\Debug\TinyNET.xml

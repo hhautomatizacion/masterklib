@@ -1,0 +1,12 @@
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\hhSliderBar.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\hhSliderBar.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\hhSliderBar.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\masterklib.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\masterklib.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\bin\Debug\masterklib.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\hhSliderBar.Resources.resources
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\hhSliderBar.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\hhSliderBar.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\hhSliderBar.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhSliderBar\hhSliderBar\obj\Debug\hhSliderBar.pdb

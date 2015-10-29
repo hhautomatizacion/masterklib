@@ -1,0 +1,24 @@
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.Resources.resources
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\hhNumericDisplay.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\bin\Debug\masterklib.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.Resources.resources
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhNumericDisplay\hhNumericDisplay\obj\Debug\hhNumericDisplay.pdb

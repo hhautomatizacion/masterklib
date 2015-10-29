@@ -1,0 +1,9 @@
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\bin\Debug\LavadoraLib.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\bin\Debug\LavadoraLib.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\bin\Debug\LavadoraLib.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\LavadoraLib.Resources.resources
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\LavadoraLib.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\LavadoraLib.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\LavadoraLib.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\LavadoraLib\LavadoraLib\obj\Debug\LavadoraLib.pdb

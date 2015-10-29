@@ -1,0 +1,29 @@
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.pdb
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.Form1.resources
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.Resources.resources
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.dll
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.xml
+C:\Documents and Settings\Administrador\Escritorio\REEMPLAZOTONELLO\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\TinyNet.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\TinyNet.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\TinyNet.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.pdb
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\bin\Debug\masterklib.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.Form1.resources
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.Resources.resources
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.dll
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.xml
+C:\Documents and Settings\Administrador\Mis documentos\Dropbox\Mis proyectos\reemplazo tonello\programa\hhCharacterEntry\hhCharacterEntry\obj\Debug\hhCharacterEntry.pdb

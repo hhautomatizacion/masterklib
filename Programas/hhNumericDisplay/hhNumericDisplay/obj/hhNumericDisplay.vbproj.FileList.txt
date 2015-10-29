@@ -1,0 +1,15 @@
+bin\Debug\hhNumericDisplay.dll
+bin\Debug\hhNumericDisplay.pdb
+bin\Debug\hhNumericDisplay.xml
+bin\Debug\masterklib.dll
+bin\Debug\TinyNet.dll
+bin\Debug\TinyNet.pdb
+bin\Debug\TinyNet.xml
+bin\Debug\masterklib.pdb
+bin\Debug\masterklib.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\hhNumericDisplay.Resources.resources
+obj\Debug\hhNumericDisplay.vbproj.GenerateResource.Cache
+obj\Debug\hhNumericDisplay.dll
+obj\Debug\hhNumericDisplay.xml
+obj\Debug\hhNumericDisplay.pdb

@@ -1,0 +1,15 @@
+bin\Debug\hhBooleanLabel.dll
+bin\Debug\hhBooleanLabel.pdb
+bin\Debug\hhBooleanLabel.xml
+bin\Debug\masterklib.dll
+bin\Debug\TinyNet.dll
+bin\Debug\TinyNet.pdb
+bin\Debug\TinyNet.xml
+bin\Debug\masterklib.pdb
+bin\Debug\masterklib.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\hhBooleanLabel.Resources.resources
+obj\Debug\hhBooleanLabel.vbproj.GenerateResource.Cache
+obj\Debug\hhBooleanLabel.dll
+obj\Debug\hhBooleanLabel.xml
+obj\Debug\hhBooleanLabel.pdb
