@@ -13,3 +13,5 @@
 * Manuales de usuario de componentes
 
 * Documentacion de funciones, herramientas
+
+![Captura de pantalla de 2014-01-09 085709](/Historial/Captura de pantalla de 2014-01-09 085709.png)
