@@ -70,10 +70,11 @@ Public Class hhNumericEntry
         With b
             .Font = New Font(sNombreFuente, iTamanioFuente)
             .Width = iAnchoBoton
-            .Height = iAltoBoton
+            .Height = iAltoBoton * 2
             .Top = fTecladoEnPantalla.Height - .Height
             .Left = fTecladoEnPantalla.Width - .Width
-            .Text = "OK"
+            .Text = ""
+            .Image = My.Resources.circle_with_check_symbol
             AddHandler .MouseUp, AddressOf botonok
         End With
         fTecladoEnPantalla.Controls.Add(b)
@@ -82,10 +83,23 @@ Public Class hhNumericEntry
             .Font = New Font(sNombreFuente, iTamanioFuente)
             .Width = iAnchoBoton
             .Height = iAltoBoton
-            .Top = fTecladoEnPantalla.Height - 2 * .Height
+            .Top = fTecladoEnPantalla.Height - 3 * .Height
             .Left = fTecladoEnPantalla.Width - .Width
-            .Text = "<-"
+            .Text = ""
+            .Image = My.Resources.backspace_arrow
             AddHandler .MouseUp, AddressOf botonbackspace
+        End With
+        fTecladoEnPantalla.Controls.Add(b)
+        b = New Button
+        With b
+            .Font = New Font(sNombreFuente, iTamanioFuente)
+            .Width = iAnchoBoton
+            .Height = iAltoBoton
+            .Top = fTecladoEnPantalla.Height - 4 * .Height
+            .Left = fTecladoEnPantalla.Width - .Width
+            .Text = ""
+            .Image = My.Resources.cancel_button
+            AddHandler .MouseUp, AddressOf botoncancel
         End With
         fTecladoEnPantalla.Controls.Add(b)
         fTecladoEnPantalla.Visible = False
@@ -140,7 +154,11 @@ Public Class hhNumericEntry
     Private Function EnRango(ByVal Valor As Integer, ByVal ValorMaximo As Integer, ByVal ValorMinimo As Integer) As Boolean
         Return ((Valor <= ValorMaximo) And (Valor >= ValorMinimo))
     End Function
-
+    Private Sub botoncancel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+            fTecladoEnPantalla.Visible = False
+        fTecladoEnPantalla.TextBox1.Text = ""
+        fTecladoEnPantalla.Timer1.Enabled = False
+    End Sub
     Private Sub botonok(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim iTemp As Integer
         iTemp = Val(fTecladoEnPantalla.TextBox1.Text)
@@ -469,15 +487,7 @@ Public Class hhNumericEntry
     Private Sub hhNumericEntry_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.TextChanged
         Verificar(Me)
     End Sub
-    'Protected Overrides Sub Finalize()
-    'MyBase.Finalize()
-    'If Not IsNothing(lEtiqueta) Then
-    'If Not IsNothing(Me.Parent) Then
-    'Me.Parent.Controls.Remove(lEtiqueta)
-    'End If
-    'lEtiqueta = Nothing
-    'End If
-    'End Sub
+ 
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)
         If Not IsNothing(tHint) Then
             Try

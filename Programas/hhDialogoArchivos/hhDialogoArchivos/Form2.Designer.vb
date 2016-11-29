@@ -19,6 +19,7 @@ Partial Class Form2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
@@ -37,21 +38,21 @@ Partial Class Form2
         '
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
         Me.Button1.Location = New System.Drawing.Point(137, 258)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(121, 100)
         Me.Button1.TabIndex = 1
-        Me.Button1.Text = "Ok"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
         '
         Me.Button2.Cursor = System.Windows.Forms.Cursors.Cross
+        Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
         Me.Button2.Location = New System.Drawing.Point(264, 258)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(121, 100)
         Me.Button2.TabIndex = 2
-        Me.Button2.Text = "Cancel"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Form2

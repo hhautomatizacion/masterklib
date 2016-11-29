@@ -20,8 +20,8 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'TextBox1
@@ -34,6 +34,9 @@ Partial Class Form1
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(292, 20)
         Me.TextBox1.TabIndex = 1
+        '
+        'Timer1
+        '
         '
         'Form1
         '
@@ -48,6 +51,6 @@ Partial Class Form1
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Timer1 As System.Windows.Forms.Timer
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
 End Class

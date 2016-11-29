@@ -97,6 +97,15 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Iconos\backspace-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Iconos\cancel-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Iconos\circle-with-check-symbol.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

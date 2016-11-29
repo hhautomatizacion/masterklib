@@ -22,14 +22,17 @@ Public Class hhComboEntry
     Dim sLetras() As String = New String() {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]", ".", "-", "_", " "}
     Dim sNumeros() As String = New String() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "0", "+"}
     Dim mMasterk As MasterKlib.MasterK
-
     Dim bAutoActualizar As Boolean
+
+
 
     Sub New()
         MyBase.New()
         Dim b As Button
 
         CargarOpciones()
+
+
         Me.AutoSize = False
         Me.Font = New Font(sNombreFuente, iTamanioFuente)
         Me.Cursor = Cursors.Cross
@@ -83,10 +86,11 @@ Public Class hhComboEntry
             .Font = New System.Drawing.Font(sNombreFuente, iTamanioFuente)
             .Cursor = Cursors.Cross
             .Width = iAnchoBoton
-            .Height = iAltoBoton
+            .Height = 2 * iAltoBoton
             .Top = fTecladoEnPantalla.Height - .Height
             .Left = fTecladoEnPantalla.Width - .Width
-            .Text = "Ok"
+            .Text = ""
+            .Image = My.Resources.circle_with_check_symbol
             AddHandler .Click, AddressOf botonok
         End With
         fTecladoEnPantalla.Controls.Add(b)
@@ -97,12 +101,28 @@ Public Class hhComboEntry
             .Cursor = Cursors.Cross
             .Width = iAnchoBoton
             .Height = iAltoBoton
-            .Top = ftecladoenpantalla.Height - 2 * .Height
+            .Top = fTecladoEnPantalla.Height - 3 * .Height
             .Left = ftecladoenpantalla.Width - .Width
-            .Text = "<-"
+            .Text = ""
+            .Image = My.Resources.backspace_arrow
             AddHandler .Click, AddressOf botonbackspace
         End With
         ftecladoenpantalla.Controls.Add(b)
+
+
+        b = New Button
+        With b
+            .Font = New System.Drawing.Font(sNombreFuente, iTamanioFuente)
+            .Cursor = Cursors.Cross
+            .Width = iAnchoBoton
+            .Height = iAltoBoton
+            .Top = fTecladoEnPantalla.Height - 4 * .Height
+            .Left = fTecladoEnPantalla.Width - .Width
+            .Text = ""
+            .Image = My.Resources.cancel_button
+            AddHandler .Click, AddressOf botoncancel
+        End With
+        fTecladoEnPantalla.Controls.Add(b)
 
         ftecladoenpantalla.Visible = False
 
@@ -158,6 +178,7 @@ Public Class hhComboEntry
         ftecladoenpantalla.Timer1.Enabled = True
 
     End Sub
+
     Private Sub botonok(ByVal sender As Object, ByVal e As System.EventArgs)
 
 
@@ -186,7 +207,13 @@ Public Class hhComboEntry
 
 
     End Sub
-   
+
+    Private Sub botoncancel(ByVal sender As Object, ByVal e As System.EventArgs)
+        fTecladoEnPantalla.Visible = False
+        fTecladoEnPantalla.TextBox1.Text = ""
+        fTecladoEnPantalla.Timer1.Enabled = False
+    End Sub
+
     Private Sub touchscreen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
         If CType(e, MouseEventArgs).X < Me.Width - SystemInformation.VerticalScrollBarWidth Then
 

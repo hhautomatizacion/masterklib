@@ -2,7 +2,8 @@
 Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.Drawing
-Public Class hhMomentaryButton
+
+<DefaultEvent("Click")> Public Class hhMomentaryButton
     Inherits System.Windows.Forms.CheckBox
     Dim sId As String
     Dim bAutoActualizar As Boolean
@@ -19,9 +20,7 @@ Public Class hhMomentaryButton
         Me.Cursor = Cursors.Cross
     End Sub
     Private Sub CargarOpciones()
-        'cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        'cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-        iTamanioFuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
+        iTamaniofuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
         sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
     End Sub
 
@@ -68,15 +67,7 @@ Public Class hhMomentaryButton
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
 
         If disposing Then
-            'If Not IsNothing(lEtiqueta) Then
-            'If Not IsNothing(Me.Parent) Then
-            'Me.Parent.Controls.Remove(lEtiqueta)
-            'End If
-            'lEtiqueta = Nothing
-            'End If
-            'If Not IsNothing(tHint) Then
-            'tHint.Dispose()
-            'End If
+     
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
             End If

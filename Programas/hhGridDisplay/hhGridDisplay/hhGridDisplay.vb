@@ -24,13 +24,12 @@ Public Class hhGridDisplay
     Dim tHint As ToolTip
     Dim iAltoRenglonTooltip As Integer
     Dim sId As String
+    Dim bBotonPresionado As Boolean
+    Dim pPuntoInicio As Point
     Public Event Inicializado As EventHandler
 
     <System.Runtime.InteropServices.DllImport("user32.DLL")> _
-Private Shared Function SendMessage( _
-        ByVal hWnd As System.IntPtr, ByVal wMsg As Integer, _
-        ByVal wParam As Integer, ByVal lParam As Integer _
-        ) As Integer
+    Private Shared Function SendMessage(ByVal hWnd As System.IntPtr, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
     End Function
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
@@ -41,7 +40,9 @@ Private Shared Function SendMessage( _
         MyBase.Dispose(disposing)
     End Sub
     Sub New()
-        MyBase.New()
+                MyBase.New()
+        Debug.Print("Nuevo grid")
+
         CargarOpciones()
         Me.Font = New Font(sNombreFuente, iTamanioFuente)
         Me.RowsDefaultCellStyle.Font = New Font(sNombreFuente, iTamanioFuente)
@@ -337,9 +338,11 @@ Private Shared Function SendMessage( _
         End If
         If Forzar Then iPasoActual = 0
         If iPasoActual > 0 And iPasoActual <= Me.Rows.Count Then
-            LimpiarSeleccion()
-            Me.Rows(iPasoActual - 1).Selected = True
-            Me.CurrentCell = Me.Item(0, iPasoActual - 1)
+            If Not bBotonPresionado Then
+                LimpiarSeleccion()
+                Me.Rows(iPasoActual - 1).Selected = True
+                Me.CurrentCell = Me.Item(0, iPasoActual - 1)
+            End If
         End If
     End Sub
    
@@ -585,9 +588,40 @@ Private Shared Function SendMessage( _
         End If
 
     End Sub
+
+    Private Sub hhGridDisplay_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
+        bBotonPresionado = True
+        pPuntoInicio = e.Location
+    End Sub
     Private Sub hhGridDisplay_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.MouseLeave
         tHint.Active = False
         tHint.Active = True
+    End Sub
+
+    Private Sub hhGridDisplay_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
+        If bBotonPresionado Then
+            Me.ClearSelection()
+            If pPuntoInicio.Y - e.Y > 0 Then
+                If Me.FirstDisplayedScrollingRowIndex < Me.RowCount Then
+                    Me.FirstDisplayedScrollingRowIndex = Me.FirstDisplayedScrollingRowIndex + 1
+
+                End If
+                Debug.Print("Arrastre arriba")
+            End If
+
+            If pPuntoInicio.Y - e.Y < 0 Then
+                If Me.FirstDisplayedScrollingRowIndex > 0 Then
+                    Me.FirstDisplayedScrollingRowIndex = Me.FirstDisplayedScrollingRowIndex - 1
+
+                End If
+                Debug.Print("Arrastre abajo")
+            End If
+            Me.ClearSelection()
+        End If
+    End Sub
+
+    Private Sub hhGridDisplay_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
+        bBotonPresionado = False
     End Sub
     Private Sub hhGridDisplay_ParentChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ParentChanged
         If Not Me.DesignMode Then

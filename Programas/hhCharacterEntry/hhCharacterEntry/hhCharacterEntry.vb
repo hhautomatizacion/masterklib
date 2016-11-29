@@ -86,10 +86,11 @@ Public Class hhCharacterEntry
             .Font = New System.Drawing.Font(sNombreFuente, iTamanioFuente)
             .Cursor = Cursors.Cross
             .Width = iAnchoBoton
-            .Height = iAltoBoton
+            .Height = 2 * iAltoBoton
             .Top = fTecladoEnPantalla.Height - .Height
             .Left = fTecladoEnPantalla.Width - .Width
-            .Text = "Ok"
+            .Text = ""
+            .Image = My.Resources.circle_with_check_symbol
             AddHandler .Click, AddressOf botonok
         End With
         fTecladoEnPantalla.Controls.Add(b)
@@ -100,12 +101,27 @@ Public Class hhCharacterEntry
             .Cursor = Cursors.Cross
             .Width = iAnchoBoton
             .Height = iAltoBoton
-            .Top = ftecladoenpantalla.Height - 2 * .Height
+            .Top = fTecladoEnPantalla.Height - 3 * .Height
             .Left = ftecladoenpantalla.Width - .Width
-            .Text = "<-"
+            .Text = ""
+            .Image = My.Resources.backspace_arrow
             AddHandler .Click, AddressOf botonbackspace
         End With
         ftecladoenpantalla.Controls.Add(b)
+
+        b = New Button
+        With b
+            .Font = New System.Drawing.Font(sNombreFuente, iTamanioFuente)
+            .Cursor = Cursors.Cross
+            .Width = iAnchoBoton
+            .Height = iAltoBoton
+            .Top = fTecladoEnPantalla.Height - 4 * .Height
+            .Left = fTecladoEnPantalla.Width - .Width
+            .Text = ""
+            .Image = My.Resources.cancel_button
+            AddHandler .Click, AddressOf botoncancel
+        End With
+        fTecladoEnPantalla.Controls.Add(b)
 
         ftecladoenpantalla.Visible = False
        
@@ -190,18 +206,23 @@ Public Class hhCharacterEntry
 
 
     End Sub
+    Private Sub botoncancel(ByVal sender As Object, ByVal e As System.EventArgs)
+        fTecladoEnPantalla.Visible = False
+        fTecladoEnPantalla.TextBox1.Text = ""
+        fTecladoEnPantalla.Timer1.Enabled = False
+    End Sub
     Private Sub touchscreen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
-        ftecladoenpantalla.TextBox1.Text = Me.Text
+        fTecladoEnPantalla.TextBox1.Text = Me.Text
 
-        ftecladoenpantalla.Visible = True
-        ftecladoenpantalla.TextBox1.Focus()
-        ftecladoenpantalla.TextBox1.SelectAll()
+        fTecladoEnPantalla.Visible = True
+        fTecladoEnPantalla.TextBox1.Focus()
+        fTecladoEnPantalla.TextBox1.SelectAll()
 
-        ftecladoenpantalla.Top = Screen.PrimaryScreen.WorkingArea.Height - ftecladoenpantalla.Height
-        ftecladoenpantalla.Left = Screen.PrimaryScreen.WorkingArea.Width - ftecladoenpantalla.Width
+        fTecladoEnPantalla.Top = Screen.PrimaryScreen.WorkingArea.Height - fTecladoEnPantalla.Height
+        fTecladoEnPantalla.Left = Screen.PrimaryScreen.WorkingArea.Width - fTecladoEnPantalla.Width
 
-        Verificar(ftecladoenpantalla.TextBox1)
-        ftecladoenpantalla.Timer1.Enabled = True
+        Verificar(fTecladoEnPantalla.TextBox1)
+        fTecladoEnPantalla.Timer1.Enabled = True
     End Sub
 
     Property Link() As MasterKlib.MasterK
