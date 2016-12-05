@@ -40,9 +40,7 @@ Public Class hhGridDisplay
         MyBase.Dispose(disposing)
     End Sub
     Sub New()
-                MyBase.New()
-        Debug.Print("Nuevo grid")
-
+        MyBase.New()
         CargarOpciones()
         Me.Font = New Font(sNombreFuente, iTamanioFuente)
         Me.RowsDefaultCellStyle.Font = New Font(sNombreFuente, iTamanioFuente)
@@ -53,6 +51,7 @@ Public Class hhGridDisplay
         Me.AllowUserToDeleteRows = False
         Me.AllowUserToResizeRows = False
         Me.RowHeadersVisible = False
+        Me.MultiSelect = False
         Me.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         Me.Cursor = Cursors.Cross
         Me.ShowCellToolTips = False
@@ -219,27 +218,43 @@ Public Class hhGridDisplay
                     sPrefijo = DireccionLectura.Substring(0, 2)
                     sSufijo = sDireccionLectura.Replace("D", "").Replace("W", "")
                     iSufijo = Val(sSufijo)
-                    For Each pPaso In cReceta
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 0).ToString
-                        pPaso.NombrePaso = pPaso.NombrePaso.ToUpper.PadRight(iLongitudPaso, " ")
-                        mMasterk.EstablecerCadena(sDireccionParametro, pPaso.NombrePaso.Substring(0, iLongitudTexto))
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.GradosPorMinuto)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Centigrados)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 5).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Litros)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.RPM)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Segundos)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Minutos)
-                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                        mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Argumentos)
-                        iContador = iContador + 1
-                    Next
-                    Inicializar()
+                    Dim w As New Stopwatch
+                    With w
+                        .Start()
+                        For Each pPaso In cReceta
+                            Dim x As New Stopwatch
+                            With x
+                                .Start()
+                                sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 0).ToString
+                                pPaso.NombrePaso = pPaso.NombrePaso.ToUpper.PadRight(iLongitudPaso, " ")
+                                'Debug.Print(pPaso.NombrePaso.ToUpper & vbTab & iLongitudTexto)
+                                mMasterk.EstablecerCadena(sDireccionParametro, pPaso.NombrePaso.Substring(0, iLongitudTexto) & "  " & mMasterk.inttowordstr(pPaso.GradosPorMinuto) & mMasterk.inttowordstr(pPaso.Centigrados) & mMasterk.inttowordstr(pPaso.Litros) & mMasterk.inttowordstr(pPaso.RPM) & mMasterk.inttowordstr(pPaso.Segundos) & mMasterk.inttowordstr(pPaso.Minutos) & mMasterk.inttowordstr(pPaso.Argumentos))
+                                'Debug.Print(pPaso.NombrePaso.Substring(0, iLongitudTexto) & "  " & dummy(pPaso.GradosPorMinuto.ToString("X2") & pPaso.Centigrados.ToString("X2") & pPaso.Litros.ToString("X2") & pPaso.RPM.ToString("X2") & pPaso.Segundos.ToString("X2") & pPaso.Minutos.ToString("X2") & pPaso.Argumentos.ToString("X2"))
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.GradosPorMinuto)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Centigrados)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 5).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Litros)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.RPM)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Segundos)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Minutos)
+                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Argumentos)
+                                'Debug.Print(pPaso.Minutos.ToString("X2"))
+                                iContador = iContador + 1
+                                .Stop()
+                                Debug.Print("Paso " & Format(iContador) & ": " & .ElapsedMilliseconds)
+                            End With
+
+                        Next
+                        Inicializar()
+                        .Stop()
+                        Debug.Print("Total: " & .ElapsedMilliseconds)
+                    End With
                 End If
             End If
         End Set
@@ -353,14 +368,15 @@ Public Class hhGridDisplay
         Dim sPrefijo As String
         Dim sValor As String
         Dim sNuevaDireccion As String
-        Dim sDireccionParametro As String
+        'Dim sDireccionParametro As String
         Dim sParametro As String
-        Dim iParametro As Integer
+        'Dim iParametro As Integer
         Dim bReDo As Boolean
         Dim iIdPaso As Integer
         Dim iFallas As Integer
         Dim bSalir As Boolean
         Dim bBackupAutoActualizar As Boolean
+        Dim sPaso As String
 
         bBackupAutoActualizar = bAutoActualizar
         sPrefijo = DireccionLectura.Substring(0, 2)
@@ -374,7 +390,8 @@ Public Class hhGridDisplay
 
         SendMessage(Me.Handle, 11, False, 0)
         Me.Rows.Clear()
-        
+        Dim w As New Stopwatch
+        w.Start()
         Do
             Dim pPaso As New LavadoraLib.Receta.Paso
 
@@ -382,98 +399,106 @@ Public Class hhGridDisplay
 
             sParametro = ""
             sNuevaDireccion = sPrefijo & (iSufijo + (iContador * iLongitudPaso)).ToString
-            iIdPaso = mMasterk.ObtenerEntero(sNuevaDireccion)
+            'iIdPaso = mMasterk.ObtenerEntero(sNuevaDireccion)
+            sPaso = mMasterk.ObtenerCadena(sNuevaDireccion, 20)
+            iIdPaso = mMasterk.WordStrToInt(Mid(sPaso, 1, 2))
+
+            pPaso.GradosPorMinuto = mMasterk.WordStrToInt(Mid(sPaso, 7, 2))
+            pPaso.Centigrados = mMasterk.WordStrToInt(Mid(sPaso, 9, 2))
+            pPaso.Litros = mMasterk.WordStrToInt(Mid(sPaso, 11, 2))
+            pPaso.RPM = mMasterk.WordStrToInt(Mid(sPaso, 13, 2))
+            pPaso.Segundos = mMasterk.WordStrToInt(Mid(sPaso, 15, 2))
+            pPaso.Minutos = mMasterk.WordStrToInt(Mid(sPaso, 17, 2))
+            pPaso.Argumentos = mMasterk.WordStrToInt(Mid(sPaso, 19, 2))
+
+
             bReDo = False
             Select Case iIdPaso
                 Case 21830
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
                     pPaso.NombrePaso = "FUNCION MANDOS"
                 Case 17473
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
-                    pPaso.GradosPorMinuto = mMasterk.ObtenerEntero(sDireccionParametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
+                    'pPaso.GradosPorMinuto = 'mmasterk.ObtenerEntero('sdireccionparametro)
                     pPaso.NombrePaso = "ADITIVOS"
 
                 Case 21837
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
                     pPaso.NombrePaso = "MUESTREO"
 
 
                 Case 16717
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
-                    pPaso.Centigrados = mMasterk.ObtenerEntero(sDireccionParametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
+                    'pPaso.Centigrados = 'mmasterk.ObtenerEntero('sdireccionparametro)
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sParametro = iParametro.ToString & " MIN"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    sParametro = pPaso.Minutos & " MIN"
                     pPaso.NombrePaso = "MANTENIMIENTO"
-                    pPaso.Minutos = iParametro
+                    'pPaso.Minutos = iParametro
 
                     iDuracionReceta = iDuracionReceta + pPaso.Minutos * 60
                 Case 17732
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sParametro = iParametro.ToString & " SEG"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    sParametro = pPaso.Segundos & " SEG"
                     pPaso.NombrePaso = "DESAGUE"
-                    pPaso.Segundos = iParametro
-
-
+                    'pPaso.Segundos = iParametro
                     iDuracionReceta = iDuracionReceta + pPaso.Segundos
                 Case 20306
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
-                    pPaso.Segundos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
-                    pPaso.GradosPorMinuto = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sParametro = iParametro.ToString & " RPM"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
+                    'pPaso.Segundos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
+                    'pPaso.GradosPorMinuto = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    sParametro = pPaso.RPM & " RPM"
                     pPaso.NombrePaso = "ROTACION"
-                    pPaso.RPM = iParametro
-
-
-                    iDuracionReceta = iDuracionReceta + 1
+                    'pPaso.RPM = iParametro
+                    'iDuracionReceta = iDuracionReceta + 1
                 Case 19532
 
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
-                    pPaso.Centigrados = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 5).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sParametro = iParametro.ToString & " LTS"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
+                    'pPaso.Centigrados = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 5).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    sParametro = pPaso.Litros & " LTS"
                     pPaso.NombrePaso = "LLENADO"
-                    pPaso.Litros = iParametro
+                    'pPaso.Litros = iParametro
                 Case 17748
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                    pPaso.Argumentos = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    sParametro = iParametro.ToString & " °C"
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
-                    pPaso.GradosPorMinuto = mMasterk.ObtenerEntero(sDireccionParametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
+                    'pPaso.Argumentos = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    sParametro = pPaso.Centigrados & " °C"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
+                    'pPaso.GradosPorMinuto = 'mmasterk.ObtenerEntero('sdireccionparametro)
                     pPaso.NombrePaso = "TEMPERATURA"
-                    pPaso.Centigrados = iParametro
+                    'pPaso.Centigrados = iParametro
                 Case 17731
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    pPaso.Minutos = iParametro
-                    sParametro = iParametro.ToString & " MIN"
-                    sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
-                    iParametro = mMasterk.ObtenerEntero(sDireccionParametro)
-                    pPaso.RPM = iParametro
-                    sParametro = pPaso.RPM.ToString & " RPM" & " " & sParametro
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'pPaso.Minutos = iParametro
+                    'sParametro = iParametro.ToString & " MIN"
+                    'sdireccionparametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
+                    'iParametro = 'mmasterk.ObtenerEntero('sdireccionparametro)
+                    'pPaso.RPM = iParametro
+                    sParametro = pPaso.RPM & " RPM" & " " & pPaso.Minutos & " MIN"
                     pPaso.NombrePaso = "CENTRIFUGA"
                     iDuracionReceta = iDuracionReceta + pPaso.Minutos
                 Case 18758
@@ -498,8 +523,12 @@ Public Class hhGridDisplay
         Me.AutoResizeRows()
         bAutoActualizar = bBackupAutoActualizar
         RaiseEvent Inicializado(Me, New EventArgs)
+        w.Stop()
+        Debug.Print("Inicializar :" & w.ElapsedMilliseconds)
+
         Actualizar(True)
     End Sub
+   
     Private Function ExamineBit(ByVal MyByte, ByVal MyBit) As Boolean
         Dim BitMask As Int32
         BitMask = 2 ^ (MyBit)
@@ -606,7 +635,7 @@ Public Class hhGridDisplay
                     Me.FirstDisplayedScrollingRowIndex = Me.FirstDisplayedScrollingRowIndex + 1
 
                 End If
-                Debug.Print("Arrastre arriba")
+
             End If
 
             If pPuntoInicio.Y - e.Y < 0 Then
@@ -614,7 +643,7 @@ Public Class hhGridDisplay
                     Me.FirstDisplayedScrollingRowIndex = Me.FirstDisplayedScrollingRowIndex - 1
 
                 End If
-                Debug.Print("Arrastre abajo")
+
             End If
             Me.ClearSelection()
         End If

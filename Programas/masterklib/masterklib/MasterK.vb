@@ -66,7 +66,10 @@ Public Class MasterK
         End If
         Return Valor
     End Function
-    Sub Actualizar(ByVal s As Object, ByVal e As System.EventArgs) Handles tTemporizador.Tick
+    Private Sub ActualizaMe(ByVal s As Object, ByVal e As System.EventArgs) Handles tTemporizador.Tick
+        actualizar()
+    End Sub
+    Public Sub Actualizar()
 
         Dim c As Object
         If cControles.Count > 0 Then
@@ -88,7 +91,7 @@ Public Class MasterK
             Loop Until c.autoactualizar = True Or iControl >= cControles.Count
 
             If c.autoactualizar Then
-           
+
 
                 Select Case c.GetType.ToString.ToLower
                     Case "hhbooleanlabel.hhbooleanlabel"
@@ -127,7 +130,7 @@ Public Class MasterK
 
     Public Function Agregar(ByVal cControl As Object) As String
         Dim sId As String
-        'MsgBox(cControles.Count & vbTab & cControl.GetType.ToString)
+
         iControlId = iControlId + 1
         sId = iControlId.ToString("X")
         cControles.Add(cControl, sId)
@@ -559,7 +562,7 @@ Public Class MasterK
 
     End Sub
 
-    Sub Fallo(ByVal Mensaje As String)
+    Private Sub Fallo(ByVal Mensaje As String)
         bFail = True
         Debug.Print("Error " & sSub & " " & sUltimoDevice & " " & Mensaje)
         RaiseEvent Fail(Me, New MyEventArgs(Mensaje))
@@ -616,8 +619,13 @@ Public Class MasterK
         Return sRespuesta
     End Function
 
+    Public Function IntToWordStr(ByVal i As Integer) As String
+        Return Chr(i Mod 255) & Chr(i \ 255)
+    End Function
 
-
+    Public Function WordStrToInt(ByVal s As String) As Integer
+        Return Asc(Mid(s, 2, 1)) * 256 + Asc(Mid(s, 1, 1))
+    End Function
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()

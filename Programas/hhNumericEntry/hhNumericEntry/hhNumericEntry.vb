@@ -13,6 +13,7 @@ Public Class hhNumericEntry
     Dim iValorMaximo As Integer
     Dim iValorMinimo As Integer
     Dim iValor As Integer
+    Dim iValorEdicion As Integer
     Dim iAutoOcultar As Integer
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
@@ -23,6 +24,8 @@ Public Class hhNumericEntry
     Dim lEtiqueta As Label
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
+    Dim sFactor As Single
+    Dim iDecimales As Integer
     Dim sTooltip As String
     Dim sNumeros() As String = New String() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "0", "+"}
     Dim tHint As ToolTip
@@ -31,6 +34,8 @@ Public Class hhNumericEntry
     Dim bAutoActualizar As Boolean
     Dim bBackupAutoActualizar As Boolean
     Dim WithEvents tTeclado As Timer
+    <Runtime.InteropServices.DllImport("user32")> Private Shared Function HideCaret(ByVal hWnd As IntPtr) As Integer
+    End Function
     Sub New()
         MyBase.New()
         Dim b As Button
@@ -115,39 +120,44 @@ Public Class hhNumericEntry
         iTamanioFuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
         sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
     End Sub
-    Private Sub Verificar(ByVal t As TextBox)
-        Dim iTemp As Integer
-        iTemp = Val(t.Text)
-        If EnRango(iTemp, iValorMaximo, iValorMinimo) Then
-            t.BackColor = cColorNormal
+    Private Sub Verificar()
+        If EnRango(iValor, iValorMaximo, iValorMinimo) Then
+            Me.BackColor = cColorNormal
         Else
-            t.BackColor = cColorAlerta
+            Me.BackColor = cColorAlerta
         End If
     End Sub
     Private Sub levanta(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Verificar(fTecladoEnPantalla.TextBox1)
+        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
+            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
+        Else
+            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
+        End If
     End Sub
     Private Sub presiona(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        fTecladoEnPantalla.TextBox1.Focus()
-        If sender.text = "+" Then
-            SendKeys.Send("{ADD}")
+        'Ya no se ocupa el valor del textbox, sino que se edita iValorEdicion.
+        If fTecladoEnPantalla.TextBox1.SelectedText.Length Then
+            iValorEdicion = Val(sender.text)
         Else
-            SendKeys.Send(sender.text)
+            iValorEdicion = iValorEdicion * 10 + Val(sender.text)
         End If
+        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
         fTecladoEnPantalla.Timer1.Enabled = False
         fTecladoEnPantalla.Timer1.Enabled = True
     End Sub
     Private Sub botonbackspace(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        If fTecladoEnPantalla.TextBox1.SelectedText.Length > 0 Then
-            fTecladoEnPantalla.TextBox1.Text = fTecladoEnPantalla.TextBox1.Text.Substring(0, fTecladoEnPantalla.TextBox1.SelectionStart) & fTecladoEnPantalla.TextBox1.Text.Substring(fTecladoEnPantalla.TextBox1.SelectionStart + fTecladoEnPantalla.TextBox1.SelectionLength)
+        'Ya no se ocupa el valor del textbox, sino que se edita una iValorEdicion.
+        If fTecladoEnPantalla.TextBox1.SelectedText.Length Then
+            iValorEdicion = 0
         Else
-            If fTecladoEnPantalla.TextBox1.SelectionStart > 0 Then
-                fTecladoEnPantalla.TextBox1.Text = fTecladoEnPantalla.TextBox1.Text.Substring(0, fTecladoEnPantalla.TextBox1.SelectionStart - 1) & fTecladoEnPantalla.TextBox1.Text.Substring(fTecladoEnPantalla.TextBox1.SelectionStart)
-                fTecladoEnPantalla.TextBox1.SelectionStart = Len(fTecladoEnPantalla.TextBox1.Text)
-                fTecladoEnPantalla.TextBox1.Focus()
-            End If
+            iValorEdicion = iValorEdicion \ 10
         End If
-        Verificar(fTecladoEnPantalla.TextBox1)
+        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
+        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
+            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
+        Else
+            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
+        End If
         fTecladoEnPantalla.Timer1.Enabled = False
         fTecladoEnPantalla.Timer1.Enabled = True
     End Sub
@@ -155,36 +165,42 @@ Public Class hhNumericEntry
         Return ((Valor <= ValorMaximo) And (Valor >= ValorMinimo))
     End Function
     Private Sub botoncancel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-            fTecladoEnPantalla.Visible = False
+        fTecladoEnPantalla.Visible = False
         fTecladoEnPantalla.TextBox1.Text = ""
         fTecladoEnPantalla.Timer1.Enabled = False
     End Sub
     Private Sub botonok(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Dim iTemp As Integer
-        iTemp = Val(fTecladoEnPantalla.TextBox1.Text)
-        If EnRango(iTemp, iValorMaximo, iValorMinimo) Then
+        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
             fTecladoEnPantalla.Visible = False
-            Me.Text = fTecladoEnPantalla.TextBox1.Text
+            Me.Text = DarFormato(iValorEdicion)
             fTecladoEnPantalla.TextBox1.Text = ""
             fTecladoEnPantalla.Timer1.Enabled = False
-            iValor = iTemp
+            iValor = iValorEdicion
             If Not IsNothing(mMasterk) Then
                 mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
             End If
         Else
-            Verificar(fTecladoEnPantalla.TextBox1)
             fTecladoEnPantalla.Timer1.Enabled = False
             fTecladoEnPantalla.Timer1.Enabled = True
         End If
     End Sub
+    Private Sub touchscreen_focus(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.GotFocus
+        HideCaret(Me.Handle)
+    End Sub
     Private Sub touchscreen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
-        fTecladoEnPantalla.TextBox1.Text = Val(Me.Text).ToString
+        'Ya no se ocupa el valor del textbox sino que se edita iValorEdicion
+        iValorEdicion = iValor
+        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
         fTecladoEnPantalla.Visible = True
         fTecladoEnPantalla.TextBox1.Focus()
         fTecladoEnPantalla.TextBox1.SelectAll()
+        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
+            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
+        Else
+            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
+        End If
         fTecladoEnPantalla.Top = Screen.PrimaryScreen.WorkingArea.Height - fTecladoEnPantalla.Height
         fTecladoEnPantalla.Left = Screen.PrimaryScreen.WorkingArea.Width - fTecladoEnPantalla.Width
-        Verificar(fTecladoEnPantalla.TextBox1)
         fTecladoEnPantalla.Timer1.Enabled = True
     End Sub
     Property ValorMinimo() As Integer
@@ -263,6 +279,22 @@ Public Class hhNumericEntry
             iValor = value
         End Set
     End Property
+    Property Factor() As Single
+        Get
+            Return sFactor
+        End Get
+        Set(ByVal value As Single)
+            sFactor = value
+        End Set
+    End Property
+    Property Decimales() As Integer
+        Get
+            Return iDecimales
+        End Get
+        Set(ByVal value As Integer)
+            iDecimales = value
+        End Set
+    End Property
     Property Tooltip() As String
         Get
             Return sTooltip
@@ -288,7 +320,7 @@ Public Class hhNumericEntry
         Dim sTempTooltip As String
         Dim iRenglon As Integer
         Dim iColumna As Integer
-        sTempTooltip = sTooltip & "|Maximo:" & iValorMaximo & "|Minimo:" & iValorMinimo
+        sTempTooltip = sTooltip & "|Maximo:" & DarFormato(iValorMaximo) & "|Minimo:" & DarFormato(iValorMinimo)
         Try
             e.Graphics.FillRectangle(SystemBrushes.ActiveCaption, e.Bounds)
             iRenglon = 0
@@ -324,6 +356,7 @@ Public Class hhNumericEntry
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         ialtorenglontooltip = TextRenderer.MeasureText("Receta", New Font(sNombreFuente, iTamanioFuente)).Height
         e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
+
     End Sub
     Private Sub CrearEtiqueta()
         If IsNothing(lEtiqueta) Then
@@ -357,7 +390,6 @@ Public Class hhNumericEntry
             bAutoActualizar = value
         End Set
     End Property
-
     Protected Overrides Sub CreateHandle()
         MyBase.CreateHandle()
         Me.Font = New Font(sNombreFuente, iTamanioFuente)
@@ -441,53 +473,30 @@ Public Class hhNumericEntry
         End If
     End Sub
     Sub Actualizar()
+
         If Not IsNothing(mMasterk) Then
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
         End If
-        Me.Text = iValor.ToString
-        Verificar(Me)
+        Me.Text = DarFormato(iValor)
+        Verificar()
     End Sub
-
-    Private Sub hhNumericEntry_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
-        Dim iTemp As Integer
-        If tTeclado.Enabled Then
-            tTeclado.Enabled = False
-            tTeclado.Enabled = True
+    Private Function DarFormato(ByVal i As Integer) As String
+        Dim sFormato As String
+        If sFactor = 0 Then sFactor = 1
+        If sFactor = 1 Then
+            sFormato = "0"
         Else
-            bBackupAutoActualizar = bAutoActualizar
-            bAutoActualizar = False
-            tTeclado.Enabled = True
+            If iDecimales > 0 Then
+                sFormato = "0." & StrDup(iDecimales, "0")
+            Else
+                sFormato = "0\."
+            End If
         End If
-        Select Case e.KeyChar
-            Case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-                e.Handled = False
-            Case "-", "+", "."
-                If Me.Text.Contains(e.KeyChar) Then
-                    e.Handled = True
-                Else
-                    e.Handled = False
-                End If
-            Case Chr(8)
-                e.Handled = False
-            Case Chr(13)
-                iTemp = Val(Me.Text)
-                If EnRango(iTemp, iValorMaximo, iValorMinimo) Then
-                    iValor = iTemp
-                    If Not IsNothing(mMasterk) Then
-                        mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
-                    End If
-                    tTeclado.Enabled = False
-                    bAutoActualizar = bBackupAutoActualizar
-                End If
-            Case Else
-                e.Handled = True
-        End Select
-        Verificar(Me)
-    End Sub
+        Return (i * sFactor).ToString(sFormato)
+    End Function
     Private Sub hhNumericEntry_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.TextChanged
-        Verificar(Me)
+        Verificar()
     End Sub
- 
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)
         If Not IsNothing(tHint) Then
             Try

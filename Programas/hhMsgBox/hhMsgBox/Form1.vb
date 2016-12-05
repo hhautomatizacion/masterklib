@@ -21,13 +21,13 @@ Public Class Form1
     
     Private Sub HhMomentaryButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HhMomentaryButton1.Click
 
-        dResultado = Windows.Forms.DialogResult.OK
+        dResultado = Windows.Forms.DialogResult.Cancel
         Me.Close()
 
     End Sub
 
     Private Sub HhMomentaryButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HhMomentaryButton2.Click
-        dResultado = Windows.Forms.DialogResult.Cancel
+        dResultado = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 

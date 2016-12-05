@@ -19,13 +19,74 @@
 * PLC LS Master K 120S K7M-DR40U
 
 ## Autores
-* emmanuel156
+* <a href="http://www.github.com/emmanuel156">emmanuel156</a> <img src="https://avatars0.githubusercontent.com/u/15036095?v=3" height="32" width="32">
 
 ## Comentarios
 * Ninguno
 
 ## Contenido
-* Ninguno
+* Carpeta de Diagramas
+	* Diagramas del proyecto
+		* Diagramas electricos
+		* Diagramas de bloques
+		* Dibujos
+* Carpeta de Documentos
+	* Documentos pensados para el usuario final
+		* Manuales de usuario
+		* Manuales de programacion
+* Carpeta de Fotos
+	* Fotos del proyecto antes, durante y despues del desarrollo del mismo
+		* Fotos
+		* Capturas de pantalla
+* Carpeta de Historial
+	* Documentacion del desarrollo del proyecto
+		* Hojas de datos de componentes
+		* Manuales de usuario de componentes
+		* Documentacion de funciones, herramientas
+* Carpeta de Programas
+	* Programas de Computadora, PLC, etc. 
+		* Codigos fuente
+		* Iconos e imagenes usados en los programas
+		* Archivos de configuracion de los programas
+		* Programas compilados
+* Carpeta de Pruebas
+	* Pruebas preliminares del proyecto
+		* Programas incompletos, o secciones de programas
+		* Capturas de comunicacion
+		* Modelos de componentes que se hayan probado
+
 ---
 ![Captura de pantalla de 2014-01-09 085709.png](/Historial/Captura de pantalla de 2014-01-09 085709.png)
+---
+![backspace_arrow.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/backspace_arrow.png)
+---
+![cancel_button.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/cancel_button.png)
+---
+![circle_with_check_symbol.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/circle_with_check_symbol.png)
+---
+![backspace_arrow.png](/Programas/hhComboEntry/hhComboEntry/Iconos/backspace_arrow.png)
+---
+![cancel_button.png](/Programas/hhComboEntry/hhComboEntry/Iconos/cancel_button.png)
+---
+![circle_with_check_symbol.png](/Programas/hhComboEntry/hhComboEntry/Iconos/circle_with_check_symbol.png)
+---
+![cross.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/cross.png)
+---
+![folder_page_white.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/folder_page_white.png)
+---
+![page_white_copy.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/page_white_copy.png)
+---
+![page_white_delete.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/page_white_delete.png)
+---
+![page_white_go.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/page_white_go.png)
+---
+![page_white_stack.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/page_white_stack.png)
+---
+![tick.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/tick.png)
+---
+![backspace-arrow.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/backspace-arrow.png)
+---
+![cancel-button.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/cancel-button.png)
+---
+![circle-with-check-symbol.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/circle-with-check-symbol.png)
 ---
