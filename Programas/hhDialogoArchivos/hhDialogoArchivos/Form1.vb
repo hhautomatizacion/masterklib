@@ -4,12 +4,27 @@ Public Class Form1
     Public bCheckstate As Boolean
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Button1.Etiqueta = "Aceptar"
+
+        Button2.Etiqueta = "Cancelar"
+
+        Button3.Etiqueta = "Borrar"
+
+        Button4.Etiqueta = "Copiar"
+
+        Button5.Etiqueta = "Mover"
+
+        Button6.Etiqueta = "Folder"
+
+        Button7.Etiqueta = "Seleccionar todos"
+
         Timer1.Interval = 1000
         Timer1.Enabled = False
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         c = SeleccionArchivos()
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
     Sub Inicializar()
@@ -58,6 +73,7 @@ Public Class Form1
         HhCharacterEntry1.Text = ""
         sNombreArchivo = ""
         sNombreCompleto = ""
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 
@@ -125,8 +141,8 @@ Public Class Form1
         Dim f As New Form2
         Dim cunidades = New Collection
         f.CheckedListBox1.Font = New System.Drawing.Font(snombrefuente, itamaniofuente)
-        f.Button1.Font = New System.Drawing.Font(snombrefuente, itamaniofuente)
-        f.Button2.Font = New System.Drawing.Font(snombrefuente, itamaniofuente)
+        f.Button1.Etiqueta = "Ok"
+        f.Button2.Etiqueta = "Cancelar"
 
         f.CheckedListBox1.Items.Clear()
         f.CheckedListBox1.UseTabStops = True
@@ -176,9 +192,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
+        Debug.Print("Copiar")
         For Each s As String In SeleccionUnidad()
+            Debug.Print("---> " & s)
             For Each f As String In SeleccionArchivos()
-
+                Debug.Print("Copiando " & RutaCompleta() & f & vbTab & RutaCompleta(s) & f)
                 CopiarArchivo(RutaCompleta() & f, RutaCompleta(s) & f)
             Next
 
@@ -256,6 +274,7 @@ Public Class Form1
             End If
         End If
     End Sub
+
 
 
 End Class

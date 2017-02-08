@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\hhGridDisplay\hhGridDisplay\bin\Debug\hhGridDisplay.dll</HintPath>
     </Reference>
+    <Reference Include="hhMomentaryButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\hhMomentaryButton\hhMomentaryButton\bin\Debug\hhMomentaryButton.dll</HintPath>
+    </Reference>
     <Reference Include="MasterKlib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\masterklib\masterklib\bin\Debug\masterklib.dll</HintPath>
     </Reference>

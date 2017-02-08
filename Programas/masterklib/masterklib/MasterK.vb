@@ -18,7 +18,6 @@ Public Class MasterK
     Dim sTerminal As String
     Dim sPuerto As System.IO.Ports.SerialPort
     Dim iControl As Integer
-    'Dim iControlAnterior As Integer
     Dim cControles As Collection
     Dim iControlId As Integer
     Dim bTimeout As Boolean
@@ -72,27 +71,21 @@ Public Class MasterK
     Public Sub Actualizar()
 
         Dim c As Object
+
         If cControles.Count > 0 Then
-            'iControlAnterior = iControl
-            'If iControlAnterior = 0 Then iControlAnterior = 1
             If iControl > cControles.Count Then
                 iControl = 0
             End If
             Do
-                'System.Windows.Forms.Application.DoEvents()
                 iControl = iControl + 1
                 If iControl > cControles.Count Then iControl = 1
                 Try
                     c = cControles.Item(iControl)
-
                 Catch
                     Exit Sub
                 End Try
             Loop Until c.autoactualizar = True Or iControl >= cControles.Count
-
             If c.autoactualizar Then
-
-
                 Select Case c.GetType.ToString.ToLower
                     Case "hhbooleanlabel.hhbooleanlabel"
                         c.actualizar()
@@ -141,9 +134,7 @@ Public Class MasterK
             If cControles.Contains(sId) Then
                 cControles.Remove(sId)
             End If
-
         Catch ex As Exception
-
         End Try
     End Sub
 
@@ -160,7 +151,6 @@ Public Class MasterK
     Public ReadOnly Property ControlId() As String
         Get
             iControlId = iControlId + 1
-
             Return iControlId.ToString("X")
         End Get
     End Property
@@ -179,9 +169,7 @@ Public Class MasterK
             Return sPuerto
         End Get
         Set(ByVal value As System.IO.Ports.SerialPort)
-       
             sPuerto = value
-
         End Set
     End Property
     Public Property Terminal() As String
@@ -620,7 +608,7 @@ Public Class MasterK
     End Function
 
     Public Function IntToWordStr(ByVal i As Integer) As String
-        Return Chr(i Mod 255) & Chr(i \ 255)
+        Return Chr(i Mod 256) & Chr(i \ 256)
     End Function
 
     Public Function WordStrToInt(ByVal s As String) As Integer
@@ -629,6 +617,5 @@ Public Class MasterK
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
-
     End Sub
 End Class

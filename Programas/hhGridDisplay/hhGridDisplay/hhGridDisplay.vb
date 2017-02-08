@@ -163,6 +163,7 @@ Public Class hhGridDisplay
                     For Each pPaso In cReceta
                         iContador = iContador + 1
                         sPrefijo = pPaso.NombrePaso
+
                         sSufijo = ""
                         If Len(sPrefijo) Then
                             If sPrefijo.StartsWith("AD") Then
@@ -218,43 +219,14 @@ Public Class hhGridDisplay
                     sPrefijo = DireccionLectura.Substring(0, 2)
                     sSufijo = sDireccionLectura.Replace("D", "").Replace("W", "")
                     iSufijo = Val(sSufijo)
-                    Dim w As New Stopwatch
-                    With w
-                        .Start()
-                        For Each pPaso In cReceta
-                            Dim x As New Stopwatch
-                            With x
-                                .Start()
-                                sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 0).ToString
-                                pPaso.NombrePaso = pPaso.NombrePaso.ToUpper.PadRight(iLongitudPaso, " ")
-                                'Debug.Print(pPaso.NombrePaso.ToUpper & vbTab & iLongitudTexto)
-                                mMasterk.EstablecerCadena(sDireccionParametro, pPaso.NombrePaso.Substring(0, iLongitudTexto) & "  " & mMasterk.inttowordstr(pPaso.GradosPorMinuto) & mMasterk.inttowordstr(pPaso.Centigrados) & mMasterk.inttowordstr(pPaso.Litros) & mMasterk.inttowordstr(pPaso.RPM) & mMasterk.inttowordstr(pPaso.Segundos) & mMasterk.inttowordstr(pPaso.Minutos) & mMasterk.inttowordstr(pPaso.Argumentos))
-                                'Debug.Print(pPaso.NombrePaso.Substring(0, iLongitudTexto) & "  " & dummy(pPaso.GradosPorMinuto.ToString("X2") & pPaso.Centigrados.ToString("X2") & pPaso.Litros.ToString("X2") & pPaso.RPM.ToString("X2") & pPaso.Segundos.ToString("X2") & pPaso.Minutos.ToString("X2") & pPaso.Argumentos.ToString("X2"))
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 3).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.GradosPorMinuto)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 4).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Centigrados)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 5).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Litros)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 6).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.RPM)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 7).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Segundos)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 8).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Minutos)
-                                'sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 9).ToString
-                                'mMasterk.EstablecerEntero(sDireccionParametro, pPaso.Argumentos)
-                                'Debug.Print(pPaso.Minutos.ToString("X2"))
-                                iContador = iContador + 1
-                                .Stop()
-                                Debug.Print("Paso " & Format(iContador) & ": " & .ElapsedMilliseconds)
-                            End With
+                    For Each pPaso In cReceta
 
-                        Next
-                        Inicializar()
-                        .Stop()
-                        Debug.Print("Total: " & .ElapsedMilliseconds)
-                    End With
+                        sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso) + 0).ToString
+                        pPaso.NombrePaso = pPaso.NombrePaso.ToUpper.PadRight(iLongitudPaso, " ")
+                        mMasterk.EstablecerCadena(sDireccionParametro, pPaso.NombrePaso.Substring(0, iLongitudTexto) & "  " & mMasterk.IntToWordStr(pPaso.GradosPorMinuto) & mMasterk.IntToWordStr(pPaso.Centigrados) & mMasterk.IntToWordStr(pPaso.Litros) & mMasterk.IntToWordStr(pPaso.RPM) & mMasterk.IntToWordStr(pPaso.Segundos) & mMasterk.IntToWordStr(pPaso.Minutos) & mMasterk.IntToWordStr(pPaso.Argumentos))
+                        iContador = iContador + 1
+                    Next
+                    Inicializar()
                 End If
             End If
         End Set
@@ -368,9 +340,7 @@ Public Class hhGridDisplay
         Dim sPrefijo As String
         Dim sValor As String
         Dim sNuevaDireccion As String
-        'Dim sDireccionParametro As String
         Dim sParametro As String
-        'Dim iParametro As Integer
         Dim bReDo As Boolean
         Dim iIdPaso As Integer
         Dim iFallas As Integer
@@ -390,8 +360,6 @@ Public Class hhGridDisplay
 
         SendMessage(Me.Handle, 11, False, 0)
         Me.Rows.Clear()
-        Dim w As New Stopwatch
-        w.Start()
         Do
             Dim pPaso As New LavadoraLib.Receta.Paso
 
@@ -399,18 +367,19 @@ Public Class hhGridDisplay
 
             sParametro = ""
             sNuevaDireccion = sPrefijo & (iSufijo + (iContador * iLongitudPaso)).ToString
-            'iIdPaso = mMasterk.ObtenerEntero(sNuevaDireccion)
+
             sPaso = mMasterk.ObtenerCadena(sNuevaDireccion, 20)
-            iIdPaso = mMasterk.WordStrToInt(Mid(sPaso, 1, 2))
 
-            pPaso.GradosPorMinuto = mMasterk.WordStrToInt(Mid(sPaso, 7, 2))
-            pPaso.Centigrados = mMasterk.WordStrToInt(Mid(sPaso, 9, 2))
-            pPaso.Litros = mMasterk.WordStrToInt(Mid(sPaso, 11, 2))
-            pPaso.RPM = mMasterk.WordStrToInt(Mid(sPaso, 13, 2))
-            pPaso.Segundos = mMasterk.WordStrToInt(Mid(sPaso, 15, 2))
-            pPaso.Minutos = mMasterk.WordStrToInt(Mid(sPaso, 17, 2))
-            pPaso.Argumentos = mMasterk.WordStrToInt(Mid(sPaso, 19, 2))
-
+            If Len(sPaso) Then
+                iIdPaso = mMasterk.WordStrToInt(Mid(sPaso, 1, 2))
+                pPaso.GradosPorMinuto = mMasterk.WordStrToInt(Mid(sPaso, 7, 2))
+                pPaso.Centigrados = mMasterk.WordStrToInt(Mid(sPaso, 9, 2))
+                pPaso.Litros = mMasterk.WordStrToInt(Mid(sPaso, 11, 2))
+                pPaso.RPM = mMasterk.WordStrToInt(Mid(sPaso, 13, 2))
+                pPaso.Segundos = mMasterk.WordStrToInt(Mid(sPaso, 15, 2))
+                pPaso.Minutos = mMasterk.WordStrToInt(Mid(sPaso, 17, 2))
+                pPaso.Argumentos = mMasterk.WordStrToInt(Mid(sPaso, 19, 2))
+            End If
 
             bReDo = False
             Select Case iIdPaso
@@ -523,9 +492,7 @@ Public Class hhGridDisplay
         Me.AutoResizeRows()
         bAutoActualizar = bBackupAutoActualizar
         RaiseEvent Inicializado(Me, New EventArgs)
-        w.Stop()
-        Debug.Print("Inicializar :" & w.ElapsedMilliseconds)
-
+        
         Actualizar(True)
     End Sub
    

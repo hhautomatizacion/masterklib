@@ -7,23 +7,32 @@ Imports System.Drawing
     Inherits System.Windows.Forms.CheckBox
     Dim sId As String
     Dim bAutoActualizar As Boolean
-    Dim sNombreFuente As String
-    Dim iTamaniofuente As String
+    Dim sEtiqueta As String
     Dim sDireccionEscritura As String
     Dim sDireccionLectura As String
     Dim mMasterk As MasterKlib.MasterK
     Public Sub New()
-        CargarOpciones()
-        Me.Font = New Font(sNombreFuente, iTamaniofuente)
         Me.Appearance = Windows.Forms.Appearance.Button
         Me.TextAlign = ContentAlignment.MiddleCenter
         Me.Cursor = Cursors.Cross
     End Sub
-    Private Sub CargarOpciones()
-        iTamaniofuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
-        sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
-    End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+            Dim sNombreFuente As String
+            Dim iTamanioFuente As String
+            Try
+                iTamanioFuente = Val(GetSetting("hhControls", "Font", "ButtonFontSize", "8"))
+                sNombreFuente = GetSetting("hhControls", "Font", "ButtonFontName", "Verdana")
 
+                MyBase.Font = New Font(sNombreFuente, iTamanioFuente)
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
     Property Link() As MasterKlib.MasterK
         Get
             Return mMasterk
@@ -51,6 +60,35 @@ Imports System.Drawing
             sDireccionEscritura = value
         End Set
     End Property
+    Property Etiqueta() As String
+        Get
+            Return sEtiqueta
+        End Get
+        Set(ByVal value As String)
+            sEtiqueta = value
+            AcomodarEtiqueta()
+        End Set
+    End Property
+    Private Sub AcomodarEtiqueta()
+        Dim sTemp As String
+        sTemp = sEtiqueta
+        If TextRenderer.MeasureText(sTemp, MyBase.Font).Width >= (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", MyBase.Font).Width) Then
+            Do
+                If Len(sTemp) Then
+                    sTemp = sTemp.Substring(0, sTemp.Length - 1)
+                Else
+                    sTemp = sEtiqueta
+                    Exit Do
+                End If
+            Loop Until TextRenderer.MeasureText(sTemp & "...", MyBase.Font).Width < (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", MyBase.Font).Width)
+            sTemp = sTemp & "..."
+        End If
+        MyBase.Text = sTemp
+        If IsNothing(MyBase.Image) Then
+        Else
+            MyBase.TextAlign = ContentAlignment.BottomCenter
+        End If
+    End Sub
     Property AutoActualizar() As Boolean
         Get
             Return bAutoActualizar
@@ -60,14 +98,10 @@ Imports System.Drawing
         End Set
     End Property
 
-    Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
-        MyBase.OnParentChanged(e)
-        Me.Font = New Font(sNombreFuente, iTamaniofuente)
-    End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
 
         If disposing Then
-     
+
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
             End If

@@ -72,6 +72,8 @@
 ---
 ![cross.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/cross.png)
 ---
+![disk.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/disk.png)
+---
 ![folder_page_white.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/folder_page_white.png)
 ---
 ![page_white_copy.png](/Programas/hhDialogoArchivos/hhDialogoArchivos/Iconos/page_white_copy.png)
