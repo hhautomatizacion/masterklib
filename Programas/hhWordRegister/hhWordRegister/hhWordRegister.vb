@@ -1,5 +1,4 @@
 ﻿Imports System.Windows.Forms
-
 Public Class hhWordRegister
     Dim sId As String
     Dim sNombre As String
@@ -69,12 +68,12 @@ Public Class hhWordRegister
             Return iValor
         End Get
         Set(ByVal value As Integer)
-            If Not IsNothing(sDireccionEscritura) Then
-                If EnRango(value, iValorMaximo, 0) Then
-                    mMasterk.EstablecerEntero(sDireccionEscritura, value)
+            If EnRango(value, iValorMaximo, 0) Then
+                iValor = value
+                If Not IsNothing(sDireccionEscritura) Then
+                    mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
                 End If
             End If
-            iValor = value
         End Set
     End Property
     Property AutoActualizar() As Boolean
@@ -90,18 +89,16 @@ Public Class hhWordRegister
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
             If mMasterk.Failed Or mMasterk.TimedOut Then
                 iValor = 0
-            End If
-            If iValor <> iValorAnterior Then
-                iValorAnterior = iValor
-                RaiseEvent Cambio(Me, New System.EventArgs)
+            Else
+                If iValor <> iValorAnterior Then
+                    iValorAnterior = iValor
+                    RaiseEvent Cambio(Me, New System.EventArgs)
+                End If
             End If
         End If
     End Sub
-
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
         mMasterk.Quitar(sId)
     End Sub
-
-
 End Class

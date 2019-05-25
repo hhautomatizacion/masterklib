@@ -20,9 +20,9 @@ Partial Class Form2
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
-        Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox
-        Me.Button1 = New hhMomentaryButton.hhMomentaryButton
-        Me.Button2 = New hhMomentaryButton.hhMomentaryButton
+        Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
+        Me.Button1 = New hhMomentaryButton.hhMomentaryButton()
+        Me.Button2 = New hhMomentaryButton.hhMomentaryButton()
         Me.SuspendLayout()
         '
         'CheckedListBox1
@@ -41,15 +41,16 @@ Partial Class Form2
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button1.DireccionEscritura = Nothing
         Me.Button1.DireccionLectura = Nothing
-        Me.Button1.Etiqueta = Nothing
-        Me.Button1.Font = New System.Drawing.Font("Purisa", 10.0!)
+        Me.Button1.Texto = "Aceptar"
+        Me.Button1.Font = New System.Drawing.Font("Segoe Script", 8.0!)
         Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
         Me.Button1.Link = Nothing
         Me.Button1.Location = New System.Drawing.Point(137, 258)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(121, 100)
         Me.Button1.TabIndex = 1
-        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Button1.Text = "Aceptar"
+        Me.Button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
@@ -59,15 +60,16 @@ Partial Class Form2
         Me.Button2.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button2.DireccionEscritura = Nothing
         Me.Button2.DireccionLectura = Nothing
-        Me.Button2.Etiqueta = Nothing
-        Me.Button2.Font = New System.Drawing.Font("Purisa", 10.0!)
+        Me.Button2.Texto = "Cancelar"
+        Me.Button2.Font = New System.Drawing.Font("Segoe Script", 8.0!)
         Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
         Me.Button2.Link = Nothing
         Me.Button2.Location = New System.Drawing.Point(264, 258)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(121, 100)
         Me.Button2.TabIndex = 2
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Button2.Text = "Cancelar"
+        Me.Button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Form2

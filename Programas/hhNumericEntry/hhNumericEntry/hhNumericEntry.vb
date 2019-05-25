@@ -5,20 +5,18 @@ Imports System.Drawing
 Public Class hhNumericEntry
     Inherits TextBox
     Dim sId As String
-    Dim fTecladoEnPantalla As Form1
     Dim iAnchoBoton As Integer
     Dim iAltoBoton As Integer
-    Dim sNombreFuente As String
-    Dim iTamanioFuente As Integer
     Dim iValorMaximo As Integer
     Dim iValorMinimo As Integer
     Dim iValor As Integer
-    Dim iValorEdicion As Integer
     Dim iAutoOcultar As Integer
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
     Dim cEtiquetaBackcolor As Color
     Dim cEtiquetaForecolor As Color
+    Dim fFuente As Font
+    Dim fFuenteEtiqueta As Font
     Dim sUnidades As String
     Dim sEtiqueta As String
     Dim lEtiqueta As Label
@@ -27,182 +25,63 @@ Public Class hhNumericEntry
     Dim sFactor As Single
     Dim iDecimales As Integer
     Dim sTooltip As String
-    Dim sNumeros() As String = New String() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "0", "+"}
     Dim tHint As ToolTip
     Dim iAltoRenglonTooltip As Integer
     Dim mMasterk As MasterKlib.MasterK
     Dim bAutoActualizar As Boolean
-    Dim bBackupAutoActualizar As Boolean
-    Dim WithEvents tTeclado As Timer
     <Runtime.InteropServices.DllImport("user32")> Private Shared Function HideCaret(ByVal hWnd As IntPtr) As Integer
     End Function
     Sub New()
         MyBase.New()
-        Dim b As Button
         CargarOpciones()
-        tTeclado = New Timer
         Me.AutoSize = False
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
         Me.TextAlign = HorizontalAlignment.Center
         Me.Cursor = Cursors.Cross
-        CrearEtiqueta()
-        If Me.DesignMode Then
-            EmparentarEtiqueta()
-        End If
-        fTecladoEnPantalla = New Form1
-        fTecladoEnPantalla.TextBox1.Font = New Font(sNombreFuente, iTamanioFuente)
-        fTecladoEnPantalla.Height = iAltoBoton * 4 + fTecladoEnPantalla.TextBox1.Height
-        fTecladoEnPantalla.Width = iAnchoBoton * 4
-        fTecladoEnPantalla.Top = Screen.PrimaryScreen.WorkingArea.Height - fTecladoEnPantalla.Height
-        fTecladoEnPantalla.Left = Screen.PrimaryScreen.WorkingArea.Width - fTecladoEnPantalla.Width
-        fTecladoEnPantalla.Timer1.Interval = iAutoOcultar
-        fTecladoEnPantalla.Timer1.Enabled = False
-        tTeclado.Interval = iAutoOcultar
-        tTeclado.Enabled = False
-        For i As Integer = 0 To sNumeros.Length - 1
-            b = New Button
-            b.Font = New Font(sNombreFuente, iTamanioFuente)
-            b.Text = sNumeros(i)
-            b.Top = fTecladoEnPantalla.TextBox1.Height + (i \ 3) * iAltoBoton
-            b.Left = (i Mod 3) * iAnchoBoton
-            b.Width = iAnchoBoton
-            b.Height = iAltoBoton
-            AddHandler b.MouseDown, AddressOf presiona
-            AddHandler b.MouseUp, AddressOf levanta
-            fTecladoEnPantalla.Controls.Add(b)
-        Next
-        b = New Button
-        With b
-            .Font = New Font(sNombreFuente, iTamanioFuente)
-            .Width = iAnchoBoton
-            .Height = iAltoBoton * 2
-            .Top = fTecladoEnPantalla.Height - .Height
-            .Left = fTecladoEnPantalla.Width - .Width
-            .Text = ""
-            .Image = My.Resources.circle_with_check_symbol
-            AddHandler .MouseUp, AddressOf botonok
-        End With
-        fTecladoEnPantalla.Controls.Add(b)
-        b = New Button
-        With b
-            .Font = New Font(sNombreFuente, iTamanioFuente)
-            .Width = iAnchoBoton
-            .Height = iAltoBoton
-            .Top = fTecladoEnPantalla.Height - 3 * .Height
-            .Left = fTecladoEnPantalla.Width - .Width
-            .Text = ""
-            .Image = My.Resources.backspace_arrow
-            AddHandler .MouseUp, AddressOf botonbackspace
-        End With
-        fTecladoEnPantalla.Controls.Add(b)
-        b = New Button
-        With b
-            .Font = New Font(sNombreFuente, iTamanioFuente)
-            .Width = iAnchoBoton
-            .Height = iAltoBoton
-            .Top = fTecladoEnPantalla.Height - 4 * .Height
-            .Left = fTecladoEnPantalla.Width - .Width
-            .Text = ""
-            .Image = My.Resources.cancel_button
-            AddHandler .MouseUp, AddressOf botoncancel
-        End With
-        fTecladoEnPantalla.Controls.Add(b)
-        fTecladoEnPantalla.Visible = False
+        Me.BorderStyle = BorderStyle.FixedSingle
+        Me.Font = fFuente
     End Sub
     Private Sub CargarOpciones()
+        Try
+            fFuente = New Font(GetSetting("hhControls", "Font", "FontName", "Verdana"), Val(GetSetting("hhControls", "Font", "FontSize", "18")))
+        Catch ex As Exception
+            fFuente = New Font("Verdana", 18)
+        End Try
+        Try
+            fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
+        Catch ex As Exception
+            fFuenteEtiqueta = New Font("Verdana", 14)
+        End Try
         cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
         cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
-        iAltoBoton = Val(GetSetting("hhcontrols", "size", "buttonheight", "70"))
-        iAnchoBoton = Val(GetSetting("hhcontrols", "size", "buttonwidth", "70"))
-        iAutoOcultar = Val(GetSetting("hhcontrols", "refresh", "autohide", "10000"))
-        iTamanioFuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
-        sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
+        iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
+        iAnchoBoton = Val(GetSetting("hhControls", "Size", "ButtonWidth", "70"))
+        iAutoOcultar = Val(GetSetting("hhControls", "Refresh", "AutoHide", "10000"))
     End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+            Try
+                MyBase.Font = fFuente
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
     Private Sub Verificar()
         If EnRango(iValor, iValorMaximo, iValorMinimo) Then
             Me.BackColor = cColorNormal
         Else
             Me.BackColor = cColorAlerta
         End If
-    End Sub
-    Private Sub levanta(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
-            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
-        Else
-            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
-        End If
-    End Sub
-    Private Sub presiona(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        'Ya no se ocupa el valor del textbox, sino que se edita iValorEdicion.
-        If fTecladoEnPantalla.TextBox1.SelectedText.Length Then
-            iValorEdicion = Val(sender.text)
-        Else
-            iValorEdicion = iValorEdicion * 10 + Val(sender.text)
-        End If
-        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
-        fTecladoEnPantalla.Timer1.Enabled = False
-        fTecladoEnPantalla.Timer1.Enabled = True
-    End Sub
-    Private Sub botonbackspace(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        'Ya no se ocupa el valor del textbox, sino que se edita una iValorEdicion.
-        If fTecladoEnPantalla.TextBox1.SelectedText.Length Then
-            iValorEdicion = 0
-        Else
-            iValorEdicion = iValorEdicion \ 10
-        End If
-        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
-        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
-            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
-        Else
-            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
-        End If
-        fTecladoEnPantalla.Timer1.Enabled = False
-        fTecladoEnPantalla.Timer1.Enabled = True
+
     End Sub
     Private Function EnRango(ByVal Valor As Integer, ByVal ValorMaximo As Integer, ByVal ValorMinimo As Integer) As Boolean
         Return ((Valor <= ValorMaximo) And (Valor >= ValorMinimo))
     End Function
-    Private Sub botoncancel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        fTecladoEnPantalla.Visible = False
-        fTecladoEnPantalla.TextBox1.Text = ""
-        fTecladoEnPantalla.Timer1.Enabled = False
-    End Sub
-    Private Sub botonok(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
-            fTecladoEnPantalla.Visible = False
-            Me.Text = DarFormato(iValorEdicion)
-            fTecladoEnPantalla.TextBox1.Text = ""
-            fTecladoEnPantalla.Timer1.Enabled = False
-            iValor = iValorEdicion
-            If Not IsNothing(mMasterk) Then
-                mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
-            End If
-        Else
-            fTecladoEnPantalla.Timer1.Enabled = False
-            fTecladoEnPantalla.Timer1.Enabled = True
-        End If
-    End Sub
-    Private Sub touchscreen_focus(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.GotFocus
-        HideCaret(Me.Handle)
-    End Sub
-    Private Sub touchscreen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
-        'Ya no se ocupa el valor del textbox sino que se edita iValorEdicion
-        iValorEdicion = iValor
-        fTecladoEnPantalla.TextBox1.Text = DarFormato(iValorEdicion)
-        fTecladoEnPantalla.Visible = True
-        fTecladoEnPantalla.TextBox1.Focus()
-        fTecladoEnPantalla.TextBox1.SelectAll()
-        If EnRango(iValorEdicion, iValorMaximo, iValorMinimo) Then
-            fTecladoEnPantalla.TextBox1.BackColor = cColorNormal
-        Else
-            fTecladoEnPantalla.TextBox1.BackColor = cColorAlerta
-        End If
-        fTecladoEnPantalla.Top = Screen.PrimaryScreen.WorkingArea.Height - fTecladoEnPantalla.Height
-        fTecladoEnPantalla.Left = Screen.PrimaryScreen.WorkingArea.Width - fTecladoEnPantalla.Width
-        fTecladoEnPantalla.Timer1.Enabled = True
-    End Sub
     Property ValorMinimo() As Integer
         Get
             Return iValorMinimo
@@ -328,25 +207,25 @@ Public Class hhNumericEntry
                 If InStr(sRenglon, ":") Then
                     iColumna = 0
                     For Each sColumna In Split(sRenglon, ":")
-                        If TextRenderer.MeasureText(sColumna, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width / 2 Then
+                        If TextRenderer.MeasureText(sColumna, ffuenteetiqueta).Width > e.Bounds.Width / 2 Then
                             Do
                                 If Len(sColumna) < 3 Then Exit Do
                                 sColumna = sColumna.Substring(0, sColumna.Length - 1)
-                            Loop Until TextRenderer.MeasureText(sColumna & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width / 2
+                            Loop Until TextRenderer.MeasureText(sColumna & "...", ffuenteetiqueta).Width < e.Bounds.Width / 2
                             sColumna = sColumna & "..."
                         End If
-                        e.Graphics.DrawString(sColumna, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
+                        e.Graphics.DrawString(sColumna, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
                         iColumna = iColumna + 1
                     Next sColumna
                 Else
-                    If TextRenderer.MeasureText(sRenglon, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width Then
+                    If TextRenderer.MeasureText(sRenglon, ffuenteetiqueta).Width > e.Bounds.Width Then
                         Do
                             If Len(sRenglon) < 3 Then Exit Do
                             sRenglon = sRenglon.Substring(0, sRenglon.Length - 1)
-                        Loop Until TextRenderer.MeasureText(sRenglon & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width
+                        Loop Until TextRenderer.MeasureText(sRenglon & "...", ffuenteetiqueta).Width < e.Bounds.Width
                         sRenglon = sRenglon & "..."
                     End If
-                    e.Graphics.DrawString(sRenglon, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
+                    e.Graphics.DrawString(sRenglon, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
                 End If
                 iRenglon = iRenglon + 1
             Next sRenglon
@@ -354,15 +233,14 @@ Public Class hhNumericEntry
         End Try
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
-        ialtorenglontooltip = TextRenderer.MeasureText("Receta", New Font(sNombreFuente, iTamanioFuente)).Height
+        iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
-
     End Sub
     Private Sub CrearEtiqueta()
         If IsNothing(lEtiqueta) Then
             lEtiqueta = New Label
             lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = New Font(sNombreFuente, iTamanioFuente)
+            lEtiqueta.Font = ffuenteetiqueta
             lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
             lEtiqueta.Text = sEtiqueta
             lEtiqueta.Height = Me.Height
@@ -373,6 +251,8 @@ Public Class hhNumericEntry
             lEtiqueta.Left = Me.Left - 200
             lEtiqueta.Visible = True
             AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
+        Else
+            lEtiqueta.Text = sEtiqueta
         End If
     End Sub
     Private Sub EmparentarEtiqueta()
@@ -390,19 +270,10 @@ Public Class hhNumericEntry
             bAutoActualizar = value
         End Set
     End Property
-    Protected Overrides Sub CreateHandle()
-        MyBase.CreateHandle()
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
-    End Sub
+
     Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
         MyBase.OnParentChanged(e)
-
-        CargarOpciones()
-        CrearEtiqueta()
-
         EmparentarEtiqueta()
-
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
     End Sub
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
         Dim iAnchoUnidades As Integer
@@ -413,8 +284,8 @@ Public Class hhNumericEntry
             If Len(sUnidades) Then
                 sUnidadesAjuste = sUnidades
                 Using g As Graphics = Me.CreateGraphics
-                    iAnchoUnidades = g.MeasureString(sUnidadesAjuste, Me.Font).Width
-                    iAnchoTexto = g.MeasureString(Me.Text, Me.Font).Width
+                    iAnchoUnidades = g.MeasureString(sUnidadesAjuste, ffuenteetiqueta).Width
+                    iAnchoTexto = g.MeasureString(Me.Text, ffuenteetiqueta).Width
                     While iAnchoUnidades >= ((Me.Width / 2) - (iAnchoTexto / 2))
                         sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
                         If sUnidadesAjuste.Length <= 1 Then
@@ -422,11 +293,10 @@ Public Class hhNumericEntry
                         End If
                         sUnidadesAjuste = sUnidadesAjuste.Substring(0, sUnidadesAjuste.Length - 1)
                         sUnidadesAjuste = sUnidadesAjuste & Chr(26)
-                        iAnchoUnidades = g.MeasureString(sUnidadesAjuste, Me.Font).Width
-
+                        iAnchoUnidades = g.MeasureString(sUnidadesAjuste, ffuenteetiqueta).Width
                     End While
                     If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
-                        g.DrawString(sUnidadesAjuste, Me.Font, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoUnidades, 0)
+                        g.DrawString(sUnidadesAjuste, ffuenteetiqueta, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoUnidades, 0)
                     End If
                 End Using
             End If
@@ -435,10 +305,6 @@ Public Class hhNumericEntry
     End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
-            If Not IsNothing(fTecladoEnPantalla) Then
-                fTecladoEnPantalla.Dispose()
-                fTecladoEnPantalla = Nothing
-            End If
             If Not IsNothing(lEtiqueta) Then
                 If Not IsNothing(Me.Parent) Then
                     Me.Parent.Controls.Remove(lEtiqueta)
@@ -451,7 +317,6 @@ Public Class hhNumericEntry
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
             End If
-
         End If
         MyBase.Dispose(disposing)
     End Sub
@@ -473,7 +338,6 @@ Public Class hhNumericEntry
         End If
     End Sub
     Sub Actualizar()
-
         If Not IsNothing(mMasterk) Then
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
         End If
@@ -505,8 +369,36 @@ Public Class hhNumericEntry
             End Try
         End If
     End Sub
-    Private Sub tTeclado_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tTeclado.Tick
-        bAutoActualizar = bBackupAutoActualizar
-        tTeclado.Enabled = False
+
+    Private Sub hhNumericEntry_Click(sender As Object, e As EventArgs) Handles Me.Click
+        Dim b As Control
+
+        Using fTecladoEnPantalla As New Form1
+            fTecladoEnPantalla.TextBox1.Font = ffuente
+            For Each b In fTecladoEnPantalla.TableLayoutPanel1.Controls
+                If TypeOf (b) Is Button Then
+                    b.Font = ffuente
+                End If
+            Next
+            fTecladoEnPantalla.iValorMinimo = iValorMinimo
+            fTecladoEnPantalla.iValorMaximo = iValorMaximo
+            fTecladoEnPantalla.iAltoBoton = iAltoBoton
+            fTecladoEnPantalla.iAnchoBoton = iAnchoBoton
+            fTecladoEnPantalla.cColorAlerta = cColorAlerta
+            fTecladoEnPantalla.cColorNormal = cColorNormal
+            fTecladoEnPantalla.sUnidades = sUnidades
+            fTecladoEnPantalla.sFactor = sFactor
+            fTecladoEnPantalla.iDecimales = iDecimales
+            fTecladoEnPantalla.Timer1.Interval = iAutoOcultar
+            fTecladoEnPantalla.iValor = iValor
+            If fTecladoEnPantalla.ShowDialog() = DialogResult.OK Then
+                iValor = fTecladoEnPantalla.iValor
+                If Not IsNothing(mMasterk) Then
+                    mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
+                End If
+                Actualizar()
+            End If
+        End Using
+        Verificar()
     End Sub
 End Class

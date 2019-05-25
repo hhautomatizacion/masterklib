@@ -2,32 +2,38 @@
 Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.Drawing
-
 <DefaultEvent("Click")> Public Class hhMomentaryButton
     Inherits System.Windows.Forms.CheckBox
     Dim sId As String
     Dim bAutoActualizar As Boolean
-    Dim sEtiqueta As String
+    Dim sTexto As String
     Dim sDireccionEscritura As String
     Dim sDireccionLectura As String
+    Dim fFuenteBoton As Font
     Dim mMasterk As MasterKlib.MasterK
-    Public Sub New()
+    Sub New()
+        MyBase.New()
+        CargarOpciones()
         Me.Appearance = Windows.Forms.Appearance.Button
         Me.TextAlign = ContentAlignment.MiddleCenter
         Me.Cursor = Cursors.Cross
+        Me.Font = fFuenteBoton
+    End Sub
+
+    Private Sub CargarOpciones()
+        Try
+            fFuenteBoton = New Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
+        Catch ex As Exception
+            fFuenteBoton = New Font("Verdana", 10)
+        End Try
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
             Return MyBase.Font
         End Get
         Set(ByVal value As System.Drawing.Font)
-            Dim sNombreFuente As String
-            Dim iTamanioFuente As String
             Try
-                iTamanioFuente = Val(GetSetting("hhControls", "Font", "ButtonFontSize", "8"))
-                sNombreFuente = GetSetting("hhControls", "Font", "ButtonFontName", "Verdana")
-
-                MyBase.Font = New Font(sNombreFuente, iTamanioFuente)
+                MyBase.Font = fFuenteBoton
             Catch ex As Exception
                 MyBase.Font = value
             End Try
@@ -60,31 +66,32 @@ Imports System.Drawing
             sDireccionEscritura = value
         End Set
     End Property
-    Property Etiqueta() As String
+    Property Texto() As String
         Get
-            Return sEtiqueta
+            Return sTexto
         End Get
         Set(ByVal value As String)
-            sEtiqueta = value
-            AcomodarEtiqueta()
+            sTexto = value
+            AcomodarTexto()
         End Set
     End Property
-    Private Sub AcomodarEtiqueta()
+    Private Sub AcomodarTexto()
         Dim sTemp As String
-        sTemp = sEtiqueta
-        If TextRenderer.MeasureText(sTemp, MyBase.Font).Width >= (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", MyBase.Font).Width) Then
+        sTemp = sTexto
+        If TextRenderer.MeasureText(sTemp, fFuenteBoton).Width >= (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", fFuenteBoton).Width) Then
             Do
                 If Len(sTemp) Then
                     sTemp = sTemp.Substring(0, sTemp.Length - 1)
                 Else
-                    sTemp = sEtiqueta
+                    sTemp = sTexto
                     Exit Do
                 End If
-            Loop Until TextRenderer.MeasureText(sTemp & "...", MyBase.Font).Width < (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", MyBase.Font).Width)
+            Loop Until TextRenderer.MeasureText(sTemp & "...", fFuenteBoton).Width < (MyBase.ClientSize.Width - TextRenderer.MeasureText(".", fFuenteBoton).Width)
             sTemp = sTemp & "..."
         End If
         MyBase.Text = sTemp
         If IsNothing(MyBase.Image) Then
+            MyBase.TextAlign = ContentAlignment.MiddleCenter
         Else
             MyBase.TextAlign = ContentAlignment.BottomCenter
         End If
@@ -97,11 +104,8 @@ Imports System.Drawing
             bAutoActualizar = value
         End Set
     End Property
-
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-
         If disposing Then
-
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
             End If
@@ -114,26 +118,6 @@ Imports System.Drawing
         End If
         DarFormato()
     End Sub
-    Private Sub hhMomentaryButton_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
-        Dim iContador As Integer
-        If Not IsNothing(mMasterk) Then
-            iContador = 0
-            Do
-                iContador = iContador + 1
-                mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
-                Application.DoEvents()
-
-            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = True Or iContador >= 3
-            iContador = 0
-            Do
-                iContador = iContador + 1
-                mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
-                Application.DoEvents()
-
-            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = False Or iContador >= 3
-        End If
-    End Sub
-
     Private Sub DarFormato()
         If Me.Checked Then
             Me.ForeColor = SystemColors.HighlightText
@@ -150,5 +134,14 @@ Imports System.Drawing
         End If
         DarFormato()
     End Sub
-
+    Private Sub hhMomentaryButton_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+        If Not IsNothing(mMasterk) Then
+            mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
+        End If
+    End Sub
+    Private Sub hhMomentaryButton_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
+        If Not IsNothing(mMasterk) Then
+            mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
+        End If
+    End Sub
 End Class

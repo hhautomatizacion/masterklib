@@ -1,7 +1,5 @@
 ﻿Public Class hhProgressBox
     Inherits System.Windows.Forms.CommonDialog
-   
-  
     Sub New()
         MyBase.New()
         f = New Form1
@@ -14,7 +12,6 @@
                     f = Nothing
                 End If
             Catch ex As Exception
-                MsgBox("error")
             End Try
             Try
                 If Not IsNothing(mMasterk) Then
@@ -47,7 +44,6 @@
     Private Function EnRango(ByVal Valor As Integer, ByVal ValorMaximo As Integer, ByVal ValorMinimo As Integer) As Boolean
         Return ((Valor <= ValorMaximo) And (Valor >= ValorMinimo))
     End Function
-    
     Sub Actualizar()
         iValor = mMasterk.ObtenerEntero(sDireccionLectura)
         If enrango(iValor, iValorMaximo, iValorMinimo) Then

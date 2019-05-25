@@ -19,12 +19,12 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
-        Me.HhMomentaryButton1 = New hhMomentaryButton.hhMomentaryButton
-        Me.HhMomentaryButton2 = New hhMomentaryButton.hhMomentaryButton
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.HhMomentaryButton1 = New hhMomentaryButton.hhMomentaryButton()
+        Me.HhMomentaryButton2 = New hhMomentaryButton.hhMomentaryButton()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,14 +66,15 @@ Partial Class Form1
         Me.HhMomentaryButton1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhMomentaryButton1.DireccionEscritura = Nothing
         Me.HhMomentaryButton1.DireccionLectura = Nothing
-        Me.HhMomentaryButton1.Font = New System.Drawing.Font("Verdana", 20.0!)
+        Me.HhMomentaryButton1.Texto = Nothing
+        Me.HhMomentaryButton1.Font = New System.Drawing.Font("Segoe Script", 8.0!)
         Me.HhMomentaryButton1.Link = Nothing
         Me.HhMomentaryButton1.Location = New System.Drawing.Point(150, 3)
         Me.HhMomentaryButton1.Name = "HhMomentaryButton1"
         Me.HhMomentaryButton1.Size = New System.Drawing.Size(100, 90)
         Me.HhMomentaryButton1.TabIndex = 0
         Me.HhMomentaryButton1.Text = "Cancel"
-        Me.HhMomentaryButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.HhMomentaryButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.HhMomentaryButton1.UseVisualStyleBackColor = True
         '
         'HhMomentaryButton2
@@ -83,14 +84,15 @@ Partial Class Form1
         Me.HhMomentaryButton2.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhMomentaryButton2.DireccionEscritura = Nothing
         Me.HhMomentaryButton2.DireccionLectura = Nothing
-        Me.HhMomentaryButton2.Font = New System.Drawing.Font("Verdana", 20.0!)
+        Me.HhMomentaryButton2.Texto = Nothing
+        Me.HhMomentaryButton2.Font = New System.Drawing.Font("Segoe Script", 8.0!)
         Me.HhMomentaryButton2.Link = Nothing
         Me.HhMomentaryButton2.Location = New System.Drawing.Point(44, 3)
         Me.HhMomentaryButton2.Name = "HhMomentaryButton2"
         Me.HhMomentaryButton2.Size = New System.Drawing.Size(100, 90)
         Me.HhMomentaryButton2.TabIndex = 1
         Me.HhMomentaryButton2.Text = "Ok"
-        Me.HhMomentaryButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.HhMomentaryButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.HhMomentaryButton2.UseVisualStyleBackColor = True
         '
         'Label1

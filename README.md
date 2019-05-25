@@ -56,13 +56,17 @@
 		* Modelos de componentes que se hayan probado
 
 ---
-![Captura de pantalla de 2014-01-09 085709.png](/Historial/Captura de pantalla de 2014-01-09 085709.png)
+![Captura de pantalla de 2014-01-09 085709.png](/Historial/Captura%20de%20pantalla%20de%202014-01-09%20085709.png)
+---
+![arrow_up_alt1_24x24.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/arrow_up_alt1_24x24.png)
 ---
 ![backspace_arrow.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/backspace_arrow.png)
 ---
 ![cancel_button.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/cancel_button.png)
 ---
 ![circle_with_check_symbol.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/circle_with_check_symbol.png)
+---
+![arrow_up_alt1_24x24.png](/Programas/hhComboEntry/hhComboEntry/Iconos/arrow_up_alt1_24x24.png)
 ---
 ![backspace_arrow.png](/Programas/hhComboEntry/hhComboEntry/Iconos/backspace_arrow.png)
 ---

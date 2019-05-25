@@ -1,24 +1,41 @@
 ﻿Imports System.IO
-'Imports System.Drawing
 Imports System.ComponentModel
 Imports System.Windows.Forms
 Public Class hhDecrementButton
     Inherits System.Windows.Forms.Button
-    Dim sPuerto As System.IO.Ports.SerialPort
-    Dim sNombreFuente As String
-    Dim iTamanioFuente As Integer
+
+    Dim fFuenteBoton As System.Drawing.Font
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
-    Dim iDecremento As Integer = 1
-    Dim iValorMaximo As Integer = 65535
-    Dim iValorMinimo As Integer = 0
+    Dim iDecremento As Integer
+    Dim iValor As Integer
+    Dim iValorMaximo As Integer
+    Dim iValorMinimo As Integer
     Dim bEstacion As Byte
     Dim mMasterK As MasterKlib.MasterK
     Sub New()
-        sNombreFuente = GetSetting("hhcontrols", "font", "name", "Verdana")
-        iTamanioFuente = Val(GetSetting("hhcontrols", "font", "size", "25"))
-        Me.Font = New System.Drawing.Font(sNombreFuente, iTamanioFuente)
+        CargarOpciones()
+        Me.Font = fFuenteBoton
     End Sub
+    Private Sub CargarOpciones()
+        Try
+            fFuenteBoton = New System.Drawing.Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
+        Catch ex As Exception
+            fFuenteBoton = New System.Drawing.Font("Verdana", 10)
+        End Try
+    End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+            Try
+                MyBase.Font = fFuenteBoton
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
     Property Link() As MasterKlib.MasterK
         Get
             Return mMasterK
@@ -44,7 +61,7 @@ Public Class hhDecrementButton
             sDireccionEscritura = value
         End Set
     End Property
-    Property Decremento() As Integer
+    <DefaultValue(1)> Property Decremento() As Integer
         Get
             Return iDecremento
         End Get
@@ -52,7 +69,7 @@ Public Class hhDecrementButton
             iDecremento = value
         End Set
     End Property
-    Property ValorMaximo() As Integer
+    <DefaultValue(65535)> Property ValorMaximo() As Integer
         Get
             Return iValorMaximo
         End Get
@@ -60,7 +77,7 @@ Public Class hhDecrementButton
             iValorMaximo = value
         End Set
     End Property
-    Property ValorMinimo() As Integer
+    <DefaultValue(0)> Property ValorMinimo() As Integer
         Get
             Return iValorMinimo
         End Get
@@ -69,19 +86,21 @@ Public Class hhDecrementButton
         End Set
     End Property
 
-    Private Sub hhIncrementButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
-        Dim sRespuesta As String
-        Dim iValor As Integer
-        mMasterK.RSS(sDireccionLectura)
-        sRespuesta = mMasterK.RespuestaDelPLC
-        If Len(sRespuesta) > 14 Then
-            iValor = CInt("&H" & sRespuesta.Substring(10, 4))
-            iValor = iValor - iDecremento
-            If iValor >= iValorMinimo Then
-                mMasterK.WSS(sDireccionEscritura, iValor.ToString("X2").PadLeft(4, "0"))
-                sRespuesta = mMasterK.RespuestaDelPLC
+    Property Valor() As Integer
+        Get
+            Return iValor
+        End Get
+        Set(ByVal value As Integer)
+            iValor = value
+        End Set
+    End Property
 
-            End If
+    Private Sub hhIncrementButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
+        Dim i As Integer
+        i = mMasterK.ObtenerEntero(sDireccionLectura) - iDecremento
+        If i >= iValorMinimo Then
+            mMasterK.EstablecerEntero(sDireccionEscritura, i)
+            iValor = i
         End If
     End Sub
 End Class

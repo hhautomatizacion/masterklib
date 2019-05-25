@@ -81,7 +81,7 @@ Partial Class Form1
         'HhMomentaryButton1
         '
         Me.HhMomentaryButton1.Cursor = System.Windows.Forms.Cursors.Cross
-        Me.HhMomentaryButton1.DialogResult = System.Windows.Forms.DialogResult.OK
+
         Me.HhMomentaryButton1.DireccionEscritura = Nothing
         Me.HhMomentaryButton1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.HhMomentaryButton1.Font = New System.Drawing.Font("Gill Sans MT Condensed", 14.0!)
@@ -97,7 +97,7 @@ Partial Class Form1
         'HhMomentaryButton2
         '
         Me.HhMomentaryButton2.Cursor = System.Windows.Forms.Cursors.Cross
-        Me.HhMomentaryButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel
+
         Me.HhMomentaryButton2.DireccionEscritura = Nothing
         Me.HhMomentaryButton2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.HhMomentaryButton2.Font = New System.Drawing.Font("Gill Sans MT Condensed", 14.0!)

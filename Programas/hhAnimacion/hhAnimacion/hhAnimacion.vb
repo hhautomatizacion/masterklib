@@ -3,6 +3,7 @@ Public Class hhAnimacion
     Inherits System.Windows.Forms.Label
     Dim c1 As System.Drawing.Color
     Dim c2 As System.Drawing.Color
+    Dim bAutoSize As Boolean
     Dim cColorActual As System.Drawing.Color
     Dim iPasos As Integer
     Dim iPasoActual As Integer
@@ -12,12 +13,25 @@ Public Class hhAnimacion
     Dim dr, dg, db As Integer
     Dim pr, pg, pb As Single
     Public Event CambioColor As System.EventHandler
-
     Sub New()
-        Me.AutoSize = False
+
         Me.Text = ""
         Me.TextAlign = Drawing.ContentAlignment.MiddleCenter
     End Sub
+    <System.ComponentModel.DefaultValue(False)> Public Overrides Property AutoSize() As Boolean
+        Get
+            Return MyBase.AutoSize
+        End Get
+        Set(ByVal value As Boolean)
+            If bAutoSize <> value And bAutoSize = False Then
+                MyBase.AutoSize = False
+                bAutoSize = value
+            Else
+                MyBase.AutoSize = value
+            End If
+        End Set
+    End Property
+
     Property Color1() As System.Drawing.Color
         Get
             Return c1
@@ -120,6 +134,5 @@ Public Class hhAnimacion
             db = 1
             pb = (c2.B - c1.B) / iPasos
         End If
-
     End Sub
 End Class

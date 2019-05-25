@@ -6,19 +6,20 @@ Public Class hhTimeCounterDisplay
     Dim sId As String
     Dim bAutoActualizar As Boolean
     Dim bAlerta As Boolean
+    Dim bAutoSize As Boolean
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
     Dim cEtiquetaBackcolor As Color
     Dim cEtiquetaForecolor As Color
     Dim iIntervaloAlerta As Integer
-    Dim iTamanioFuente As Integer
+    Dim fFuente As Font
+    Dim fFuenteEtiqueta As Font
     Dim iValor As Integer
     Dim iValorMaximo As Integer
     Dim lEtiqueta As Label
     Dim iAltoRenglonTooltip As Integer
     Dim sDireccionLectura As String
     Dim sEtiqueta As String
-    Dim sNombreFuente As String
     Dim sTooltip As String
     Dim mMasterk As MasterKlib.MasterK
     Dim tHint As ToolTip
@@ -27,25 +28,58 @@ Public Class hhTimeCounterDisplay
         MyBase.New()
         CargarOpciones()
         Me.BorderStyle = Windows.Forms.BorderStyle.FixedSingle
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
         Me.TextAlign = ContentAlignment.MiddleCenter
         Me.Cursor = Cursors.Cross
-        CrearEtiqueta()
-        If Me.DesignMode Then
-            EmparentarEtiqueta()
-        Else
+        Me.Font = fFuente
+        If Not Me.DesignMode Then
             CrearTemporizadores()
         End If
     End Sub
     Private Sub CargarOpciones()
+        Try
+            fFuente = New Font(GetSetting("hhControls", "Font", "FontName", "Verdana"), Val(GetSetting("hhControls", "Font", "FontSize", "18")))
+        Catch ex As Exception
+            fFuente = New Font("Verdana", 18)
+        End Try
+        Try
+            fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
+        Catch ex As Exception
+            fFuenteEtiqueta = New Font("Verdana", 14)
+        End Try
         cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
         cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
-        iTamanioFuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
-        sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
+
     End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+            Try
+                MyBase.Font = fFuente
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
+
+    <System.ComponentModel.DefaultValue(False)> Public Overrides Property AutoSize() As Boolean
+        Get
+            Return MyBase.AutoSize
+        End Get
+        Set(ByVal value As Boolean)
+            If bAutoSize <> value And bAutoSize = False Then
+                MyBase.AutoSize = False
+                bAutoSize = value
+            Else
+                MyBase.AutoSize = value
+            End If
+        End Set
+    End Property
+
     Private Sub CrearTemporizadores()
         tAlerta = New Timer
         tAlerta.Interval = ForzarRango(iIntervaloAlerta, 100, 60000)
@@ -90,11 +124,8 @@ Public Class hhTimeCounterDisplay
         End Get
         Set(ByVal value As String)
             sEtiqueta = value
-            If Me.DesignMode Then
-                CrearEtiqueta()
-            End If
+            CrearEtiqueta()
             EmparentarEtiqueta()
-            lEtiqueta.Text = sEtiqueta
         End Set
     End Property
     Property Valor() As Integer
@@ -142,25 +173,25 @@ Public Class hhTimeCounterDisplay
                 If InStr(sRenglon, ":") Then
                     iColumna = 0
                     For Each sColumna In Split(sRenglon, ":")
-                        If TextRenderer.MeasureText(sColumna, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width / 2 Then
+                        If TextRenderer.MeasureText(sColumna, ffuenteetiqueta).Width > e.Bounds.Width / 2 Then
                             Do
                                 If Len(sColumna) < 3 Then Exit Do
                                 sColumna = sColumna.Substring(0, sColumna.Length - 1)
-                            Loop Until TextRenderer.MeasureText(sColumna & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width / 2
+                            Loop Until TextRenderer.MeasureText(sColumna & "...", ffuenteetiqueta).Width < e.Bounds.Width / 2
                             sColumna = sColumna & "..."
                         End If
-                        e.Graphics.DrawString(sColumna, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
+                        e.Graphics.DrawString(sColumna, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
                         iColumna = iColumna + 1
                     Next sColumna
                 Else
-                    If TextRenderer.MeasureText(sRenglon, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width Then
+                    If TextRenderer.MeasureText(sRenglon, ffuenteetiqueta).Width > e.Bounds.Width Then
                         Do
                             If Len(sRenglon) < 3 Then Exit Do
                             sRenglon = sRenglon.Substring(0, sRenglon.Length - 1)
-                        Loop Until TextRenderer.MeasureText(sRenglon & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width
+                        Loop Until TextRenderer.MeasureText(sRenglon & "...", ffuenteetiqueta).Width < e.Bounds.Width
                         sRenglon = sRenglon & "..."
                     End If
-                    e.Graphics.DrawString(sRenglon, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
+                    e.Graphics.DrawString(sRenglon, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
                 End If
                 iRenglon = iRenglon + 1
             Next sRenglon
@@ -168,14 +199,14 @@ Public Class hhTimeCounterDisplay
         End Try
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
-        ialtorenglontooltip = TextRenderer.MeasureText("Receta", New Font(sNombreFuente, iTamanioFuente)).Height
+        iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
     End Sub
     Private Sub CrearEtiqueta()
         If IsNothing(lEtiqueta) Then
             lEtiqueta = New Label
             lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = New Font(sNombreFuente, iTamanioFuente)
+            lEtiqueta.Font = ffuenteetiqueta
             lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
             lEtiqueta.Text = sEtiqueta
             lEtiqueta.Height = Me.Height
@@ -186,12 +217,16 @@ Public Class hhTimeCounterDisplay
             lEtiqueta.Left = Me.Left - 200
             lEtiqueta.Visible = True
             AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
+        Else
+            lEtiqueta.Text = sEtiqueta
         End If
     End Sub
     Private Sub EmparentarEtiqueta()
-        If IsNothing(lEtiqueta.Parent) Then
-            If Not IsNothing(Me.Parent) Then
-                Me.Parent.Controls.Add(lEtiqueta)
+        If Not IsNothing(lEtiqueta) Then
+            If IsNothing(lEtiqueta.Parent) Then
+                If Not IsNothing(Me.Parent) Then
+                    Me.Parent.Controls.Add(lEtiqueta)
+                End If
             End If
         End If
     End Sub
@@ -203,10 +238,7 @@ Public Class hhTimeCounterDisplay
             bAutoActualizar = value
         End Set
     End Property
-    Protected Overrides Sub CreateHandle()
-        MyBase.CreateHandle()
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
-    End Sub
+
     Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
         MyBase.OnParentChanged(e)
         EmparentarEtiqueta()
@@ -235,7 +267,7 @@ Public Class hhTimeCounterDisplay
         DarFormato()
     End Sub
     Private Sub DarFormato()
-        Me.Text = (iValor \ 60).ToString & "'" & (iValor Mod 60).ToString.PadLeft(2, "0") & Chr(34)
+        Me.Text = (iValor \ 60).ToString & ":" & (iValor Mod 60).ToString.PadLeft(2, "0")
         If Not IsNothing(tAlerta) Then
             If EnRango(iValor, iValorMaximo, 0) Then
                 tAlerta.Enabled = False

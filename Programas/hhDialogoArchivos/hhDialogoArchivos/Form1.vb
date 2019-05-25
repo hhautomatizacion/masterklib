@@ -2,30 +2,44 @@ Public Class Form1
     Public cUnidades As Collection
     Public c As Collection
     Public bCheckstate As Boolean
-
+    Dim fFuente As System.Drawing.Font
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Button1.Etiqueta = "Aceptar"
+        CargarOpciones()
 
-        Button2.Etiqueta = "Cancelar"
+        CheckedListBox1.Font = fFuente
+        Label1.Font = fFuente
+        Button1.Texto = "Aceptar"
 
-        Button3.Etiqueta = "Borrar"
+        Button2.Texto = "Cancelar"
 
-        Button4.Etiqueta = "Copiar"
+        Button3.Texto = "Borrar"
 
-        Button5.Etiqueta = "Mover"
+        Button4.Texto = "Copiar"
 
-        Button6.Etiqueta = "Folder"
+        Button5.Texto = "Mover"
 
-        Button7.Etiqueta = "Seleccionar todos"
+        Button6.Texto = "Folder"
+
+        Button7.Texto = "Seleccionar todos"
 
         Timer1.Interval = 1000
         Timer1.Enabled = False
     End Sub
-
+    Private Sub CargarOpciones()
+        Try
+            fFuente = New System.Drawing.Font(GetSetting("hhControls", "Font", "FontName", "Verdana"), Val(GetSetting("hhControls", "Font", "FontSize", "18")))
+        Catch ex As Exception
+            fFuente = New System.Drawing.Font("Verdana", 18)
+        End Try
+        'Try
+        'fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
+        'Catch ex As Exception
+        'fFuenteEtiqueta = New Font("Verdana", 14)
+        'End Try
+    End Sub
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         c = SeleccionArchivos()
         Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
     End Sub
     Sub Inicializar()
         Dim Archivo As String
@@ -33,15 +47,12 @@ Public Class Form1
         c = New Collection
         c.Clear()
         CheckedListBox1.Items.Clear()
-        HhCharacterEntry1.AutoCompleteCustomSource.Clear()
         If Not My.Computer.FileSystem.DirectoryExists(rutacompleta) Then
             Try
                 My.Computer.FileSystem.CreateDirectory(RutaCompleta)
             Catch ex As Exception
                 Exit Sub
             End Try
-
-
         End If
         iContador = 0
         For Each Archivo In My.Computer.FileSystem.GetFiles(RutaCompleta, FileIO.SearchOption.SearchTopLevelOnly, sExtension)
@@ -50,7 +61,6 @@ Public Class Form1
             End If
             iContador = iContador + 1
             CheckedListBox1.Items.Add(Archivo)
-            HhCharacterEntry1.AutoCompleteCustomSource.Add(Archivo)
         Next
         Label1.Text = RutaCompleta.Replace("&", "&&") & " (" & iContador & " archivos)"
     End Sub
@@ -73,12 +83,10 @@ Public Class Form1
         HhCharacterEntry1.Text = ""
         sNombreArchivo = ""
         sNombreCompleto = ""
+        c.Clear()
         Me.DialogResult = Windows.Forms.DialogResult.Cancel
-        Me.Close()
     End Sub
-
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-
         Dim sArchivo As String
 
         For Each sArchivo In SeleccionArchivos()
@@ -105,10 +113,8 @@ Public Class Form1
     Function BorrarArchivo(ByVal sArchivo As String) As Boolean
         Dim bResultado As Boolean
 
-
         bResultado = False
         Try
-
             My.Computer.FileSystem.DeleteFile(sArchivo, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
             bResultado = Not My.Computer.FileSystem.FileExists(sArchivo)
         Catch ex As Exception
@@ -134,15 +140,15 @@ Public Class Form1
 
         Next
         Inicializar()
-
     End Sub
     Function SeleccionUnidad() As Collection
         Dim i As Object
         Dim f As New Form2
-        Dim cunidades = New Collection
-        f.CheckedListBox1.Font = New System.Drawing.Font(snombrefuente, itamaniofuente)
-        f.Button1.Etiqueta = "Ok"
-        f.Button2.Etiqueta = "Cancelar"
+        Dim cUnidades = New Collection
+
+        f.CheckedListBox1.Font = Me.Font
+        f.Button1.Texto = "Ok"
+        f.Button2.Texto = "Cancelar"
 
         f.CheckedListBox1.Items.Clear()
         f.CheckedListBox1.UseTabStops = True
@@ -151,23 +157,16 @@ Public Class Form1
         Dim getInfo As System.IO.DriveInfo()
         getInfo = System.IO.DriveInfo.GetDrives
         For Each info As System.IO.DriveInfo In getInfo
-
             If Not My.Computer.FileSystem.DirectoryExists(RutaCompleta(info.Name)) Then
                 Try
                     My.Computer.FileSystem.CreateDirectory(RutaCompleta(info.Name))
-
                 Catch ex As Exception
-
                 End Try
-
-
             End If
             If My.Computer.FileSystem.DirectoryExists(RutaCompleta(info.Name)) Then
                 f.CheckedListBox1.Items.Add(info.Name & vbTab & "[" & info.VolumeLabel & "]")
             End If
         Next
-
-        
         If f.ShowDialog = Windows.Forms.DialogResult.OK Then
             If f.CheckedListBox1.CheckedItems.Count = 0 Then
                 For Each i In f.CheckedListBox1.SelectedItems
@@ -178,31 +177,22 @@ Public Class Form1
                     cunidades.Add(i.ToString.Substring(0, 2))
                 Next
             End If
-
-
         End If
         Return cunidades
     End Function
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-
         For Each s As String In SeleccionUnidad()
             sUnidad = s
         Next
         Inicializar()
     End Sub
-
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        Debug.Print("Copiar")
         For Each s As String In SeleccionUnidad()
-            Debug.Print("---> " & s)
             For Each f As String In SeleccionArchivos()
-                Debug.Print("Copiando " & RutaCompleta() & f & vbTab & RutaCompleta(s) & f)
                 CopiarArchivo(RutaCompleta() & f, RutaCompleta(s) & f)
             Next
-
         Next
         Inicializar()
-
     End Sub
 
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
@@ -216,16 +206,9 @@ Public Class Form1
             End If
             CheckedListBox1.SetSelected(iIter, False)
         Next
-
     End Sub
-
-  
-
     Private Sub CheckedListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckedListBox1.SelectedIndexChanged
-
-
         If CheckedListBox1.SelectedItem Is Nothing Then
-
         Else
             HhCharacterEntry1.Text = CheckedListBox1.SelectedItem.ToString
             If HhCharacterEntry1.Text.ToUpper.EndsWith(".REC") Then
@@ -240,17 +223,12 @@ Public Class Form1
                 End Try
                 fs.Close()
             End If
-            End If
+        End If
     End Sub
-
-   
-   
     Private Sub HhCharacterEntry1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HhCharacterEntry1.TextChanged
         sNombreArchivo = HhCharacterEntry1.Text
         If Len(sNombreArchivo) > 0 Then
-            If sExtension = "*.*" Then
-                sNombreCompleto = RutaCompleta() & sNombreArchivo
-            Else
+            If Len(sExtension) Then
                 If sNombreArchivo.ToUpper.EndsWith(ExtensionCompleta(sExtension)) Then
                     sNombreCompleto = RutaCompleta() & sNombreArchivo
                 Else
@@ -263,18 +241,13 @@ Public Class Form1
         Timer1.Enabled = False
         Timer1.Enabled = True
     End Sub
-
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         Timer1.Enabled = False
-        If sExtension = "*.*" Then
-        Else
+        If Len(sExtension) Then
             If HhCharacterEntry1.Text.ToUpper.EndsWith(ExtensionCompleta(sExtension)) Then
             Else
                 HhCharacterEntry1.Text = HhCharacterEntry1.Text & ExtensionCompleta(sExtension)
             End If
         End If
     End Sub
-
-
-
 End Class

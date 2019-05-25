@@ -17,11 +17,15 @@
 * Programas compilados
 
 ---
+![arrow_up_alt1_24x24.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/arrow_up_alt1_24x24.png)
+---
 ![backspace_arrow.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/backspace_arrow.png)
 ---
 ![cancel_button.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/cancel_button.png)
 ---
 ![circle_with_check_symbol.png](/Programas/hhCharacterEntry/hhCharacterEntry/Iconos/circle_with_check_symbol.png)
+---
+![arrow_up_alt1_24x24.png](/Programas/hhComboEntry/hhComboEntry/Iconos/arrow_up_alt1_24x24.png)
 ---
 ![backspace_arrow.png](/Programas/hhComboEntry/hhComboEntry/Iconos/backspace_arrow.png)
 ---

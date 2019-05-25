@@ -7,8 +7,8 @@ Public Class hhToggleButton
     Dim cEtiquetaForecolor As Color
     Dim cEtiquetaBackcolor As Color
     Dim mMasterk As MasterKlib.MasterK
-    Dim sNombreFuente As String
-    Dim iTamanioFuente As Integer
+    Dim fFuenteBoton As Font
+    Dim fFuenteEtiqueta As Font
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
     Dim bAutoActualizar As Boolean
@@ -20,20 +20,38 @@ Public Class hhToggleButton
     Sub New()
         MyBase.New()
         CargarOpciones()
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
+
         Me.Appearance = Windows.Forms.Appearance.Button
         Me.Cursor = Cursors.Cross
-        CrearEtiqueta()
-        If Me.DesignMode Then
-            EmparentarEtiqueta()
-        End If
+        Me.Font = ffuenteboton
+
     End Sub
     Private Sub CargarOpciones()
+        Try
+            fFuenteBoton = New Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
+        Catch ex As Exception
+            fFuenteBoton = New Font("Verdana", 10)
+        End Try
+        Try
+            fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
+        Catch ex As Exception
+            fFuenteEtiqueta = New Font("Verdana", 14)
+        End Try
         cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
         cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-        iTamanioFuente = Val(GetSetting("hhControls", "Font", "Size", "14"))
-        sNombreFuente = GetSetting("hhControls", "Font", "Name", "Verdana")
     End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+            Try
+                MyBase.Font = fFuenteBoton
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
     Property DireccionLectura() As String
         Get
             Return sDireccionLectura
@@ -75,11 +93,8 @@ Public Class hhToggleButton
         End Get
         Set(ByVal value As String)
             sEtiqueta = value
-            If Me.DesignMode Then
-                CrearEtiqueta()
-            End If
+            CrearEtiqueta()
             EmparentarEtiqueta()
-            lEtiqueta.Text = sEtiqueta
         End Set
     End Property
     Property Tooltip() As String
@@ -117,25 +132,25 @@ Public Class hhToggleButton
                 If InStr(sRenglon, ":") Then
                     iColumna = 0
                     For Each sColumna In Split(sRenglon, ":")
-                        If TextRenderer.MeasureText(sColumna, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width / 2 Then
+                        If TextRenderer.MeasureText(sColumna, ffuenteetiqueta).Width > e.Bounds.Width / 2 Then
                             Do
                                 If Len(sColumna) < 3 Then Exit Do
                                 sColumna = sColumna.Substring(0, sColumna.Length - 1)
-                            Loop Until TextRenderer.MeasureText(sColumna & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width / 2
+                            Loop Until TextRenderer.MeasureText(sColumna & "...", ffuenteetiqueta).Width < e.Bounds.Width / 2
                             sColumna = sColumna & "..."
                         End If
-                        e.Graphics.DrawString(sColumna, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
+                        e.Graphics.DrawString(sColumna, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, iColumna * (e.Bounds.Width / 2), iRenglon * iAltoRenglonTooltip)
                         iColumna = iColumna + 1
                     Next sColumna
                 Else
-                    If TextRenderer.MeasureText(sRenglon, New Font(sNombreFuente, iTamanioFuente)).Width > e.Bounds.Width Then
+                    If TextRenderer.MeasureText(sRenglon, ffuenteetiqueta).Width > e.Bounds.Width Then
                         Do
                             If Len(sRenglon) < 3 Then Exit Do
                             sRenglon = sRenglon.Substring(0, sRenglon.Length - 1)
-                        Loop Until TextRenderer.MeasureText(sRenglon & "...", New Font(sNombreFuente, iTamanioFuente)).Width < e.Bounds.Width
+                        Loop Until TextRenderer.MeasureText(sRenglon & "...", ffuenteetiqueta).Width < e.Bounds.Width
                         sRenglon = sRenglon & "..."
                     End If
-                    e.Graphics.DrawString(sRenglon, New Font(sNombreFuente, iTamanioFuente), SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
+                    e.Graphics.DrawString(sRenglon, ffuenteetiqueta, SystemBrushes.ActiveCaptionText, 0, iRenglon * iAltoRenglonTooltip)
                 End If
                 iRenglon = iRenglon + 1
             Next sRenglon
@@ -143,14 +158,14 @@ Public Class hhToggleButton
         End Try
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
-        iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", New Font(sNombreFuente, iTamanioFuente)).Height
+        iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 4)
     End Sub
     Private Sub CrearEtiqueta()
         If IsNothing(lEtiqueta) Then
             lEtiqueta = New Label
             lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = New Font(sNombreFuente, iTamanioFuente)
+            lEtiqueta.Font = ffuenteetiqueta
             lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
             lEtiqueta.Text = sEtiqueta
             lEtiqueta.Height = Me.Height
@@ -161,6 +176,8 @@ Public Class hhToggleButton
             lEtiqueta.Left = Me.Left - 200
             lEtiqueta.Visible = True
             AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
+        Else
+            lEtiqueta.Text = sEtiqueta
         End If
     End Sub
     Private Sub EmparentarEtiqueta()
@@ -170,16 +187,11 @@ Public Class hhToggleButton
             End If
         End If
     End Sub
-    Protected Overrides Sub CreateHandle()
-        MyBase.CreateHandle()
-        Me.Font = New Font(sNombreFuente, iTamanioFuente)
-    End Sub
     Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
         MyBase.OnParentChanged(e)
         EmparentarEtiqueta()
     End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-
         If disposing Then
             If Not IsNothing(lEtiqueta) Then
                 If Not IsNothing(Me.Parent) Then
@@ -214,7 +226,7 @@ Public Class hhToggleButton
         End If
     End Sub
     Private Sub hhToggleButton_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.CheckedChanged
-        darformato()
+        DarFormato()
     End Sub
     Private Sub DarFormato()
         If Me.Checked Then
@@ -225,8 +237,7 @@ Public Class hhToggleButton
         End If
     End Sub
     Private Sub hhToggleButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click
-        If IsNothing(mMasterk) Then
-        Else
+        If Not IsNothing(mMasterk) Then
             mMasterk.EstablecerBoolean(sDireccionEscritura, Not mMasterk.ObtenerBoolean(sDireccionLectura))
         End If
     End Sub
@@ -236,15 +247,6 @@ Public Class hhToggleButton
         End If
         DarFormato()
     End Sub
-    'Protected Overrides Sub Finalize()
-    '    MyBase.Finalize()
-    '    If Not IsNothing(lEtiqueta) Then
-    '        If Not IsNothing(Me.Parent) Then
-    '            Me.Parent.Controls.Remove(lEtiqueta)
-    '        End If
-    '        lEtiqueta = Nothing
-    '    End If
-    'End Sub
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)
         If Not IsNothing(tHint) Then
             Try

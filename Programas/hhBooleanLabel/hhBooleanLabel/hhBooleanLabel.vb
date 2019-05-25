@@ -1,26 +1,60 @@
-﻿
-Public Class hhBooleanLabel
-
+﻿Public Class hhBooleanLabel
     Inherits System.Windows.Forms.Label
     Dim sId As String
     Dim bValor As Boolean
+    Dim bAutoSize As Boolean
     Dim bAutoActualizar As Boolean
     Dim sTextoVerdadero As String
+    Dim fFuenteBoton As System.Drawing.Font
     Dim cColorTextoVerdadero As System.Drawing.Color
     Dim cColorFondoVerdadero As System.Drawing.Color
     Dim sTextoFalso As String
     Dim cColorTextoFalso As System.Drawing.Color
     Dim cColorFondoFalso As System.Drawing.Color
-
-
     Dim sDireccionLectura As String
     Dim mMasterk As MasterKlib.MasterK
     Sub New()
         MyBase.New()
-        Me.AutoSize = False
+        Me.Font = fFuenteBoton
         Me.TextAlign = Drawing.ContentAlignment.MiddleCenter
         Me.Cursor = Windows.Forms.Cursors.Cross
     End Sub
+    Private Sub CargarOpciones()
+        Try
+            fFuenteBoton = New System.Drawing.Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
+        Catch ex As Exception
+            fFuenteBoton = New System.Drawing.Font("Verdana", 10)
+        End Try
+
+    End Sub
+    Public Overrides Property Font() As System.Drawing.Font
+        Get
+            Return MyBase.Font
+        End Get
+        Set(ByVal value As System.Drawing.Font)
+
+            Try
+                MyBase.Font = fFuenteBoton
+            Catch ex As Exception
+                MyBase.Font = value
+            End Try
+        End Set
+    End Property
+
+    <System.ComponentModel.DefaultValue(False)> Public Overrides Property AutoSize() As Boolean
+        Get
+            Return MyBase.AutoSize
+        End Get
+        Set(ByVal value As Boolean)
+            If bAutoSize <> value And bAutoSize = False Then
+                MyBase.AutoSize = False
+                bAutoSize = value
+            Else
+                MyBase.AutoSize = value
+            End If
+        End Set
+    End Property
+
     Public Sub Actualizar()
         If Not IsNothing(sDireccionLectura) Then
             bValor = mMasterk.ObtenerBoolean(sDireccionLectura)
@@ -83,13 +117,12 @@ Public Class hhBooleanLabel
     End Property
     Public Property ColorFondoVerdadero() As System.Drawing.Color
         Get
-            Return cColorfondoVerdadero
+            Return cColorFondoVerdadero
         End Get
         Set(ByVal value As System.Drawing.Color)
-            cColorfondoVerdadero = value
+            cColorFondoVerdadero = value
         End Set
     End Property
-
     Public Property TextoFalso() As String
         Get
             Return sTextoFalso
@@ -123,7 +156,6 @@ Public Class hhBooleanLabel
         End Set
     End Property
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-
         If disposing Then
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
@@ -131,7 +163,4 @@ Public Class hhBooleanLabel
         End If
         MyBase.Dispose(disposing)
     End Sub
-
-
-
 End Class

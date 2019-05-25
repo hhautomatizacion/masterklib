@@ -5,15 +5,12 @@ Public Class hhInputBox
     Dim sEtiqueta As String
     Dim sUnidades As String
     Dim sTitulo As String
-
-
     Sub New()
         MyBase.New()
         f = New Form1
     End Sub
     Protected Overrides Sub Finalize()
         f.Dispose()
-
         MyBase.Finalize()
     End Sub
     Overrides Sub Reset()
@@ -22,19 +19,16 @@ Public Class hhInputBox
         sTextoOk = ""
         sDireccionCancel = ""
         sDireccionOk = ""
-        dResultado = Nothing
+
     End Sub
     Protected Overrides Function RunDialog(ByVal hwndOwner As System.IntPtr) As Boolean
-
         f.Text = sTitulo
-
         f.HhMomentaryButton1.Link = mMasterk
         f.HhMomentaryButton1.DireccionEscritura = sDireccionOk
         If Len(sTextoOk) Then f.HhMomentaryButton1.Text = sTextoOk
         f.HhMomentaryButton2.Link = mMasterk
         f.HhMomentaryButton2.DireccionEscritura = sDireccionCancel
         If Len(sTextoCancel) Then f.HhMomentaryButton2.Text = sTextoCancel
-
         f.HhNumericEntry5.Link = mMasterk
         f.HhNumericEntry5.DireccionLectura = sDireccionValor
         f.HhNumericEntry5.DireccionEscritura = sDireccionValor
@@ -44,8 +38,6 @@ Public Class hhInputBox
         f.HhNumericEntry5.ValorMinimo = iValorMinimo
         f.HhNumericEntry5.ValorMaximo = iValorMaximo
         f.HhNumericEntry5.AutoActualizar = True
-
-
         f.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height * (iTamanio / 100)
         f.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width * (iTamanio / 100)
         f.Top = (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2) - (f.Height / 2)
@@ -61,7 +53,6 @@ Public Class hhInputBox
             mMasterk = value
         End Set
     End Property
-
     Public Property ValorMinimo() As Integer
         Get
             Return iValorMinimo

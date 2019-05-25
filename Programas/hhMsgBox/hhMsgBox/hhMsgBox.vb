@@ -1,14 +1,11 @@
 ﻿
 Public Class hhMsgBox
     Inherits System.Windows.Forms.CommonDialog
-
-   
     Sub New()
         MyBase.New()
         f = New Form1
         Reset()
     End Sub
-
     Overrides Sub Reset()
         sMensaje = ""
         iImagen = Nothing
@@ -37,7 +34,7 @@ Public Class hhMsgBox
         f.Left = (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2) - (f.Width / 2)
         f.Label1.Text = sMensaje
         f.PictureBox1.Image = iImagen
-        f.ShowDialog()
+        dResultado = f.ShowDialog()
     End Function
     Public Property Link() As MasterKlib.MasterK
         Get

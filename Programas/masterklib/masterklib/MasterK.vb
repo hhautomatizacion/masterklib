@@ -3,7 +3,6 @@ Public Class MyEventArgs
     Inherits System.EventArgs
     Public Message As String
     Public Time As String
-
     Public Sub New(ByVal Mensaje As String)
         MyBase.New()
         Time = Environment.TickCount.ToString
@@ -25,16 +24,9 @@ Public Class MasterK
     Dim sServidor As String
     Dim iPuerto As Integer
     Dim iIntervalo As Integer
-    Dim uTerminal As New Tiny.UDP.TinyServer
     Dim dDatos As New Dictionary(Of String, Date)
     Dim bNetActivado As Boolean
-
-    '--borrar--
-    Dim sSub As String
-    Dim sUltimoDevice As String
-
     Dim WithEvents tTemporizador As System.Windows.Forms.Timer
-
     Public Event Timeout As System.EventHandler(Of MyEventArgs)
     Public Event RX As System.EventHandler(Of MyEventArgs)
     Public Event TX As System.EventHandler(Of MyEventArgs)
@@ -42,22 +34,13 @@ Public Class MasterK
     Sub New()
         cControles = New Collection
         tTemporizador = New Windows.Forms.Timer
-        tTemporizador.Interval = Val(GetSetting("hhcontrols", "refresh", "interval", "50"))
+        tTemporizador.Interval = Val(GetSetting("hhcontrols", "refresh", "interval", "40"))
         tTemporizador.Enabled = True
-
         sServidor = GetSetting("hhcontrols", "net", "server", "128.128.5.51")
         iPuerto = Val(GetSetting("hhcontrols", "net", "port", "8088"))
         iIntervalo = Val(GetSetting("hhcontrols", "net", "interval", "60"))
         bNetActivado = -Val(GetSetting("hhcontrols", "net", "enabled", "1"))
-
         iIntervalo = ForzarRango(iIntervalo, 1, 600)
-
-        uTerminal.Protocol = Net.Sockets.ProtocolType.Udp
-        uTerminal.ClientAddress = System.Net.IPAddress.Parse(sservidor)
-        uTerminal.ClientPort = ipuerto
-        uTerminal.Encode = Tiny.UDP.EncodingType.ASCII
-
-
     End Sub
     Private Function ForzarRango(ByVal Valor As Integer, ByVal ValorMinimo As Integer, ByVal ValorMaximo As Integer) As Integer
         If Valor < ValorMinimo Or Valor > ValorMaximo Then
@@ -69,12 +52,17 @@ Public Class MasterK
         actualizar()
     End Sub
     Public Sub Actualizar()
-
         Dim c As Object
-
+        Dim bActualizar As Boolean
         If cControles.Count > 0 Then
-            If iControl > cControles.Count Then
-                iControl = 0
+            bActualizar = False
+            For Each c In cControles
+                If c.autoactualizar Then
+                    bActualizar = True
+                End If
+            Next
+            If Not bActualizar Then
+                Exit Sub
             End If
             Do
                 iControl = iControl + 1
@@ -84,30 +72,36 @@ Public Class MasterK
                 Catch
                     Exit Sub
                 End Try
-            Loop Until c.autoactualizar = True Or iControl >= cControles.Count
+            Loop Until c.autoactualizar = True
             If c.autoactualizar Then
-                Select Case c.GetType.ToString.ToLower
-                    Case "hhbooleanlabel.hhbooleanlabel"
-                        c.actualizar()
-                    Case "hhwordregister.hhwordregister"
-                        c.actualizar()
-                    Case "hhnumericdisplay.hhnumericdisplay"
-                        c.actualizar()
-                    Case "hhtimecounterdisplay.hhtimecounterdisplay"
-                        c.actualizar()
-                    Case "hhtogglebutton.hhtogglebutton"
-                        c.actualizar()
-                    Case "hhnumericentry.hhnumericentry"
-                        c.actualizar()
-                    Case "hhprogressbox.hhprogressbox"
-                        c.actualizar()
-                    Case "hhgriddisplay.hhgriddisplay"
-                        c.actualizar()
-                    Case "hhmomentarybutton.hhmomentarybutton"
-                        c.actualizar()
-                    Case Else
-                        Debug.Print("AutoActualizar error: no se reconoce " & c.GetType.ToString.ToLower)
-                End Select
+                Try
+                    Select Case c.GetType.ToString.ToLower
+                        Case "hhbooleanlabel.hhbooleanlabel"
+                            c.actualizar()
+                        Case "hhwordregister.hhwordregister"
+                            c.actualizar()
+                        Case "hhnumericdisplay.hhnumericdisplay"
+                            c.actualizar()
+                        Case "hhtimecounterdisplay.hhtimecounterdisplay"
+                            c.actualizar()
+                        Case "hhtogglebutton.hhtogglebutton"
+                            c.actualizar()
+                        Case "hhnumericentry.hhnumericentry"
+                            c.actualizar()
+                        Case "hhprogressbox.hhprogressbox"
+                            c.actualizar()
+                        Case "hhgriddisplay.hhgriddisplay"
+                            c.actualizar()
+                        Case "hhmomentarybutton.hhmomentarybutton"
+                            c.actualizar()
+                        Case "hhcharacterentry.hhcharacterentry"
+                            c.actualizar()
+                        Case Else
+                            Debug.Print("AutoActualizar error: no se reconoce " & c.GetType.ToString.ToLower)
+                    End Select
+                Catch
+
+                End Try
             End If
         End If
     End Sub
@@ -119,11 +113,8 @@ Public Class MasterK
             cControles = value
         End Set
     End Property
-
-
     Public Function Agregar(ByVal cControl As Object) As String
         Dim sId As String
-
         iControlId = iControlId + 1
         sId = iControlId.ToString("X")
         cControles.Add(cControl, sId)
@@ -137,7 +128,6 @@ Public Class MasterK
         Catch ex As Exception
         End Try
     End Sub
-
     Public ReadOnly Property TimedOut() As Boolean
         Get
             Return bTimeout
@@ -189,18 +179,14 @@ Public Class MasterK
             sEstacion = bEstacion.ToString("X2")
         End Set
     End Property
-   
     Public Function ObtenerEntero(ByVal Device As String) As Integer
         Dim sValor As String
         Dim iValor As Integer
-
-        sSub = "SubObtenerEntero"
 
         RSS(Device)
         iValor = 0
         sRespuesta = RespuestaDelPLC(Device)
         sValor = ""
-
         If Len(sRespuesta) Then
             If Len(sRespuesta) = 15 Then
                 If sRespuesta.StartsWith(Chr(6) & sEstacion & "RSS") And sRespuesta.EndsWith(Chr(3)) Then
@@ -209,7 +195,7 @@ Public Class MasterK
                         Try
                             iValor = CInt("&H" & sValor)
                         Catch ex As Exception
-                            Fallo(sSub & " " & Device & " " & ex.Message)
+                            Fallo("ObtenerEntero " & Device & " " & ex.Message)
                             iValor = 0
                         End Try
                     Else
@@ -222,46 +208,36 @@ Public Class MasterK
                 End If
             Else
                 iValor = ObtenerEntero(Device)
-
             End If
         Else
             If bTimeout Then
-
             Else
                 iValor = ObtenerEntero(Device)
             End If
-
         End If
-      
         NetEnviar(Device, "I", iValor.ToString)
         Return iValor
     End Function
-
     Public Function EstablecerEntero(ByVal Device As String, ByVal Value As Integer) As String
-        sSub = "SubEstablecerEntero"
         WSS(Device, Value.ToString("X4"))
         Return RespuestaDelPLC(Device)
     End Function
-
     Public Function ObtenerBoolean(ByVal Device As String) As Boolean
         Dim sValor As String
         Dim bValor As Boolean
-
-        sSub = "SubObtenerBoolean"
 
         RSS(Device)
         sRespuesta = RespuestaDelPLC()
         If Len(sRespuesta) Then
             If Len(sRespuesta) = 13 Then
                 If sRespuesta.StartsWith(Chr(6) & sEstacion & "RSS") And sRespuesta.EndsWith(Chr(3)) Then
-
                     sValor = sRespuesta.Substring(10, 2).Replace(" ", "").Replace(Chr(3), "")
                     If Len(sValor) Then
                         Try
                             bValor = -Val(sValor)
+                            NetEnviar(Device, "B", bValor.ToString)
                         Catch ex As Exception
-                            Fallo(sSub & " " & Device & " " & ex.Message)
-
+                            Fallo("ObtenerBoolean " & Device & " " & ex.Message)
                         End Try
                     Else
                         bValor = ObtenerBoolean(Device)
@@ -277,32 +253,22 @@ Public Class MasterK
             Else
                 bValor = ObtenerBoolean(Device)
             End If
-
         End If
-        NetEnviar(Device, "B", bValor.ToString)
         Return bValor
     End Function
     Public Function EstablecerBoolean(ByVal Device As String, ByVal Value As Boolean) As String
-        sSub = "SubEstablecerBoolean"
         If Value Then
-
             WSS(Device, "01")
         Else
-
             WSS(Device, "00")
         End If
         Return RespuestaDelPLC(Device)
-
     End Function
-
     Public Function ObtenerCadena(ByVal Device As String, ByVal Longitud As Integer) As String
-
         Dim iIter As Integer
         Dim sValor As String
         Dim sTemp As String
         Dim iLong As Integer
-
-        sSub = "SubObtenerCadena"
 
         iLong = Longitud / 2
         If iLong Mod 2 Then iLong = iLong + 1
@@ -313,7 +279,6 @@ Public Class MasterK
             sRespuesta = sRespuesta.Remove(0, 10)
             sRespuesta = sRespuesta.Replace(" ", "")
             sRespuesta = sRespuesta.Replace(Chr(3), "")
-
             Do
                 sRespuesta = sRespuesta & "0"
             Loop Until Len(sRespuesta) Mod 4 = 0
@@ -322,7 +287,7 @@ Public Class MasterK
                 Try
                     sTemp = Chr(CInt("&H" & sTemp.Substring(2, 2))) & Chr(CInt("&H" & sTemp.Substring(0, 2)))
                 Catch ex As Exception
-                    Fallo(sSub & " " & Device & " " & ex.Message)
+                    Fallo("ObtenerCadena " & Device & " " & ex.Message)
                     sValor = ""
                     sTemp = ""
                     Exit For
@@ -340,8 +305,6 @@ Public Class MasterK
             Else
                 sValor = ObtenerCadena(Device, Longitud)
             End If
-
-
         End If
         Return sValor
     End Function
@@ -350,7 +313,7 @@ Public Class MasterK
             If dDatos.ContainsKey(sDevice) Then
                 If dDatos.Item(sDevice) < Now Then
                     Try
-                        uTerminal.SendMessage(sTerminal & "|" & sDevice & "|" & sTipo & "|" & sValor)
+                        ' uTerminal.SendMessage(sTerminal & "|" & sDevice & "|" & sTipo & "|" & sValor)
                     Catch
                     End Try
                     dDatos.Item(sDevice) = Now.AddSeconds(iIntervalo)
@@ -382,7 +345,6 @@ Public Class MasterK
         Dim iLongitud As Integer
         Dim sBloques As String
 
-
         If IsNothing(sPuerto) Then
             Fallo("El puerto no es valido")
             Exit Sub
@@ -391,7 +353,6 @@ Public Class MasterK
             Fallo("La direccion no es valida")
             Exit Sub
         End If
-
         iLongitud = 11 + Len(Device)
         ReDim bMensaje(iLongitud)
         bMensaje(0) = &H5
@@ -416,10 +377,7 @@ Public Class MasterK
         bMensaje(iLongitud - 2) = Asc(sBloques.Substring(0, 1))
         bMensaje(iLongitud - 1) = Asc(sBloques.Substring(1, 1))
         bMensaje(iLongitud) = &H4
-
-        sUltimoDevice = Device
         Enviar(bMensaje, iLongitud + 1)
-
     End Sub
     Public Sub RSS(ByVal Device As String)
         Dim Instruccion As String = "R"
@@ -428,13 +386,10 @@ Public Class MasterK
         Dim iIter As Integer
         Dim iLongitud As Integer
 
-
-        
         If IsNothing(Device) Then
             Fallo("La direccion no es valida")
             Exit Sub
         End If
-
         iLongitud = 11 + Len(Device)
         ReDim bMensaje(iLongitud)
         bMensaje(0) = &H5
@@ -453,9 +408,7 @@ Public Class MasterK
             bMensaje(10 + iIter) = Asc(Mid(Device, iIter, 1))
         Next iIter
         bMensaje(iLongitud) = &H4
-        sUltimoDevice = Device
         Enviar(bMensaje, iLongitud + 1)
-
     End Sub
     Public Sub WSB(ByVal Device As String, ByVal Valor As String, ByVal Longitud As Integer)
         Dim Instruccion As String = "W"
@@ -465,7 +418,6 @@ Public Class MasterK
         Dim lIter As Integer
         Dim iLongitud As Integer
 
-
         If IsNothing(sPuerto) Then
             Fallo("El puerto no es valido")
             Exit Sub
@@ -474,10 +426,8 @@ Public Class MasterK
             Fallo("La direccion no es valida")
             Exit Sub
         End If
-
         iLongitud = 11 + Len(Device) + Len(Valor)
         ReDim bMensaje(iLongitud)
-
         bMensaje(0) = &H5
         bMensaje(1) = Asc(sEstacion.Substring(0, 1))
         bMensaje(2) = Asc(sEstacion.Substring(1, 1))
@@ -498,19 +448,14 @@ Public Class MasterK
             bMensaje(10 + Len(Device) + lIter) = Asc(Mid(Valor, lIter, 1))
         Next lIter
         bMensaje(iLongitud) = &H4
-        sUltimoDevice = Device
         Enviar(bMensaje, iLongitud + 1)
-
     End Sub
     Public Sub WSS(ByVal Device As String, ByVal Valor As String)
         Dim Instruccion As String = "W"
         Dim Tipo As String = "SS"
-
         Dim sLongitud As String
-
         Dim lIter As Integer
         Dim iLongitud As Integer
-
 
         If IsNothing(sPuerto) Then
             Fallo("El puerto no es valido")
@@ -525,7 +470,6 @@ Public Class MasterK
         End If
         iLongitud = 11 + Len(Device) + Len(Valor)
         ReDim bMensaje(iLongitud)
-
         bMensaje(0) = &H5
         bMensaje(1) = Asc(sEstacion.Substring(0, 1))
         bMensaje(2) = Asc(sEstacion.Substring(1, 1))
@@ -545,14 +489,10 @@ Public Class MasterK
             bMensaje(10 + Len(Device) + lIter) = Asc(Mid(Valor, lIter, 1))
         Next lIter
         bMensaje(iLongitud) = &H4
-        sUltimoDevice = Device
         Enviar(bMensaje, iLongitud + 1)
-
     End Sub
-
     Private Sub Fallo(ByVal Mensaje As String)
         bFail = True
-        Debug.Print("Error " & sSub & " " & sUltimoDevice & " " & Mensaje)
         RaiseEvent Fail(Me, New MyEventArgs(Mensaje))
     End Sub
     Sub Enviar(ByVal bM As Byte(), ByVal longitud As Integer)
@@ -587,11 +527,9 @@ Public Class MasterK
                 tTemporizador.Enabled = True
                 RaiseEvent RX(Me, New MyEventArgs(Direccion & "-" & sRespuesta))
             Else
-
                 Fallo("Error " & "RespuestaDelPLC " & Direccion & "-" & sRespuesta)
                 sRespuesta = ""
                 sPuerto.DiscardInBuffer()
-
             End If
         End If
         If bTimeout Then
@@ -606,16 +544,15 @@ Public Class MasterK
         End If
         Return sRespuesta
     End Function
-
     Public Function IntToWordStr(ByVal i As Integer) As String
         Return Chr(i Mod 256) & Chr(i \ 256)
     End Function
-
     Public Function WordStrToInt(ByVal s As String) As Integer
         Return Asc(Mid(s, 2, 1)) * 256 + Asc(Mid(s, 1, 1))
     End Function
-
     Protected Overrides Sub Finalize()
+        cControles.Clear()
+        tTemporizador.Enabled = False
         MyBase.Finalize()
     End Sub
 End Class
