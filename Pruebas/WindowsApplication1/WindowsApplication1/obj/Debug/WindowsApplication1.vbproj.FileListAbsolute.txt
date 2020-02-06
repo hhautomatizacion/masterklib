@@ -1,0 +1,49 @@
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\WindowsApplication1.exe.config
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.vbprojResolveAssemblyReference.cache
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.Form1.resources
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.Resources.resources
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.vbproj.GenerateResource.Cache
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.xml
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\WindowsApplication1.exe
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\WindowsApplication1.pdb
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\WindowsApplication1.xml
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\hhGridDisplay.dll
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\MasterKlib.dll
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\LavadoraLib.dll
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\hhGridDisplay.pdb
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\hhGridDisplay.xml
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\MasterKlib.pdb
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\MasterKlib.xml
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\LavadoraLib.pdb
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\LavadoraLib.xml
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.exe
+C:\Users\Emmanuel Castillo\AppData\Local\Temporary Projects\WindowsApplication1\obj\Debug\WindowsApplication1.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\WindowsApplication1.exe.config
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.exe
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\WindowsApplication1.exe
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\WindowsApplication1.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\WindowsApplication1.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhGridDisplay.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\MasterKlib.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\LavadoraLib.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhGridDisplay.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhGridDisplay.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\MasterKlib.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\MasterKlib.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\LavadoraLib.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\LavadoraLib.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.vbprojResolveAssemblyReference.cache
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.Form1.resources
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.Resources.resources
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\obj\Debug\WindowsApplication1.vbproj.GenerateResource.Cache
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhComboEntry.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhComboEntry.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhComboEntry.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhCharacterDisplay.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhNumericDisplay.dll
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhCharacterDisplay.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhCharacterDisplay.xml
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhNumericDisplay.pdb
+C:\Users\Emmanuel Castillo\Desktop\WindowsApplication1\WindowsApplication1\bin\Debug\hhNumericDisplay.xml
