@@ -11,7 +11,6 @@ Public Class hhDecrementButton
     Dim iValor As Integer
     Dim iValorMaximo As Integer
     Dim iValorMinimo As Integer
-    Dim bEstacion As Byte
     Dim mMasterK As MasterKlib.MasterK
     Sub New()
         CargarOpciones()

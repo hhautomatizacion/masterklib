@@ -13,13 +13,9 @@ Public Class hhCharacterDisplay
     Dim sTooltip As String
     Dim bAlerta As Boolean
     Dim sTexto As String
-    Dim lEtiqueta As Label
-    Dim cEtiquetaForecolor As Color
-    Dim cEtiquetaBackcolor As Color
     Dim cColorAlerta As Color
     Dim bAutoSize As Boolean
     Dim cColorNormal As Color
-    Dim sEtiqueta As String
     Dim tHint As ToolTip
     Dim iIntervaloAlerta As Integer
     Dim WithEvents tAlerta As Timer
@@ -48,8 +44,6 @@ Public Class hhCharacterDisplay
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
-        cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
@@ -107,21 +101,10 @@ Public Class hhCharacterDisplay
                 tHint.AutomaticDelay = 1000
                 tHint.AutoPopDelay = 5000
                 tHint.OwnerDraw = True
-                tHint.SetToolTip(lEtiqueta, sTooltip)
                 tHint.SetToolTip(Me, sTooltip)
                 AddHandler tHint.Draw, AddressOf Draw
                 AddHandler tHint.Popup, AddressOf Popup
             End If
-        End Set
-    End Property
-    Property Etiqueta() As String
-        Get
-            Return sEtiqueta
-        End Get
-        Set(ByVal value As String)
-            sEtiqueta = value
-            CrearEtiqueta()
-            EmparentarEtiqueta()
         End Set
     End Property
 
@@ -205,36 +188,9 @@ Public Class hhCharacterDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
     End Sub
-    Private Sub CrearEtiqueta()
-        If IsNothing(lEtiqueta) Then
-            lEtiqueta = New Label
-            lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = fFuenteEtiqueta
-            lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
-            lEtiqueta.Text = sEtiqueta
-            lEtiqueta.Height = Me.Height
-            lEtiqueta.Width = 198
-            lEtiqueta.BackColor = cEtiquetaBackcolor
-            lEtiqueta.ForeColor = cEtiquetaForecolor
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-            lEtiqueta.Visible = True
-            AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
-        Else
-            lEtiqueta.Text = sEtiqueta
-        End If
-    End Sub
-    Private Sub EmparentarEtiqueta()
-        If Not IsNothing(lEtiqueta) Then
-            If IsNothing(lEtiqueta.Parent) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Add(lEtiqueta)
-                End If
-            End If
-        End If
-    End Sub
+
     Property AutoActualizar() As Boolean
         Get
             Return bAutoActualizar
@@ -244,22 +200,11 @@ Public Class hhCharacterDisplay
         End Set
     End Property
 
-    Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
-        MyBase.OnParentChanged(e)
-        EmparentarEtiqueta()
-    End Sub
-
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not IsNothing(tAlerta) Then
                 tAlerta.Enabled = False
                 tAlerta = Nothing
-            End If
-            If Not IsNothing(lEtiqueta) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Remove(lEtiqueta)
-                End If
-                lEtiqueta = Nothing
             End If
             If Not IsNothing(tHint) Then
                 tHint.Dispose()
@@ -271,31 +216,12 @@ Public Class hhCharacterDisplay
         MyBase.Dispose(disposing)
     End Sub
 
-    Protected Overrides Sub OnMove(ByVal e As System.EventArgs)
-        MyBase.OnMove(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-        End If
-    End Sub
-    Protected Overrides Sub OnSizeChanged(ByVal e As System.EventArgs)
-        MyBase.OnSizeChanged(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Height = Me.Height
-        End If
-    End Sub
-
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
-            Me.Text = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
+            Me.Texto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
         End If
         DarFormato()
     End Sub
-
     Private Sub DarFormato()
         If Not IsNothing(tAlerta) Then
             If Len(sTexto) <= iLongitudTexto Then
@@ -306,23 +232,12 @@ Public Class hhCharacterDisplay
             End If
         End If
     End Sub
-
     Private Sub Alerta(ByVal s As Object, ByVal e As System.EventArgs) Handles tAlerta.Tick
         bAlerta = Not bAlerta
         If bAlerta Then
             Me.BackColor = cColorAlerta
         Else
             Me.BackColor = cColorNormal
-        End If
-    End Sub
-
-    Protected Overrides Sub Finalize()
-        MyBase.Finalize()
-        If Not IsNothing(lEtiqueta) Then
-            If Not IsNothing(Me.Parent) Then
-                Me.Parent.Controls.Remove(lEtiqueta)
-            End If
-            lEtiqueta = Nothing
         End If
     End Sub
 
@@ -334,5 +249,4 @@ Public Class hhCharacterDisplay
             End Try
         End If
     End Sub
-
 End Class

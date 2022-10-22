@@ -55,9 +55,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\hhMomentaryButton\hhMomentaryButton\bin\Debug\hhMomentaryButton.dll</HintPath>
     </Reference>
-    <Reference Include="masterklib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\masterklib\masterklib\lib\masterklib.dll</HintPath>
+    <Reference Include="MasterKlib">
+      <HintPath>..\..\masterklib\masterklib\bin\Debug\MasterKlib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

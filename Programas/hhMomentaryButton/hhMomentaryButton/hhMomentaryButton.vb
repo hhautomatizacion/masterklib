@@ -2,6 +2,8 @@
 Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports MasterKlib
+
 <DefaultEvent("Click")> Public Class hhMomentaryButton
     Inherits System.Windows.Forms.CheckBox
     Dim sId As String
@@ -134,14 +136,23 @@ Imports System.Drawing
         End If
         DarFormato()
     End Sub
-    Private Sub hhMomentaryButton_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+
+    Private Sub hhMomentaryButton_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+        Dim iContador As Integer
         If Not IsNothing(mMasterk) Then
-            mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
+            iContador = 0
+            Do
+                iContador = iContador + 1
+                mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
+                Application.DoEvents()
+            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = True Or iContador >= 3
+            iContador = 0
+            Do
+                iContador = iContador + 1
+                mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
+                Application.DoEvents()
+            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = False Or iContador >= 3
         End If
-    End Sub
-    Private Sub hhMomentaryButton_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-        If Not IsNothing(mMasterk) Then
-            mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
-        End If
+        Actualizar()
     End Sub
 End Class

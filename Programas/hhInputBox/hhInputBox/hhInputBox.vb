@@ -2,7 +2,6 @@ Public Class hhInputBox
     Inherits System.windows.forms.commondialog
     Dim iTamanio As Integer
     Dim sMensaje As String
-    Dim sEtiqueta As String
     Dim sUnidades As String
     Dim sTitulo As String
     Sub New()
@@ -19,7 +18,6 @@ Public Class hhInputBox
         sTextoOk = ""
         sDireccionCancel = ""
         sDireccionOk = ""
-
     End Sub
     Protected Overrides Function RunDialog(ByVal hwndOwner As System.IntPtr) As Boolean
         f.Text = sTitulo
@@ -33,7 +31,6 @@ Public Class hhInputBox
         f.HhNumericEntry5.DireccionLectura = sDireccionValor
         f.HhNumericEntry5.DireccionEscritura = sDireccionValor
         f.HhNumericEntry5.Unidades = sUnidades
-        f.HhNumericEntry5.Etiqueta = sEtiqueta
         f.HhNumericEntry5.Tooltip = sMensaje
         f.HhNumericEntry5.ValorMinimo = iValorMinimo
         f.HhNumericEntry5.ValorMaximo = iValorMaximo
@@ -99,14 +96,7 @@ Public Class hhInputBox
             sUnidades = value
         End Set
     End Property
-    Public Property Etiqueta() As String
-        Get
-            Return sEtiqueta
-        End Get
-        Set(ByVal value As String)
-            sEtiqueta = value
-        End Set
-    End Property
+
     Public Property Mensaje() As String
         Get
             Return sMensaje

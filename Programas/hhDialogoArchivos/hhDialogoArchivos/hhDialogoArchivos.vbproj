@@ -36,20 +36,22 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="hhCharacterEntry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="hhCharacterEntry">
       <HintPath>..\..\hhCharacterEntry\hhCharacterEntry\bin\Debug\hhCharacterEntry.dll</HintPath>
     </Reference>
     <Reference Include="hhGridDisplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\hhGridDisplay\hhGridDisplay\bin\Debug\hhGridDisplay.dll</HintPath>
     </Reference>
+    <Reference Include="hhLabel">
+      <HintPath>..\..\hhLabel\hhLabel\bin\Debug\hhLabel.dll</HintPath>
+    </Reference>
     <Reference Include="hhMomentaryButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\hhMomentaryButton\hhMomentaryButton\bin\Debug\hhMomentaryButton.dll</HintPath>
     </Reference>
     <Reference Include="MasterKlib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\masterklib\masterklib\bin\Debug\masterklib.dll</HintPath>
+      <HintPath>..\..\masterklib\masterklib\lib\masterklib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

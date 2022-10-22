@@ -1,12 +1,14 @@
 ﻿Public Class Receta
     <Serializable()> Public Structure Paso
         Public NombrePaso As String
+        Public IdPaso As Integer
         Public Minutos As Integer
         Public Segundos As Integer
         Public Litros As Integer
         Public Centigrados As Integer
         Public RPM As Integer
-        Public GradosPorMinuto As Integer
+        Public ParametroAuxiliar As Integer
         Public Argumentos As Integer
+        Public Emergente As String
     End Structure
 End Class

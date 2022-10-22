@@ -31,6 +31,7 @@ Public Class MasterK
     Public Event RX As System.EventHandler(Of MyEventArgs)
     Public Event TX As System.EventHandler(Of MyEventArgs)
     Public Event Fail As System.EventHandler(Of MyEventArgs)
+
     Sub New()
         cControles = New Collection
         tTemporizador = New Windows.Forms.Timer
@@ -42,6 +43,7 @@ Public Class MasterK
         bNetActivado = -Val(GetSetting("hhcontrols", "net", "enabled", "1"))
         iIntervalo = ForzarRango(iIntervalo, 1, 600)
     End Sub
+
     Private Function ForzarRango(ByVal Valor As Integer, ByVal ValorMinimo As Integer, ByVal ValorMaximo As Integer) As Integer
         If Valor < ValorMinimo Or Valor > ValorMaximo Then
             Valor = ValorMinimo
@@ -96,6 +98,8 @@ Public Class MasterK
                             c.actualizar()
                         Case "hhcharacterentry.hhcharacterentry"
                             c.actualizar()
+                        Case "hhcharacterdisplay.hhcharacterdisplay"
+                            c.actualizar()
                         Case Else
                             Debug.Print("AutoActualizar error: no se reconoce " & c.GetType.ToString.ToLower)
                     End Select
@@ -105,6 +109,7 @@ Public Class MasterK
             End If
         End If
     End Sub
+
     Public Property Controles() As Collection
         Get
             Return cControles
@@ -113,6 +118,7 @@ Public Class MasterK
             cControles = value
         End Set
     End Property
+
     Public Function Agregar(ByVal cControl As Object) As String
         Dim sId As String
         iControlId = iControlId + 1
@@ -120,6 +126,7 @@ Public Class MasterK
         cControles.Add(cControl, sId)
         Return sId
     End Function
+
     Public Sub Quitar(ByVal sId As String)
         Try
             If cControles.Contains(sId) Then
@@ -144,11 +151,13 @@ Public Class MasterK
             Return iControlId.ToString("X")
         End Get
     End Property
+
     Public ReadOnly Property Mensaje() As String
         Get
             Return System.Text.Encoding.UTF8.GetString(bMensaje)
         End Get
     End Property
+
     Public ReadOnly Property Respuesta() As String
         Get
             Return sRespuesta
@@ -179,6 +188,7 @@ Public Class MasterK
             sEstacion = bEstacion.ToString("X2")
         End Set
     End Property
+
     Public Function ObtenerEntero(ByVal Device As String) As Integer
         Dim sValor As String
         Dim iValor As Integer
@@ -218,6 +228,7 @@ Public Class MasterK
         NetEnviar(Device, "I", iValor.ToString)
         Return iValor
     End Function
+
     Public Function EstablecerEntero(ByVal Device As String, ByVal Value As Integer) As String
         WSS(Device, Value.ToString("X4"))
         Return RespuestaDelPLC(Device)
@@ -450,6 +461,7 @@ Public Class MasterK
         bMensaje(iLongitud) = &H4
         Enviar(bMensaje, iLongitud + 1)
     End Sub
+
     Public Sub WSS(ByVal Device As String, ByVal Valor As String)
         Dim Instruccion As String = "W"
         Dim Tipo As String = "SS"
@@ -544,12 +556,15 @@ Public Class MasterK
         End If
         Return sRespuesta
     End Function
+
     Public Function IntToWordStr(ByVal i As Integer) As String
         Return Chr(i Mod 256) & Chr(i \ 256)
     End Function
+
     Public Function WordStrToInt(ByVal s As String) As Integer
         Return Asc(Mid(s, 2, 1)) * 256 + Asc(Mid(s, 1, 1))
     End Function
+
     Protected Overrides Sub Finalize()
         cControles.Clear()
         tTemporizador.Enabled = False

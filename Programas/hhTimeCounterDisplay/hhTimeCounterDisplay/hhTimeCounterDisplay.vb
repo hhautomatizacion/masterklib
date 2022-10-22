@@ -16,10 +16,8 @@ Public Class hhTimeCounterDisplay
     Dim fFuenteEtiqueta As Font
     Dim iValor As Integer
     Dim iValorMaximo As Integer
-    Dim lEtiqueta As Label
     Dim iAltoRenglonTooltip As Integer
     Dim sDireccionLectura As String
-    Dim sEtiqueta As String
     Dim sTooltip As String
     Dim mMasterk As MasterKlib.MasterK
     Dim tHint As ToolTip
@@ -118,16 +116,7 @@ Public Class hhTimeCounterDisplay
             End If
         End Set
     End Property
-    Property Etiqueta() As String
-        Get
-            Return sEtiqueta
-        End Get
-        Set(ByVal value As String)
-            sEtiqueta = value
-            CrearEtiqueta()
-            EmparentarEtiqueta()
-        End Set
-    End Property
+
     Property Valor() As Integer
         Get
             If Not bAutoActualizar Then
@@ -152,7 +141,6 @@ Public Class hhTimeCounterDisplay
                 tHint.AutomaticDelay = 0
                 tHint.AutoPopDelay = 5000
                 tHint.OwnerDraw = True
-                tHint.SetToolTip(lEtiqueta, sTooltip.Replace("|", vbCrLf))
                 tHint.SetToolTip(Me, sTooltip.Replace("|", vbCrLf))
                 AddHandler tHint.Draw, AddressOf Draw
                 AddHandler tHint.Popup, AddressOf Popup
@@ -200,36 +188,9 @@ Public Class hhTimeCounterDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
     End Sub
-    Private Sub CrearEtiqueta()
-        If IsNothing(lEtiqueta) Then
-            lEtiqueta = New Label
-            lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = ffuenteetiqueta
-            lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
-            lEtiqueta.Text = sEtiqueta
-            lEtiqueta.Height = Me.Height
-            lEtiqueta.Width = 198
-            lEtiqueta.BackColor = cEtiquetaBackcolor
-            lEtiqueta.ForeColor = cEtiquetaForecolor
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-            lEtiqueta.Visible = True
-            AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
-        Else
-            lEtiqueta.Text = sEtiqueta
-        End If
-    End Sub
-    Private Sub EmparentarEtiqueta()
-        If Not IsNothing(lEtiqueta) Then
-            If IsNothing(lEtiqueta.Parent) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Add(lEtiqueta)
-                End If
-            End If
-        End If
-    End Sub
+
     Property AutoActualizar() As Boolean
         Get
             Return bAutoActualizar
@@ -239,27 +200,6 @@ Public Class hhTimeCounterDisplay
         End Set
     End Property
 
-    Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
-        MyBase.OnParentChanged(e)
-        EmparentarEtiqueta()
-    End Sub
-    Protected Overrides Sub OnMove(ByVal e As System.EventArgs)
-        MyBase.OnMove(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-        End If
-    End Sub
-    Protected Overrides Sub OnSizeChanged(ByVal e As System.EventArgs)
-        MyBase.OnSizeChanged(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Height = Me.Height
-        End If
-    End Sub
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
@@ -294,12 +234,6 @@ Public Class hhTimeCounterDisplay
                 tAlerta.Enabled = False
                 tAlerta = Nothing
             End If
-            If Not IsNothing(lEtiqueta) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Remove(lEtiqueta)
-                End If
-                lEtiqueta = Nothing
-            End If
             If Not IsNothing(tHint) Then
                 tHint.Dispose()
             End If
@@ -309,15 +243,7 @@ Public Class hhTimeCounterDisplay
         End If
         MyBase.Dispose(disposing)
     End Sub
-    Protected Overrides Sub Finalize()
-        MyBase.Finalize()
-        If Not IsNothing(lEtiqueta) Then
-            If Not IsNothing(Me.Parent) Then
-                Me.Parent.Controls.Remove(lEtiqueta)
-            End If
-            lEtiqueta = Nothing
-        End If
-    End Sub
+
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)
         If Not IsNothing(tHint) Then
             Try

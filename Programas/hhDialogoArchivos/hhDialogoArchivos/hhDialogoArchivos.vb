@@ -26,7 +26,7 @@ Public Class hhDialogoArchivos
         f.CheckedListBox1.Items.Clear()
 
         f.HhCharacterEntry1.LongitudTexto = iLongitud
-        f.Label1.Text = RutaCompleta().Replace("&", "&&")
+        f.HhLabel1.Texto = RutaCompleta().Replace("&", "&&")
 
         f.Inicializar()
 

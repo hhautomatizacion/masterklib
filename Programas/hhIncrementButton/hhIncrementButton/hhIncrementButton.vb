@@ -48,7 +48,6 @@ Public Class hhIncrementButton
     Property DireccionLectura() As String
         Get
             Return sDireccionLectura
-
         End Get
         Set(ByVal value As String)
             sDireccionLectura = value

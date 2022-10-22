@@ -7,7 +7,7 @@ Public Class Form1
         CargarOpciones()
 
         CheckedListBox1.Font = fFuente
-        Label1.Font = fFuente
+        'Label1.Font = fFuente
         Button1.Texto = "Aceptar"
 
         Button2.Texto = "Cancelar"
@@ -62,7 +62,7 @@ Public Class Form1
             iContador = iContador + 1
             CheckedListBox1.Items.Add(Archivo)
         Next
-        Label1.Text = RutaCompleta.Replace("&", "&&") & " (" & iContador & " archivos)"
+        HhLabel1.Texto = RutaCompleta.Replace("&", "&&") & " (" & iContador & " archivos)"
     End Sub
     Function SeleccionArchivos() As Collection
         Dim archivos As New Collection

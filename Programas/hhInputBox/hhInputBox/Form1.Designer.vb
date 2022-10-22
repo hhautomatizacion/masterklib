@@ -145,7 +145,6 @@ Partial Class Form1
         Me.HhNumericEntry5.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhNumericEntry5.DireccionEscritura = Nothing
         Me.HhNumericEntry5.DireccionLectura = Nothing
-        Me.HhNumericEntry5.Etiqueta = Nothing
         Me.HhNumericEntry5.Font = New System.Drawing.Font("Papyrus", 18.0!)
         Me.HhNumericEntry5.Link = Nothing
         Me.HhNumericEntry5.Location = New System.Drawing.Point(171, 25)

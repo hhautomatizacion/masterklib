@@ -13,13 +13,9 @@ Public Class hhNumericEntry
     Dim iAutoOcultar As Integer
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
-    Dim cEtiquetaBackcolor As Color
-    Dim cEtiquetaForecolor As Color
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim sUnidades As String
-    Dim sEtiqueta As String
-    Dim lEtiqueta As Label
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
     Dim sFactor As Single
@@ -51,8 +47,6 @@ Public Class hhNumericEntry
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
-        cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
@@ -125,17 +119,7 @@ Public Class hhNumericEntry
             End If
         End Set
     End Property
-    Property Etiqueta() As String
-        Get
-            Return sEtiqueta
-        End Get
-        Set(ByVal value As String)
-            sEtiqueta = value
-            CrearEtiqueta()
-            EmparentarEtiqueta()
-            lEtiqueta.Text = sEtiqueta
-        End Set
-    End Property
+
     Property Unidades() As String
         Get
             Return sUnidades
@@ -152,10 +136,11 @@ Public Class hhNumericEntry
             Return iValor
         End Get
         Set(ByVal value As Integer)
-            If Not IsNothing(mMasterk) Then
-                mMasterk.EstablecerEntero(sDireccionEscritura, value)
-            End If
             iValor = value
+            If Not IsNothing(mMasterk) Then
+                mMasterk.EstablecerEntero(sDireccionEscritura, iValor)
+            End If
+            Actualizar()
         End Set
     End Property
     Property Factor() As Single
@@ -164,6 +149,7 @@ Public Class hhNumericEntry
         End Get
         Set(ByVal value As Single)
             sFactor = value
+            Actualizar()
         End Set
     End Property
     Property Decimales() As Integer
@@ -172,6 +158,7 @@ Public Class hhNumericEntry
         End Get
         Set(ByVal value As Integer)
             iDecimales = value
+            Actualizar()
         End Set
     End Property
     Property Tooltip() As String
@@ -186,7 +173,6 @@ Public Class hhNumericEntry
                 tHint.AutomaticDelay = 1000
                 tHint.AutoPopDelay = 5000
                 tHint.OwnerDraw = True
-                tHint.SetToolTip(lEtiqueta, sTooltip)
                 tHint.SetToolTip(Me, sTooltip)
                 AddHandler tHint.Draw, AddressOf Draw
                 AddHandler tHint.Popup, AddressOf Popup
@@ -234,34 +220,9 @@ Public Class hhNumericEntry
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
     End Sub
-    Private Sub CrearEtiqueta()
-        If IsNothing(lEtiqueta) Then
-            lEtiqueta = New Label
-            lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = ffuenteetiqueta
-            lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
-            lEtiqueta.Text = sEtiqueta
-            lEtiqueta.Height = Me.Height
-            lEtiqueta.Width = 198
-            lEtiqueta.BackColor = cEtiquetaBackcolor
-            lEtiqueta.ForeColor = cEtiquetaForecolor
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-            lEtiqueta.Visible = True
-            AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
-        Else
-            lEtiqueta.Text = sEtiqueta
-        End If
-    End Sub
-    Private Sub EmparentarEtiqueta()
-        If IsNothing(lEtiqueta.Parent) Then
-            If Not IsNothing(Me.Parent) Then
-                Me.Parent.Controls.Add(lEtiqueta)
-            End If
-        End If
-    End Sub
+
     Property AutoActualizar() As Boolean
         Get
             Return bAutoActualizar
@@ -271,10 +232,6 @@ Public Class hhNumericEntry
         End Set
     End Property
 
-    Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
-        MyBase.OnParentChanged(e)
-        EmparentarEtiqueta()
-    End Sub
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
         Dim iAnchoUnidades As Integer
         Dim iAnchoTexto As Integer
@@ -284,8 +241,8 @@ Public Class hhNumericEntry
             If Len(sUnidades) Then
                 sUnidadesAjuste = sUnidades
                 Using g As Graphics = Me.CreateGraphics
-                    iAnchoUnidades = g.MeasureString(sUnidadesAjuste, ffuenteetiqueta).Width
-                    iAnchoTexto = g.MeasureString(Me.Text, ffuenteetiqueta).Width
+                    iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
+                    iAnchoTexto = g.MeasureString(Me.Text, fFuenteEtiqueta).Width
                     While iAnchoUnidades >= ((Me.Width / 2) - (iAnchoTexto / 2))
                         sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
                         If sUnidadesAjuste.Length <= 1 Then
@@ -293,24 +250,18 @@ Public Class hhNumericEntry
                         End If
                         sUnidadesAjuste = sUnidadesAjuste.Substring(0, sUnidadesAjuste.Length - 1)
                         sUnidadesAjuste = sUnidadesAjuste & Chr(26)
-                        iAnchoUnidades = g.MeasureString(sUnidadesAjuste, ffuenteetiqueta).Width
+                        iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     End While
                     If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
-                        g.DrawString(sUnidadesAjuste, ffuenteetiqueta, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoUnidades, 0)
+                        g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoUnidades, 0)
                     End If
                 End Using
             End If
         End If
-
     End Sub
+
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
-            If Not IsNothing(lEtiqueta) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Remove(lEtiqueta)
-                End If
-                lEtiqueta = Nothing
-            End If
             If Not IsNothing(tHint) Then
                 tHint.Dispose()
             End If
@@ -320,23 +271,7 @@ Public Class hhNumericEntry
         End If
         MyBase.Dispose(disposing)
     End Sub
-    Protected Overrides Sub OnMove(ByVal e As System.EventArgs)
-        MyBase.OnMove(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-        End If
-    End Sub
-    Protected Overrides Sub OnSizeChanged(ByVal e As System.EventArgs)
-        MyBase.OnSizeChanged(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Height = Me.Height
-        End If
-    End Sub
+
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
@@ -372,12 +307,11 @@ Public Class hhNumericEntry
 
     Private Sub hhNumericEntry_Click(sender As Object, e As EventArgs) Handles Me.Click
         Dim b As Control
-
         Using fTecladoEnPantalla As New Form1
-            fTecladoEnPantalla.TextBox1.Font = ffuente
+            fTecladoEnPantalla.TextBox1.Font = fFuente
             For Each b In fTecladoEnPantalla.TableLayoutPanel1.Controls
                 If TypeOf (b) Is Button Then
-                    b.Font = ffuente
+                    b.Font = fFuente
                 End If
             Next
             fTecladoEnPantalla.iValorMinimo = iValorMinimo

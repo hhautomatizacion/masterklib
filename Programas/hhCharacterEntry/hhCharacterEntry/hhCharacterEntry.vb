@@ -10,14 +10,10 @@ Public Class hhCharacterEntry
     Dim iAutoOcultar As Integer
     Dim iAltoRenglonTooltip As Integer
     Dim iLongitudTexto As Integer
-    Dim cEtiquetaForecolor As Color
-    Dim cEtiquetaBackcolor As Color
     Dim cColorNormal As Color
     Dim cColorAlerta As Color
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
-    Dim sEtiqueta As String
-    Dim lEtiqueta As Label
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
     Dim sTooltip As String
@@ -48,8 +44,6 @@ Public Class hhCharacterEntry
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
-        cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         bUpperCase = -Val(GetSetting("hhControls", "Text", "UpperCase", "1"))
@@ -123,21 +117,10 @@ Public Class hhCharacterEntry
                 tHint.AutomaticDelay = 1000
                 tHint.AutoPopDelay = 5000
                 tHint.OwnerDraw = True
-                tHint.SetToolTip(lEtiqueta, sTooltip)
                 tHint.SetToolTip(Me, sTooltip)
                 AddHandler tHint.Draw, AddressOf Draw
                 AddHandler tHint.Popup, AddressOf Popup
             End If
-        End Set
-    End Property
-    Property Etiqueta() As String
-        Get
-            Return sEtiqueta
-        End Get
-        Set(ByVal value As String)
-            sEtiqueta = value
-            CrearEtiqueta()
-            EmparentarEtiqueta()
         End Set
     End Property
 
@@ -196,34 +179,9 @@ Public Class hhCharacterEntry
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(lEtiqueta.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
     End Sub
-    Private Sub CrearEtiqueta()
-        If IsNothing(lEtiqueta) Then
-            lEtiqueta = New Label
-            lEtiqueta.Cursor = Cursors.Cross
-            lEtiqueta.Font = fFuenteEtiqueta
-            lEtiqueta.TextAlign = ContentAlignment.MiddleCenter
-            lEtiqueta.Text = sEtiqueta
-            lEtiqueta.Height = Me.Height
-            lEtiqueta.Width = 198
-            lEtiqueta.BackColor = cEtiquetaBackcolor
-            lEtiqueta.ForeColor = cEtiquetaForecolor
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-            lEtiqueta.Visible = True
-            AddHandler lEtiqueta.Click, AddressOf MostrarTooltip
-        Else
-            lEtiqueta.Text = sEtiqueta
-        End If
-    End Sub
-    Private Sub EmparentarEtiqueta()
-        If IsNothing(lEtiqueta.Parent) Then
-            If Not IsNothing(Me.Parent) Then
-                Me.Parent.Controls.Add(lEtiqueta)
-            End If
-        End If
-    End Sub
+
     Property AutoActualizar() As Boolean
         Get
             Return bAutoActualizar
@@ -232,41 +190,16 @@ Public Class hhCharacterEntry
             bAutoActualizar = value
         End Set
     End Property
-    Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
-        MyBase.OnParentChanged(e)
-        EmparentarEtiqueta()
-    End Sub
+
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
-            If Not IsNothing(lEtiqueta) Then
-                If Not IsNothing(Me.Parent) Then
-                    Me.Parent.Controls.Remove(lEtiqueta)
-                End If
-                lEtiqueta = Nothing
-            End If
             If Not IsNothing(mMasterk) Then
                 mMasterk.Quitar(sId)
             End If
         End If
         MyBase.Dispose(disposing)
     End Sub
-    Protected Overrides Sub OnMove(ByVal e As System.EventArgs)
-        MyBase.OnMove(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Top = Me.Top
-            lEtiqueta.Left = Me.Left - 200
-        End If
-    End Sub
-    Protected Overrides Sub OnSizeChanged(ByVal e As System.EventArgs)
-        MyBase.OnSizeChanged(e)
-        If IsNothing(lEtiqueta) Then
-            CrearEtiqueta()
-        Else
-            lEtiqueta.Height = Me.Height
-        End If
-    End Sub
+
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
             sTexto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
@@ -339,5 +272,4 @@ Public Class hhCharacterEntry
         Me.SelectionLength = 0
         HideCaret(Me.Handle)
     End Sub
-
 End Class
