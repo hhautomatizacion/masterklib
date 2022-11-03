@@ -16,6 +16,11 @@ Public Class hhGridDisplay
     Dim sDireccionEscritura As String
     Dim iLongitudPaso As Integer
     Dim iLongitudTexto As Integer
+    Dim cColorNormal As Color
+    Dim cColorNormalTexto As Color
+    Dim cColorSeleccion As Color
+    Dim cColorSeleccionTexto As Color
+    Dim iAnchoTooltip As Integer
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim iPasoActual As Integer
@@ -40,6 +45,32 @@ Public Class hhGridDisplay
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
+        'cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
+        cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
+        'cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
+        cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
+        cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
+        'iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
+        'iAnchoBoton = Val(GetSetting("hhControls", "Size", "ButtonWidth", "70"))
+        'iAutoOcultar = Val(GetSetting("hhControls", "Refresh", "AutoHide", "10000"))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        GuardarOpciones()
+    End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "HighlightColor", cColorSeleccion.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
+
+        'SaveSetting("hhControls", "Size", "SmallButtonHeight", iAltoBoton)
+        'SaveSetting("hhControls", "Size", "SmallButtonWidth", iAnchoBoton)
+        'SaveSetting("hhControls", "Refresh", "AutoHide", iAutoOcultar)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
@@ -80,6 +111,9 @@ Public Class hhGridDisplay
         Me.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         Me.Cursor = Cursors.Cross
         Me.ShowCellToolTips = False
+        'Me.defaultBackgroundColor = ccolornormal
+        'Me.DefaultForeColor = ccolornormaltexto
+
 
         iAnchoBarra = SystemInformation.VerticalScrollBarWidth
         tHint = New ToolTip
@@ -88,6 +122,7 @@ Public Class hhGridDisplay
         tHint.AutoPopDelay = 5000
         tHint.OwnerDraw = True
         Me.Font = fFuente
+        Me.EnableHeadersVisualStyles = False
         Me.ColumnHeadersDefaultCellStyle.Font = fFuenteEtiqueta
         Me.Columns.Clear()
         Me.Columns.Add("Paso", "#")
@@ -103,23 +138,42 @@ Public Class hhGridDisplay
         Me.Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         Me.Columns(0).DefaultCellStyle.Font = fFuenteEtiqueta
         Me.Columns(1).DefaultCellStyle.Font = fFuenteEtiqueta
+        Me.Columns(0).DefaultCellStyle.BackColor = ccolornormal
+        Me.Columns(1).DefaultCellStyle.BackColor = cColorNormal
+        Me.Columns(0).DefaultCellStyle.ForeColor = cColorNormalTexto
+        Me.Columns(1).DefaultCellStyle.ForeColor = ccolornormaltexto
+        Me.Columns(0).DefaultCellStyle.SelectionBackColor = cColorSeleccion
+        Me.Columns(1).DefaultCellStyle.SelectionBackColor = cColorSeleccion
+        Me.Columns(0).DefaultCellStyle.SelectionForeColor = cColorSeleccionTexto
+        Me.Columns(1).DefaultCellStyle.SelectionForeColor = cColorSeleccionTexto
+        Me.Columns(0).HeaderCell.Style.BackColor = cColorNormal
+        Me.Columns(0).HeaderCell.Style.ForeColor = cColorNormalTexto
+        Me.Columns(1).HeaderCell.Style.BackColor = cColorNormal
+        Me.Columns(1).HeaderCell.Style.ForeColor = cColorNormalTexto
+
+
         AddHandler tHint.Draw, AddressOf Draw
         AddHandler tHint.Popup, AddressOf Popup
     End Sub
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
         Dim iAnchoUnidades As Integer
         Dim iAnchoTexto As Integer
+        Dim iAltoTexto As Integer
         Dim sUnidadesAjuste As String
         Dim sUnidades As String
-        sUnidades = "Paso " & iPasoActual.ToString & "/" & Me.Rows.Count.ToString
+        sUnidades = "  Paso " & iPasoActual.ToString & "/" & Me.Rows.Count.ToString
         MyBase.WndProc(m)
         If m.Msg = &HF Then
             If Len(sUnidades) Then
                 sUnidadesAjuste = sUnidades
                 Using g As Graphics = Me.CreateGraphics
                     iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
-                    iAnchoTexto = g.MeasureString(Me.Text, fFuenteEtiqueta).Width
-                    While iAnchoUnidades >= ((Me.Width / 2) - (iAnchoTexto / 2))
+                    iAnchoTexto = g.MeasureString(sUnidades, fFuenteEtiqueta).Width
+                    iAltoTexto = g.MeasureString(sUnidades, fFuenteEtiqueta).Height
+                    While iAnchoUnidades >= ((Me.Width / 2)) '- (iAnchoTexto / 2))
+                        Debug.Print("***************")
+                        Debug.Print(iAnchoUnidades)
+                        Debug.Print(Me.Width)
                         sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
                         If sUnidadesAjuste.Length <= 1 Then
                             Exit Sub
@@ -128,9 +182,11 @@ Public Class hhGridDisplay
                         sUnidadesAjuste = sUnidadesAjuste & Chr(26)
                         iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     End While
-                    If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
-                        g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoBarra - iAnchoUnidades, 0)
-                    End If
+                    'If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
+                    g.FillRectangle(New SolidBrush(cColorNormal), Me.Width - iAnchoBarra - iAnchoTexto - 2, 3, iAnchoTexto, iAltoTexto)
+
+                    g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(cColorNormalTexto), Me.Width - iAnchoBarra - iAnchoUnidades, 3)
+                    'End If
                 End Using
             End If
         End If
@@ -178,7 +234,7 @@ Public Class hhGridDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 8)
+        e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 8)
     End Sub
 
     Property EscribirPaso() As Boolean

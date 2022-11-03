@@ -8,6 +8,8 @@ Public Class hhNumericDisplay
     Dim bAutoActualizar As Boolean
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
+    Dim cColorAlertaTexto As Color
+    Dim cColorNormalTexto As Color
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim iIntervaloAlerta As Integer
@@ -18,6 +20,7 @@ Public Class hhNumericDisplay
     Dim sDireccionLectura As String
     Dim sTooltip As String
     Dim iAltoRenglonTooltip As Integer
+    Dim iAnchoTooltip As Integer
     Dim tHint As ToolTip
     Dim WithEvents tAlerta As Timer
     Sub New()
@@ -45,7 +48,23 @@ Public Class hhNumericDisplay
         End Try
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
+        cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
         iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        GuardarOpciones()
+    End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size.ToString)
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size.ToString)
+        SaveSetting("hhControls", "Colors", "AlertBackColor", cColorAlerta.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "AlertTextColor", cColorAlertatexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormaltexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Refresh", "AlertInterval", iIntervaloAlerta.ToString)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
@@ -178,7 +197,7 @@ Public Class hhNumericDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 5)
     End Sub
 
     Property AutoActualizar() As Boolean
@@ -213,11 +232,12 @@ Public Class hhNumericDisplay
         DarFormato()
     End Sub
     Private Sub DarFormato()
-        Me.Text = iValor.ToString
+        MyBase.Text = iValor.ToString
         If Not IsNothing(tAlerta) Then
             If EnRango(iValor, iValorMaximo, iValorMinimo) Then
                 tAlerta.Enabled = False
-                Me.BackColor = cColorNormal
+                MyBase.ForeColor = ccolornormaltexto
+                MyBase.BackColor = cColorNormal
             Else
                 tAlerta.Enabled = True
             End If
@@ -229,9 +249,11 @@ Public Class hhNumericDisplay
     Private Sub Alerta(ByVal s As Object, ByVal e As System.EventArgs) Handles tAlerta.Tick
         bAlerta = Not bAlerta
         If bAlerta Then
-            Me.BackColor = cColorAlerta
+            MyBase.ForeColor = cColorAlertatexto
+            MyBase.BackColor = cColorAlerta
         Else
-            Me.BackColor = cColorNormal
+            MyBase.ForeColor = cColorNormaltexto
+            MyBase.BackColor = cColorNormal
         End If
     End Sub
 

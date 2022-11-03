@@ -13,6 +13,8 @@ Public Class hhNumericEntry
     Dim iAutoOcultar As Integer
     Dim cColorAlerta As Color
     Dim cColorNormal As Color
+    Dim cColorAlertaTexto As Color
+    Dim cColorNormalTexto As Color
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim sUnidades As String
@@ -23,6 +25,7 @@ Public Class hhNumericEntry
     Dim sTooltip As String
     Dim tHint As ToolTip
     Dim iAltoRenglonTooltip As Integer
+    Dim iAnchoTooltip As Integer
     Dim mMasterk As MasterKlib.MasterK
     Dim bAutoActualizar As Boolean
     <Runtime.InteropServices.DllImport("user32")> Private Shared Function HideCaret(ByVal hWnd As IntPtr) As Integer
@@ -49,10 +52,29 @@ Public Class hhNumericEntry
         End Try
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
+        cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
         iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
         iAnchoBoton = Val(GetSetting("hhControls", "Size", "ButtonWidth", "70"))
         iAutoOcultar = Val(GetSetting("hhControls", "Refresh", "AutoHide", "10000"))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        guardaropciones
     End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size)
+        SaveSetting("hhControls", "Colors", "AlertBackColor", cColorAlerta.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "AlertTextColor", cColorAlertaTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Size", "SmallButtonHeight", iAltoBoton)
+        SaveSetting("hhControls", "Size", "SmallButtonWidth", iAnchoBoton)
+        SaveSetting("hhControls", "Refresh", "AutoHide", iAutoOcultar)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
+    End Sub
+
     Public Overrides Property Font() As System.Drawing.Font
         Get
             Return MyBase.Font
@@ -67,9 +89,11 @@ Public Class hhNumericEntry
     End Property
     Private Sub Verificar()
         If EnRango(iValor, iValorMaximo, iValorMinimo) Then
-            Me.BackColor = cColorNormal
+            MyBase.ForeColor = cColorNormalTexto
+            MyBase.BackColor = cColorNormal
         Else
-            Me.BackColor = cColorAlerta
+            MyBase.ForeColor = cColorAlertaTexto
+            MyBase.BackColor = cColorAlerta
         End If
 
     End Sub
@@ -220,7 +244,7 @@ Public Class hhNumericEntry
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 5)
     End Sub
 
     Property AutoActualizar() As Boolean
@@ -243,7 +267,7 @@ Public Class hhNumericEntry
                 Using g As Graphics = Me.CreateGraphics
                     iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     iAnchoTexto = g.MeasureString(Me.Text, fFuenteEtiqueta).Width
-                    While iAnchoUnidades >= ((Me.Width / 2) - (iAnchoTexto / 2))
+                    While iAnchoUnidades >= (Me.Width / 2)
                         sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
                         If sUnidadesAjuste.Length <= 1 Then
                             Exit Sub
@@ -252,8 +276,8 @@ Public Class hhNumericEntry
                         sUnidadesAjuste = sUnidadesAjuste & Chr(26)
                         iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     End While
-                    If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
-                        g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(System.Drawing.SystemColors.GrayText), Me.Width - iAnchoUnidades, 0)
+                    If iAnchoUnidades < (Me.Width / 2) Then
+                        g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(cColorNormalTexto), Me.Width - iAnchoUnidades, 0)
                     End If
                 End Using
             End If

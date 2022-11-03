@@ -1,4 +1,6 @@
 ﻿
+Imports System.Drawing
+
 Public Class hhAnimacion
     Inherits System.Windows.Forms.Label
     Dim c1 As System.Drawing.Color
@@ -11,12 +13,28 @@ Public Class hhAnimacion
     Dim iDirAnimacion As Integer
     Dim dr, dg, db As Integer
     Dim pr, pg, pb As Single
+    Dim fFuenteBoton As Font
     Public Event CambioColor As System.EventHandler
     Sub New()
+        CargarOpciones()
+        Me.Font = ffuenteboton
         Me.Text = ""
         Me.TextAlign = Drawing.ContentAlignment.MiddleCenter
     End Sub
+    Private Sub CargarOpciones()
+        Try
+            fFuenteBoton = New Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
+        Catch ex As Exception
+            fFuenteBoton = New Font("Verdana", 10)
+        End Try
 
+        GuardarOpciones()
+    End Sub
+    Private Sub GuardarOpciones()
+
+        SaveSetting("hhControls", "Font", "ButtonFontName", fFuenteBoton.Name)
+        SaveSetting("hhControls", "Font", "ButtonFontSize", fFuenteBoton.Size.ToString)
+    End Sub
     Property Color1() As System.Drawing.Color
         Get
             Return c1
@@ -45,10 +63,10 @@ Public Class hhAnimacion
     End Property
     Property Intervalo() As Integer
         Get
-            Return iintervalo
+            Return iIntervalo
         End Get
         Set(ByVal value As Integer)
-            iintervalo = value
+            iIntervalo = value
         End Set
     End Property
     Property PasoActual() As Integer
@@ -59,11 +77,11 @@ Public Class hhAnimacion
             If value < 0 Then
                 value = 0
             End If
-            If value > ipasos Then
-                value = ipasos
+            If value > iPasos Then
+                value = iPasos
             End If
             iPasoActual = value
-            actualizar()
+            Actualizar()
         End Set
     End Property
     ReadOnly Property ColorPaso(ByVal i As Integer) As System.Drawing.Color

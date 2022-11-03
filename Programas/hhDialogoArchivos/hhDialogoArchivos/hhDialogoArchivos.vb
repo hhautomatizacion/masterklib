@@ -4,8 +4,8 @@ Imports System.Drawing
 Public Class hhDialogoArchivos
     Inherits CommonDialog
 
-    Dim iAltoBoton As Integer
-    Dim iAnchoBoton As Integer
+    'Dim iAltoBoton As Integer
+    'Dim iAnchoBoton As Integer
     Dim cSeleccion As Collection
     Dim iLongitud As Integer
     Sub New()

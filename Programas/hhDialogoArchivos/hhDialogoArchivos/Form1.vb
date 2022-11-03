@@ -1,3 +1,6 @@
+Imports System.Drawing
+Imports System.Windows.Forms
+
 Public Class Form1
     Public cUnidades As Collection
     Public c As Collection
@@ -7,6 +10,9 @@ Public Class Form1
         CargarOpciones()
 
         CheckedListBox1.Font = fFuente
+        CheckedListBox1.ForeColor = cColorNormalTexto
+        CheckedListBox1.BackColor = cColorNormal
+
         'Label1.Font = fFuente
         Button1.Texto = "Aceptar"
 
@@ -31,12 +37,23 @@ Public Class Form1
         Catch ex As Exception
             fFuente = New System.Drawing.Font("Verdana", 18)
         End Try
-        'Try
-        'fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
-        'Catch ex As Exception
-        'fFuenteEtiqueta = New Font("Verdana", 14)
-        'End Try
+        cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
+        'cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
+        'cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
+
+        GuardarOpciones()
     End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
+        'SaveSetting("hhControls", "Colors", "HighlightColor", cColorSeleccion.ToArgb.ToString)
+        'SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
+    End Sub
+
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         c = SeleccionArchivos()
         Me.DialogResult = Windows.Forms.DialogResult.OK
@@ -47,7 +64,7 @@ Public Class Form1
         c = New Collection
         c.Clear()
         CheckedListBox1.Items.Clear()
-        If Not My.Computer.FileSystem.DirectoryExists(rutacompleta) Then
+        If Not My.Computer.FileSystem.DirectoryExists(RutaCompleta) Then
             Try
                 My.Computer.FileSystem.CreateDirectory(RutaCompleta)
             Catch ex As Exception
@@ -137,7 +154,6 @@ Public Class Form1
                     CopiarArchivo(RutaCompleta() & f, RutaCompleta(s) & f)
                 End If
             Next
-
         Next
         Inicializar()
     End Sub
@@ -147,12 +163,15 @@ Public Class Form1
         Dim cUnidades = New Collection
 
         f.CheckedListBox1.Font = Me.Font
+        f.CheckedListBox1.ForeColor = cColorNormalTexto
+        f.CheckedListBox1.BackColor = cColorNormal
+
         f.Button1.Texto = "Ok"
         f.Button2.Texto = "Cancelar"
 
         f.CheckedListBox1.Items.Clear()
         f.CheckedListBox1.UseTabStops = True
-        cunidades.clear()
+        cUnidades.clear()
 
         Dim getInfo As System.IO.DriveInfo()
         getInfo = System.IO.DriveInfo.GetDrives
@@ -170,15 +189,15 @@ Public Class Form1
         If f.ShowDialog = Windows.Forms.DialogResult.OK Then
             If f.CheckedListBox1.CheckedItems.Count = 0 Then
                 For Each i In f.CheckedListBox1.SelectedItems
-                    cunidades.Add(i.ToString.Substring(0, 2))
+                    cUnidades.Add(i.ToString.Substring(0, 2))
                 Next
             Else
                 For Each i In f.CheckedListBox1.CheckedItems
-                    cunidades.Add(i.ToString.Substring(0, 2))
+                    cUnidades.Add(i.ToString.Substring(0, 2))
                 Next
             End If
         End If
-        Return cunidades
+        Return cUnidades
     End Function
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
         For Each s As String In SeleccionUnidad()
@@ -199,7 +218,7 @@ Public Class Form1
         bCheckstate = Not bCheckstate
         Dim iIter As Integer
         For iIter = 0 To CheckedListBox1.Items.Count - 1
-            If bcheckstate Then
+            If bCheckstate Then
                 CheckedListBox1.SetItemCheckState(iIter, Windows.Forms.CheckState.Checked)
             Else
                 CheckedListBox1.SetItemCheckState(iIter, Windows.Forms.CheckState.Unchecked)

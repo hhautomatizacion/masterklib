@@ -9,6 +9,7 @@ Public Class hhLabel
     Dim bAutoActualizar As Boolean
     Dim sDireccionLectura As String
     Dim iLongitudTexto As Integer
+    Dim iAnchoTooltip As Integer
     Dim sTooltip As String
     Dim bAlerta As Boolean
     Dim sTexto As String
@@ -37,6 +38,16 @@ Public Class hhLabel
         End Try
         cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
         cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        GuardarOpciones()
+    End Sub
+
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size.ToString)
+        SaveSetting("hhControls", "Colors", "LabelBackColor", cEtiquetaBackcolor.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "LabelForeColor", cEtiquetaForecolor.ToArgb.ToString)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
@@ -77,7 +88,6 @@ Public Class hhLabel
                 tHint.AutomaticDelay = 1000
                 tHint.AutoPopDelay = 5000
                 tHint.OwnerDraw = True
-                tHint.SetToolTip(Me, sTooltip)
                 tHint.SetToolTip(Me, sTooltip)
                 AddHandler tHint.Draw, AddressOf Draw
                 AddHandler tHint.Popup, AddressOf Popup
@@ -131,7 +141,7 @@ Public Class hhLabel
         Dim sTempTooltip As String
         Dim iRenglon As Integer
         Dim iColumna As Integer
-        sTempTooltip = sTooltip & "|Maximo:" & iLongitudTexto.ToString & " caracteres "
+        sTempTooltip = sTooltip
         Try
             e.Graphics.FillRectangle(SystemBrushes.ActiveCaption, e.Bounds)
             iRenglon = 0
@@ -167,7 +177,7 @@ Public Class hhLabel
 
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 5)
     End Sub
 
     Property AutoActualizar() As Boolean
@@ -190,13 +200,15 @@ Public Class hhLabel
 
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
-            Me.Texto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
+            sTexto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
         End If
         DarFormato()
     End Sub
 
     Private Sub DarFormato()
-        Me.Text = sTexto
+        MyBase.ForeColor = cEtiquetaForecolor
+        MyBase.BackColor = cEtiquetaBackcolor
+        MyBase.Text = sTexto
     End Sub
 
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)

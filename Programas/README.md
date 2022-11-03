@@ -55,3 +55,9 @@
 ---
 ![circle-with-check-symbol.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/circle-with-check-symbol.png)
 ---
+![backspace-arrow.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/backspace-arrow.png)
+---
+![cancel-button.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/cancel-button.png)
+---
+![circle-with-check-symbol.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/circle-with-check-symbol.png)
+---

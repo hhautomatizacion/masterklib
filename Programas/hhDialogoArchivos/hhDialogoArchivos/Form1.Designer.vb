@@ -27,6 +27,8 @@ Partial Class Form1
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.Button1 = New hhMomentaryButton.hhMomentaryButton()
         Me.Button2 = New hhMomentaryButton.hhMomentaryButton()
@@ -36,6 +38,8 @@ Partial Class Form1
         Me.Button6 = New hhMomentaryButton.hhMomentaryButton()
         Me.Button7 = New hhMomentaryButton.hhMomentaryButton()
         Me.HhGridDisplay1 = New hhGridDisplay.hhGridDisplay()
+        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -53,53 +57,61 @@ Partial Class Form1
         Me.CheckedListBox1.IntegralHeight = False
         Me.CheckedListBox1.Location = New System.Drawing.Point(12, 105)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(417, 270)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(386, 270)
         Me.CheckedListBox1.TabIndex = 0
         '
         'Button1
         '
         Me.Button1.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button1.AutoActualizar = False
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button1.DireccionEscritura = Nothing
         Me.Button1.DireccionLectura = Nothing
         Me.Button1.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
         Me.Button1.Link = Nothing
-        Me.Button1.Location = New System.Drawing.Point(554, 480)
+        Me.Button1.Location = New System.Drawing.Point(562, 480)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(110, 90)
         Me.Button1.TabIndex = 1
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button1.Texto = Nothing
+        Me.Button1.Tooltip = Nothing
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
         '
         Me.Button2.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button2.AutoActualizar = False
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button2.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button2.DireccionEscritura = Nothing
         Me.Button2.DireccionLectura = Nothing
         Me.Button2.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
         Me.Button2.Link = Nothing
-        Me.Button2.Location = New System.Drawing.Point(670, 480)
+        Me.Button2.Location = New System.Drawing.Point(678, 480)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(110, 90)
         Me.Button2.TabIndex = 2
         Me.Button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button2.Texto = Nothing
+        Me.Button2.Tooltip = Nothing
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Button3
         '
         Me.Button3.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button3.AutoActualizar = False
+        Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button3.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button3.DireccionEscritura = Nothing
         Me.Button3.DireccionLectura = Nothing
         Me.Button3.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button3.Image = CType(resources.GetObject("Button3.Image"), System.Drawing.Image)
         Me.Button3.Link = Nothing
         Me.Button3.Location = New System.Drawing.Point(156, 480)
@@ -108,16 +120,19 @@ Partial Class Form1
         Me.Button3.TabIndex = 3
         Me.Button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button3.Texto = Nothing
+        Me.Button3.Tooltip = Nothing
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Button4
         '
         Me.Button4.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button4.AutoActualizar = False
+        Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button4.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button4.DireccionEscritura = Nothing
         Me.Button4.DireccionLectura = Nothing
         Me.Button4.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button4.Image = CType(resources.GetObject("Button4.Image"), System.Drawing.Image)
         Me.Button4.Link = Nothing
         Me.Button4.Location = New System.Drawing.Point(272, 480)
@@ -126,16 +141,19 @@ Partial Class Form1
         Me.Button4.TabIndex = 4
         Me.Button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button4.Texto = Nothing
+        Me.Button4.Tooltip = Nothing
         Me.Button4.UseVisualStyleBackColor = True
         '
         'Button5
         '
         Me.Button5.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button5.AutoActualizar = False
+        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button5.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button5.DireccionEscritura = Nothing
         Me.Button5.DireccionLectura = Nothing
         Me.Button5.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button5.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button5.Image = CType(resources.GetObject("Button5.Image"), System.Drawing.Image)
         Me.Button5.Link = Nothing
         Me.Button5.Location = New System.Drawing.Point(388, 480)
@@ -144,16 +162,19 @@ Partial Class Form1
         Me.Button5.TabIndex = 5
         Me.Button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button5.Texto = Nothing
+        Me.Button5.Tooltip = Nothing
         Me.Button5.UseVisualStyleBackColor = True
         '
         'Button6
         '
         Me.Button6.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button6.AutoActualizar = False
+        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button6.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button6.DireccionEscritura = Nothing
         Me.Button6.DireccionLectura = Nothing
         Me.Button6.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button6.Image = CType(resources.GetObject("Button6.Image"), System.Drawing.Image)
         Me.Button6.Link = Nothing
         Me.Button6.Location = New System.Drawing.Point(12, 480)
@@ -162,16 +183,19 @@ Partial Class Form1
         Me.Button6.TabIndex = 7
         Me.Button6.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button6.Texto = Nothing
+        Me.Button6.Tooltip = Nothing
         Me.Button6.UseVisualStyleBackColor = True
         '
         'Button7
         '
         Me.Button7.Appearance = System.Windows.Forms.Appearance.Button
         Me.Button7.AutoActualizar = False
+        Me.Button7.BackColor = System.Drawing.Color.FromArgb(CType(CType(249, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(137, Byte), Integer))
         Me.Button7.Cursor = System.Windows.Forms.Cursors.Cross
         Me.Button7.DireccionEscritura = Nothing
         Me.Button7.DireccionLectura = Nothing
         Me.Button7.Font = New System.Drawing.Font("Verdana", 10.0!)
+        Me.Button7.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
         Me.Button7.Link = Nothing
         Me.Button7.Location = New System.Drawing.Point(12, 9)
@@ -180,6 +204,7 @@ Partial Class Form1
         Me.Button7.TabIndex = 9
         Me.Button7.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button7.Texto = Nothing
+        Me.Button7.Tooltip = Nothing
         Me.Button7.UseVisualStyleBackColor = True
         '
         'HhGridDisplay1
@@ -197,15 +222,16 @@ Partial Class Form1
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.HhGridDisplay1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.HhGridDisplay1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.HhGridDisplay1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4})
+        Me.HhGridDisplay1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn5, Me.DataGridViewTextBoxColumn6})
         Me.HhGridDisplay1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhGridDisplay1.DireccionEscritura = Nothing
         Me.HhGridDisplay1.DireccionLectura = Nothing
         Me.HhGridDisplay1.DireccionPaso = Nothing
+        Me.HhGridDisplay1.EnableHeadersVisualStyles = False
         Me.HhGridDisplay1.EscribirPaso = False
         Me.HhGridDisplay1.Font = New System.Drawing.Font("Verdana", 18.0!)
         Me.HhGridDisplay1.Link = Nothing
-        Me.HhGridDisplay1.Location = New System.Drawing.Point(435, 67)
+        Me.HhGridDisplay1.Location = New System.Drawing.Point(404, 67)
         Me.HhGridDisplay1.LongitudPaso = 0
         Me.HhGridDisplay1.LongitudTexto = 0
         Me.HhGridDisplay1.MostrarSeleccion = False
@@ -219,15 +245,47 @@ Partial Class Form1
         Me.HhGridDisplay1.RowsDefaultCellStyle = DataGridViewCellStyle4
         Me.HhGridDisplay1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.HhGridDisplay1.ShowCellToolTips = False
-        Me.HhGridDisplay1.Size = New System.Drawing.Size(345, 395)
+        Me.HhGridDisplay1.Size = New System.Drawing.Size(384, 395)
         Me.HhGridDisplay1.TabIndex = 11
+        '
+        'DataGridViewTextBoxColumn5
+        '
+        Me.DataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(46, Byte), Integer), CType(CType(46, Byte), Integer))
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Verdana", 14.0!)
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(171, Byte), Integer))
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(192, Byte), Integer))
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(CType(CType(251, Byte), Integer), CType(CType(186, Byte), Integer), CType(CType(233, Byte), Integer), CType(CType(253, Byte), Integer))
+        Me.DataGridViewTextBoxColumn5.DefaultCellStyle = DataGridViewCellStyle2
+        Me.DataGridViewTextBoxColumn5.HeaderText = "#"
+        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
+        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.DataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.DataGridViewTextBoxColumn5.Width = 52
+        '
+        'DataGridViewTextBoxColumn6
+        '
+        Me.DataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(46, Byte), Integer), CType(CType(46, Byte), Integer))
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Verdana", 14.0!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(171, Byte), Integer))
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(153, Byte), Integer), CType(CType(192, Byte), Integer))
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(CType(CType(251, Byte), Integer), CType(CType(186, Byte), Integer), CType(CType(233, Byte), Integer), CType(CType(253, Byte), Integer))
+        Me.DataGridViewTextBoxColumn6.DefaultCellStyle = DataGridViewCellStyle3
+        Me.DataGridViewTextBoxColumn6.HeaderText = "Pasos"
+        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
+        Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.DataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.DataGridViewTextBoxColumn6.Width = 312
         '
         'DataGridViewTextBoxColumn3
         '
         Me.DataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Verdana", 14.0!)
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Verdana", 14.0!)
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle5
         Me.DataGridViewTextBoxColumn3.HeaderText = "#"
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
         Me.DataGridViewTextBoxColumn3.ReadOnly = True
@@ -237,9 +295,9 @@ Partial Class Form1
         'DataGridViewTextBoxColumn4
         '
         Me.DataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Verdana", 14.0!)
-        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Verdana", 14.0!)
+        Me.DataGridViewTextBoxColumn4.DefaultCellStyle = DataGridViewCellStyle6
         Me.DataGridViewTextBoxColumn4.HeaderText = "Pasos"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.ReadOnly = True
@@ -249,8 +307,8 @@ Partial Class Form1
         'DataGridViewTextBoxColumn1
         '
         Me.DataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.DataGridViewTextBoxColumn1.DefaultCellStyle = DataGridViewCellStyle7
         Me.DataGridViewTextBoxColumn1.HeaderText = "#"
         Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
         Me.DataGridViewTextBoxColumn1.ReadOnly = True
@@ -260,8 +318,8 @@ Partial Class Form1
         'DataGridViewTextBoxColumn2
         '
         Me.DataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle8
         Me.DataGridViewTextBoxColumn2.HeaderText = "Pasos"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
@@ -274,17 +332,18 @@ Partial Class Form1
         'HhCharacterEntry1
         '
         Me.HhCharacterEntry1.AutoActualizar = False
-        Me.HhCharacterEntry1.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.HhCharacterEntry1.BackColor = System.Drawing.Color.FromArgb(CType(CType(145, Byte), Integer), CType(CType(46, Byte), Integer), CType(CType(46, Byte), Integer))
         Me.HhCharacterEntry1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.HhCharacterEntry1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhCharacterEntry1.DireccionEscritura = Nothing
         Me.HhCharacterEntry1.DireccionLectura = Nothing
         Me.HhCharacterEntry1.Font = New System.Drawing.Font("Verdana", 18.0!)
+        Me.HhCharacterEntry1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(171, Byte), Integer))
         Me.HhCharacterEntry1.Link = Nothing
         Me.HhCharacterEntry1.Location = New System.Drawing.Point(12, 422)
         Me.HhCharacterEntry1.LongitudTexto = 0
         Me.HhCharacterEntry1.Name = "HhCharacterEntry1"
-        Me.HhCharacterEntry1.Size = New System.Drawing.Size(417, 40)
+        Me.HhCharacterEntry1.Size = New System.Drawing.Size(386, 40)
         Me.HhCharacterEntry1.TabIndex = 14
         Me.HhCharacterEntry1.Texto = Nothing
         Me.HhCharacterEntry1.Tooltip = Nothing
@@ -292,17 +351,17 @@ Partial Class Form1
         'HhLabel1
         '
         Me.HhLabel1.AutoActualizar = False
-        Me.HhLabel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(120, Byte), Integer), CType(CType(215, Byte), Integer))
+        Me.HhLabel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(107, Byte), Integer), CType(CType(63, Byte), Integer), CType(CType(26, Byte), Integer))
         Me.HhLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.HhLabel1.Cursor = System.Windows.Forms.Cursors.Cross
         Me.HhLabel1.DireccionLectura = Nothing
-        Me.HhLabel1.Font = New System.Drawing.Font("Verdana", 10.0!)
-        Me.HhLabel1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.HhLabel1.Font = New System.Drawing.Font("Verdana", 14.0!)
+        Me.HhLabel1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(251, Byte), Integer), CType(CType(17, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(153, Byte), Integer))
         Me.HhLabel1.Link = Nothing
         Me.HhLabel1.Location = New System.Drawing.Point(12, 378)
         Me.HhLabel1.LongitudTexto = 0
         Me.HhLabel1.Name = "HhLabel1"
-        Me.HhLabel1.Size = New System.Drawing.Size(417, 41)
+        Me.HhLabel1.Size = New System.Drawing.Size(386, 41)
         Me.HhLabel1.TabIndex = 15
         Me.HhLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.HhLabel1.Texto = Nothing
@@ -349,4 +408,6 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn3 As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents HhLabel1 As hhLabel.hhLabel
+    Friend WithEvents DataGridViewTextBoxColumn5 As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn6 As Windows.Forms.DataGridViewTextBoxColumn
 End Class

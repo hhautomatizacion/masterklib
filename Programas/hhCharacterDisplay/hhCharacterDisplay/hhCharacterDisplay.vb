@@ -11,11 +11,14 @@ Public Class hhCharacterDisplay
     Dim sDireccionLectura As String
     Dim iLongitudTexto As Integer
     Dim sTooltip As String
+    Dim iAnchoTooltip As Integer
     Dim bAlerta As Boolean
     Dim sTexto As String
     Dim cColorAlerta As Color
-    Dim bAutoSize As Boolean
     Dim cColorNormal As Color
+    Dim cColorAlertaTexto As Color
+    Dim cColorNormalTexto As Color
+    Dim bAutoSize As Boolean
     Dim tHint As ToolTip
     Dim iIntervaloAlerta As Integer
     Dim WithEvents tAlerta As Timer
@@ -46,16 +49,32 @@ Public Class hhCharacterDisplay
         End Try
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
-        iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
+        cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
+        iIntervaloAlerta = Val(GetSetting("hhControls", "Refresh", "AlertInterval", "1000"))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        GuardarOpciones()
+    End Sub
+
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size.ToString)
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size.ToString)
+        SaveSetting("hhControls", "Colors", "AlertBackColor", cColorAlerta.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "AlertTextColor", cColorAlertaTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Refresh", "AlertInterval", iIntervaloAlerta.ToString)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
             Return MyBase.Font
         End Get
         Set(ByVal value As System.Drawing.Font)
-
             Try
-                MyBase.Font = ffuente
+                MyBase.Font = fFuente
             Catch ex As Exception
                 MyBase.Font = value
             End Try
@@ -132,7 +151,7 @@ Public Class hhCharacterDisplay
             Return mMasterk
         End Get
         Set(ByVal value As MasterKlib.MasterK)
-            If Not isnothing(value) Then
+            If Not IsNothing(value) Then
                 mMasterk = value
                 sId = mMasterk.Agregar(Me)
             End If
@@ -188,7 +207,7 @@ Public Class hhCharacterDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(iAnchoTooltip, iAltoRenglonTooltip * 5)
     End Sub
 
     Property AutoActualizar() As Boolean
@@ -218,7 +237,7 @@ Public Class hhCharacterDisplay
 
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
-            Me.Texto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
+            sTexto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
         End If
         DarFormato()
     End Sub
@@ -226,18 +245,23 @@ Public Class hhCharacterDisplay
         If Not IsNothing(tAlerta) Then
             If Len(sTexto) <= iLongitudTexto Then
                 tAlerta.Enabled = False
-                Me.BackColor = cColorNormal
+                MyBase.ForeColor = cColorNormalTexto
+                MyBase.BackColor = cColorNormal
             Else
                 tAlerta.Enabled = True
             End If
         End If
+        Debug.Print("===== " & sTexto)
+        MyBase.Text = sTexto
     End Sub
     Private Sub Alerta(ByVal s As Object, ByVal e As System.EventArgs) Handles tAlerta.Tick
         bAlerta = Not bAlerta
         If bAlerta Then
-            Me.BackColor = cColorAlerta
+            MyBase.ForeColor = cColorAlertaTexto
+            MyBase.BackColor = cColorAlerta
         Else
-            Me.BackColor = cColorNormal
+            MyBase.ForeColor = cColorNormalTexto
+            MyBase.BackColor = cColorNormal
         End If
     End Sub
 

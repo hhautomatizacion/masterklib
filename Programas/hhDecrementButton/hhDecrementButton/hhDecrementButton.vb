@@ -22,6 +22,11 @@ Public Class hhDecrementButton
         Catch ex As Exception
             fFuenteBoton = New System.Drawing.Font("Verdana", 10)
         End Try
+        guardaropciones
+    End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "ButtonFontName", fFuenteBoton.Name)
+        SaveSetting("hhControls", "Font", "ButtonFontSize", fFuenteBoton.Size.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get

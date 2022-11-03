@@ -23,10 +23,14 @@ Public Class hhInputBox
         f.Text = sTitulo
         f.HhMomentaryButton1.Link = mMasterk
         f.HhMomentaryButton1.DireccionEscritura = sDireccionOk
-        If Len(sTextoOk) Then f.HhMomentaryButton1.Text = sTextoOk
+        f.HhMomentaryButton1.Image = iimagenok
+        f.HhMomentaryButton1.Texto = sTextoOk
+
         f.HhMomentaryButton2.Link = mMasterk
         f.HhMomentaryButton2.DireccionEscritura = sDireccionCancel
-        If Len(sTextoCancel) Then f.HhMomentaryButton2.Text = sTextoCancel
+        f.HhMomentaryButton2.Image = iimagencancel
+        f.HhMomentaryButton2.Texto = sTextoCancel
+
         f.HhNumericEntry5.Link = mMasterk
         f.HhNumericEntry5.DireccionLectura = sDireccionValor
         f.HhNumericEntry5.DireccionEscritura = sDireccionValor
@@ -113,6 +117,14 @@ Public Class hhInputBox
             sDireccionOk = value
         End Set
     End Property
+    Public Property ImagenOk As System.Drawing.Image
+        Get
+            Return iImagenOk
+        End Get
+        Set(value As System.Drawing.Image)
+            iimagenok = value
+        End Set
+    End Property
     Public Property DireccionCancel() As String
         Get
             Return sDireccionCancel
@@ -121,6 +133,15 @@ Public Class hhInputBox
             sDireccionCancel = value
         End Set
     End Property
+    Public Property ImagenCancel As System.Drawing.Image
+        Get
+            Return iImagenCancel
+        End Get
+        Set(value As System.Drawing.Image)
+            iimagencancel = value
+        End Set
+    End Property
+
     Public Property DireccionValor() As String
         Get
             Return sDireccionValor

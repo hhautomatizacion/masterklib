@@ -9,9 +9,12 @@ Public Class hhCharacterEntry
     Dim iAltoBoton As Integer
     Dim iAutoOcultar As Integer
     Dim iAltoRenglonTooltip As Integer
+    Dim iAnchoTooltip As Integer
     Dim iLongitudTexto As Integer
     Dim cColorNormal As Color
     Dim cColorAlerta As Color
+    Dim cColorNormalTexto As Color
+    Dim cColorAlertaTexto As Color
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim sDireccionLectura As String
@@ -31,7 +34,9 @@ Public Class hhCharacterEntry
         Me.AutoSize = False
         Me.Cursor = Cursors.Cross
         Me.BorderStyle = BorderStyle.FixedSingle
+
         Me.Font = fFuente
+        Verificar(Me)
     End Sub
     Private Sub CargarOpciones()
         Try
@@ -46,10 +51,29 @@ Public Class hhCharacterEntry
         End Try
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
+        cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
+        cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
         bUpperCase = -Val(GetSetting("hhControls", "Text", "UpperCase", "1"))
         iAltoBoton = Val(GetSetting("hhControls", "Size", "SmallButtonHeight", "60"))
         iAnchoBoton = Val(GetSetting("hhControls", "Size", "SmallButtonWidth", "60"))
         iAutoOcultar = Val(GetSetting("hhControls", "Refresh", "AutoHide", "10000"))
+        iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
+        GuardarOpciones()
+    End Sub
+    Private Sub GuardarOpciones()
+        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
+        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
+        SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
+        SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size)
+        SaveSetting("hhControls", "Colors", "AlertBackColor", cColorAlerta.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "AlertTextColor", cColorAlertaTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
+        SaveSetting("hhControls", "Text", "UpperCase", -bUpperCase)
+        SaveSetting("hhControls", "Size", "SmallButtonHeight", iAltoBoton)
+        SaveSetting("hhControls", "Size", "SmallButtonWidth", iAnchoBoton)
+        SaveSetting("hhControls", "Refresh", "AutoHide", iAutoOcultar)
+        SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
         Get
@@ -65,8 +89,10 @@ Public Class hhCharacterEntry
     End Property
     Private Sub Verificar(ByVal t As TextBox)
         If Len(t.Text) > iLongitudTexto Then
+            t.ForeColor = cColorAlertaTexto
             t.BackColor = cColorAlerta
         Else
+            t.ForeColor = cColorNormalTexto
             t.BackColor = cColorNormal
         End If
     End Sub
@@ -179,7 +205,7 @@ Public Class hhCharacterEntry
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(Me.Width, iAltoRenglonTooltip * 5)
+        e.ToolTipSize = New System.Drawing.Size(iAnchoTooltip, iAltoRenglonTooltip * 5)
     End Sub
 
     Property AutoActualizar() As Boolean
@@ -205,7 +231,7 @@ Public Class hhCharacterEntry
             sTexto = mMasterk.ObtenerCadena(sDireccionLectura, iLongitudTexto)
         End If
         Verificar(Me)
-        Me.Text = sTexto
+        MyBase.Text = sTexto
     End Sub
     Private Sub MostrarTooltip(ByVal s As Object, ByVal e As System.EventArgs)
         If Not IsNothing(tHint) Then
@@ -269,7 +295,7 @@ Public Class hhCharacterEntry
     End Sub
 
     Private Sub hhCharacterEntry_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
-        Me.SelectionLength = 0
-        HideCaret(Me.Handle)
+        MyBase.SelectionLength = 0
+        HideCaret(MyBase.Handle)
     End Sub
 End Class

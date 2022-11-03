@@ -4,13 +4,13 @@
 </p>
 <br/>
 
-# Libreria MasterK 
+# MasterK Lib
 
 ## Fecha
 * 2014-03
 
 ## Descripcion del proyecto
-* Libreria que realiza la comunicacion con el PLC MasterK para controlar las entradas y salidas, analogas y digitales.
+* Coleccion de controles con interaccion con el PLC
 
 ## Herramientas utilizadas
 * Visual Basic 2005
@@ -95,4 +95,10 @@
 ![cancel-button.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/cancel-button.png)
 ---
 ![circle-with-check-symbol.png](/Programas/hhNumericEntry/hhNumericEntry/Iconos/circle-with-check-symbol.png)
+---
+![backspace-arrow.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/backspace-arrow.png)
+---
+![cancel-button.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/cancel-button.png)
+---
+![circle-with-check-symbol.png](/Programas/hhPasswordEntry/hhPasswordEntry/Iconos/circle-with-check-symbol.png)
 ---

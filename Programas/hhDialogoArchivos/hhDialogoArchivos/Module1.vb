@@ -1,10 +1,14 @@
 
+Imports System.Drawing
+
 Module Module1
     Public sFolder As String
     Public sUnidad As String
     Public sExtension As String
     Public sNombreArchivo As String
     Public sNombreCompleto As String
+    Public cColorNormal As Color
+    Public cColorNormalTexto As Color
     'Public sNombreFuente As String
     'Public iTamanioFuente As Integer
     Public dResultado As Windows.Forms.DialogResult

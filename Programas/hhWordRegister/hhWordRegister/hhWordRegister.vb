@@ -3,7 +3,7 @@ Public Class hhWordRegister
     Dim sId As String
     Dim sNombre As String
     Dim bAutoActualizar As Boolean
-    Dim bAlerta As Boolean
+    'Dim bAlerta As Boolean
     Dim iValor As Integer
     Dim iValorAnterior As Integer
     Dim iValorMaximo As Integer
@@ -52,7 +52,7 @@ Public Class hhWordRegister
             End If
         End Set
     End Property
-    Property Nombre() As String
+    Property Name() As String
         Get
             Return sNombre
         End Get
@@ -98,7 +98,9 @@ Public Class hhWordRegister
         End If
     End Sub
     Protected Overrides Sub Finalize()
+        If Not IsNothing(mMasterk) Then
+            mMasterk.Quitar(sId)
+        End If
         MyBase.Finalize()
-        mMasterk.Quitar(sId)
     End Sub
 End Class
