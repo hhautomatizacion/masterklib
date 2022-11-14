@@ -15,16 +15,17 @@ Public Class hhGridDisplay
     Dim sDireccionLectura As String
     Dim sDireccionEscritura As String
     Dim iLongitudPaso As Integer
-    Dim iLongitudTexto As Integer
+    Dim iLongitudReceta As Integer
     Dim cColorNormal As Color
     Dim cColorNormalTexto As Color
     Dim cColorSeleccion As Color
     Dim cColorSeleccionTexto As Color
     Dim iAnchoTooltip As Integer
-    Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
     Dim iPasoActual As Integer
-    Dim iDuracionReceta As Integer
+    Dim iRecetaDuracion As Integer
+    Dim sRecetaDescripcion As String
+    Dim sRecetaNombre As String
     Dim cReceta As Collection
     Dim mMasterk As MasterKlib.MasterK
     Dim tHint As ToolTip
@@ -36,40 +37,24 @@ Public Class hhGridDisplay
     End Function
     Private Sub CargarOpciones()
         Try
-            fFuente = New Font(GetSetting("hhControls", "Font", "FontName", "Verdana"), Val(GetSetting("hhControls", "Font", "FontSize", "18")))
-        Catch ex As Exception
-            fFuente = New Font("Verdana", 18)
-        End Try
-        Try
             fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
-        'cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
-        'cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))
         cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
         cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
         cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-        'iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
-        'iAnchoBoton = Val(GetSetting("hhControls", "Size", "ButtonWidth", "70"))
-        'iAutoOcultar = Val(GetSetting("hhControls", "Refresh", "AutoHide", "10000"))
         iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
         GuardarOpciones()
     End Sub
     Private Sub GuardarOpciones()
-        SaveSetting("hhControls", "Font", "FontName", fFuente.Name)
-        SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
         SaveSetting("hhControls", "Font", "LabelFontName", fFuenteEtiqueta.Name)
         SaveSetting("hhControls", "Font", "LabelFontSize", fFuenteEtiqueta.Size)
         SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "HighlightColor", cColorSeleccion.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
-
-        'SaveSetting("hhControls", "Size", "SmallButtonHeight", iAltoBoton)
-        'SaveSetting("hhControls", "Size", "SmallButtonWidth", iAnchoBoton)
-        'SaveSetting("hhControls", "Refresh", "AutoHide", iAutoOcultar)
         SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
@@ -78,8 +63,8 @@ Public Class hhGridDisplay
         End Get
         Set(ByVal value As System.Drawing.Font)
             Try
-                MyBase.Font = fFuente
-                Me.DefaultCellStyle.Font = fFuente
+                MyBase.Font = fFuenteEtiqueta
+                Me.DefaultCellStyle.Font = fFuenteEtiqueta
             Catch ex As Exception
                 MyBase.Font = value
                 Me.DefaultCellStyle.Font = value
@@ -111,9 +96,6 @@ Public Class hhGridDisplay
         Me.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         Me.Cursor = Cursors.Cross
         Me.ShowCellToolTips = False
-        'Me.defaultBackgroundColor = ccolornormal
-        'Me.DefaultForeColor = ccolornormaltexto
-
 
         iAnchoBarra = SystemInformation.VerticalScrollBarWidth
         tHint = New ToolTip
@@ -121,7 +103,7 @@ Public Class hhGridDisplay
         tHint.AutomaticDelay = 1000
         tHint.AutoPopDelay = 5000
         tHint.OwnerDraw = True
-        Me.Font = fFuente
+        Me.Font = fFuenteEtiqueta
         Me.EnableHeadersVisualStyles = False
         Me.ColumnHeadersDefaultCellStyle.Font = fFuenteEtiqueta
         Me.Columns.Clear()
@@ -138,10 +120,10 @@ Public Class hhGridDisplay
         Me.Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
         Me.Columns(0).DefaultCellStyle.Font = fFuenteEtiqueta
         Me.Columns(1).DefaultCellStyle.Font = fFuenteEtiqueta
-        Me.Columns(0).DefaultCellStyle.BackColor = ccolornormal
+        Me.Columns(0).DefaultCellStyle.BackColor = cColorNormal
         Me.Columns(1).DefaultCellStyle.BackColor = cColorNormal
         Me.Columns(0).DefaultCellStyle.ForeColor = cColorNormalTexto
-        Me.Columns(1).DefaultCellStyle.ForeColor = ccolornormaltexto
+        Me.Columns(1).DefaultCellStyle.ForeColor = cColorNormalTexto
         Me.Columns(0).DefaultCellStyle.SelectionBackColor = cColorSeleccion
         Me.Columns(1).DefaultCellStyle.SelectionBackColor = cColorSeleccion
         Me.Columns(0).DefaultCellStyle.SelectionForeColor = cColorSeleccionTexto
@@ -150,7 +132,6 @@ Public Class hhGridDisplay
         Me.Columns(0).HeaderCell.Style.ForeColor = cColorNormalTexto
         Me.Columns(1).HeaderCell.Style.BackColor = cColorNormal
         Me.Columns(1).HeaderCell.Style.ForeColor = cColorNormalTexto
-
 
         AddHandler tHint.Draw, AddressOf Draw
         AddHandler tHint.Popup, AddressOf Popup
@@ -170,10 +151,7 @@ Public Class hhGridDisplay
                     iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     iAnchoTexto = g.MeasureString(sUnidades, fFuenteEtiqueta).Width
                     iAltoTexto = g.MeasureString(sUnidades, fFuenteEtiqueta).Height
-                    While iAnchoUnidades >= ((Me.Width / 2)) '- (iAnchoTexto / 2))
-                        Debug.Print("***************")
-                        Debug.Print(iAnchoUnidades)
-                        Debug.Print(Me.Width)
+                    While iAnchoUnidades >= ((Me.Width / 2))
                         sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
                         If sUnidadesAjuste.Length <= 1 Then
                             Exit Sub
@@ -182,11 +160,8 @@ Public Class hhGridDisplay
                         sUnidadesAjuste = sUnidadesAjuste & Chr(26)
                         iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
                     End While
-                    'If iAnchoUnidades < ((Me.Width / 2) - (iAnchoTexto / 2)) Then
                     g.FillRectangle(New SolidBrush(cColorNormal), Me.Width - iAnchoBarra - iAnchoTexto - 2, 3, iAnchoTexto, iAltoTexto)
-
                     g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(cColorNormalTexto), Me.Width - iAnchoBarra - iAnchoUnidades, 3)
-                    'End If
                 End Using
             End If
         End If
@@ -234,7 +209,7 @@ Public Class hhGridDisplay
     End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
-        e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 8)
+        e.ToolTipSize = New System.Drawing.Size(iAnchoTooltip, iAltoRenglonTooltip * 8)
     End Sub
 
     Property EscribirPaso() As Boolean
@@ -268,7 +243,6 @@ Public Class hhGridDisplay
             If value Is Nothing Then
             Else
                 cReceta = value
-                'If IsNothing(sDireccionLectura) Then
                 iContador = 0
                 SendMessage(Me.Handle, 11, False, 0)
                 Me.Rows.Clear()
@@ -302,7 +276,7 @@ Public Class hhGridDisplay
                     End If
                     If pPaso.IdPaso = 17473 Then
                         sPrefijo = "ADITIVOS "
-                        sSufijo = ""
+                        sSufijo = pPaso.Segundos & " SEG"
                     End If
                     If pPaso.IdPaso = 21837 Then
                         sPrefijo = "MUESTREO "
@@ -326,10 +300,26 @@ Public Class hhGridDisplay
             End If
         End Set
     End Property
-    ReadOnly Property DuracionReceta() As Integer
+    ReadOnly Property RecetaDuracion() As Integer
         Get
-            Return iDuracionReceta
+            Return iRecetaDuracion
         End Get
+    End Property
+    Property RecetaNombre As String
+        Get
+            Return sRecetaNombre
+        End Get
+        Set(value As String)
+            sRecetaNombre = value
+        End Set
+    End Property
+    Property RecetaDescripcion As String
+        Get
+            Return sRecetaDescripcion
+        End Get
+        Set(value As String)
+            sRecetaDescripcion = value
+        End Set
     End Property
     Property DireccionEscritura() As String
         Get
@@ -355,20 +345,21 @@ Public Class hhGridDisplay
             iLongitudPaso = value
         End Set
     End Property
+    Property LongitudReceta() As Integer
+        Get
+            Return iLongitudReceta
+        End Get
+        Set(ByVal value As Integer)
+            iLongitudReceta = value
+            AjustarAnchoColumnas()
+        End Set
+    End Property
     Property DireccionPaso() As String
         Get
             Return sDireccionPaso
         End Get
         Set(ByVal value As String)
             sDireccionPaso = value
-        End Set
-    End Property
-    Property LongitudTexto() As Integer
-        Get
-            Return iLongitudTexto
-        End Get
-        Set(ByVal value As Integer)
-            iLongitudTexto = value
         End Set
     End Property
     Property MostrarSeleccion() As Boolean
@@ -419,10 +410,10 @@ Public Class hhGridDisplay
         Dim iSufijo As String
         Dim sDireccionParametro As String
         iContador = 0
-        sPrefijo = DireccionLectura.Substring(0, 2)
-        sSufijo = sDireccionLectura.Replace("D", "").Replace("W", "")
+        sPrefijo = sDireccionLectura.Substring(0, 2)
+        sSufijo = sDireccionLectura.Replace(sPrefijo, "")
         iSufijo = Val(sSufijo)
-        Debug.Print("EnviarReceta")
+
         For Each pPaso In cReceta
             sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso)).ToString
             mMasterk.EstablecerCadena(sDireccionParametro, mMasterk.IntToWordStr(pPaso.IdPaso) & "----" & mMasterk.IntToWordStr(pPaso.ParametroAuxiliar) & mMasterk.IntToWordStr(pPaso.Centigrados) & mMasterk.IntToWordStr(pPaso.Litros) & mMasterk.IntToWordStr(pPaso.RPM) & mMasterk.IntToWordStr(pPaso.Segundos) & mMasterk.IntToWordStr(pPaso.Minutos) & mMasterk.IntToWordStr(pPaso.Argumentos))
@@ -432,7 +423,7 @@ Public Class hhGridDisplay
             sDireccionParametro = sPrefijo & (iSufijo + (iContador * iLongitudPaso)).ToString
             mMasterk.EstablecerCadena(sDireccionParametro, StrDup(iLongitudPaso * 2, "-"))
             iContador = iContador + 1
-        Loop Until iContador >= 99
+        Loop Until iContador >= iLongitudReceta
     End Sub
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
@@ -459,12 +450,12 @@ Public Class hhGridDisplay
         Dim iFallas As Integer
         Dim bSalir As Boolean
         Dim sPaso As String
-        sPrefijo = DireccionLectura.Substring(0, 2)
-        sSufijo = sDireccionLectura.Replace("D", "").Replace("W", "")
+        sPrefijo = sDireccionLectura.Substring(0, 2)
+        sSufijo = sDireccionLectura.Replace(sPrefijo, "")
         iSufijo = Val(sSufijo)
         iContador = 0
         iFallas = 0
-        iDuracionReceta = 0
+        iRecetaDuracion = 0
         cReceta = New Collection
         SendMessage(Me.Handle, 11, False, 0)
         Me.Rows.Clear()
@@ -473,7 +464,7 @@ Public Class hhGridDisplay
             sValor = ""
             sParametro = ""
             sNuevaDireccion = sPrefijo & (iSufijo + (iContador * iLongitudPaso)).ToString
-            sPaso = mMasterk.ObtenerCadena(sNuevaDireccion, 20)
+            sPaso = mMasterk.ObtenerCadena(sNuevaDireccion, iLongitudPaso * 2)
             If Len(sPaso) Then
                 pPaso.IdPaso = mMasterk.WordStrToInt(Mid(sPaso, 1, 2))
                 pPaso.ParametroAuxiliar = mMasterk.WordStrToInt(Mid(sPaso, 7, 2))
@@ -492,23 +483,25 @@ Public Class hhGridDisplay
                 Case 17732
                     pPaso.NombrePaso = "DESAGUE"
                     sParametro = pPaso.Segundos & " SEG"
-                    iDuracionReceta = iDuracionReceta + pPaso.Segundos
+                    iRecetaDuracion = iRecetaDuracion + pPaso.Segundos
                 Case 20306
                     pPaso.NombrePaso = "ROTACION"
                     sParametro = pPaso.RPM & " RPM"
                 Case 16717
                     pPaso.NombrePaso = "MANTENIMIENTO"
                     sParametro = pPaso.Minutos & " MIN"
-                    iDuracionReceta = iDuracionReceta + pPaso.Minutos * 60
+                    iRecetaDuracion = iRecetaDuracion + pPaso.Minutos * 60
                 Case 17748
                     pPaso.NombrePaso = "TEMPERATURA"
                     sParametro = pPaso.Centigrados & " °C"
                 Case 17731
                     pPaso.NombrePaso = "CENTRIFUGA"
                     sParametro = pPaso.RPM & " RPM" & " " & pPaso.Minutos & " MIN"
-                    iDuracionReceta = iDuracionReceta + pPaso.Minutos
+                    iRecetaDuracion = iRecetaDuracion + pPaso.Minutos
                 Case 17473
                     pPaso.NombrePaso = "ADITIVOS"
+                    sParametro = pPaso.Segundos & " SEG"
+                    iRecetaDuracion = iRecetaDuracion + pPaso.Segundos
                 Case 21837
                     pPaso.NombrePaso = "MUESTREO"
                 Case 18758
@@ -529,7 +522,7 @@ Public Class hhGridDisplay
                 iContador = iContador + 1
             End If
             If bSalir Then Exit Do
-        Loop Until iContador >= 99
+        Loop Until iContador >= iLongitudReceta
         LimpiarSeleccion()
         SendMessage(Me.Handle, 11, True, 0)
         Me.AutoResizeRows()
@@ -597,8 +590,7 @@ Public Class hhGridDisplay
                 If pPaso.IdPaso = 17473 Then
                     sTooltip = sTooltip & "|Caubeta 1:" & SiNo(ExamineBit(pPaso.Argumentos, 8))
                     sTooltip = sTooltip & "|Enjuagues:" & pPaso.ParametroAuxiliar
-                    sTooltip = sTooltip & "|Meter a izq:" & SiNo(ExamineBit(pPaso.Argumentos, 10))
-                    sTooltip = sTooltip & "|Meter a der:" & SiNo(ExamineBit(pPaso.Argumentos, 11))
+                    sTooltip = sTooltip & "|Tiempo:" & pPaso.Segundos & " seg"
                 End If
                 tHint.SetToolTip(Me, sTooltip)
                 tHint.Show(sTooltip, Me)
@@ -614,7 +606,7 @@ Public Class hhGridDisplay
     Private Sub AjustarAnchoColumnas()
         Dim iAnchoNumeroPasos As Integer
         iAnchoBarra = SystemInformation.VerticalScrollBarWidth
-        iAnchoNumeroPasos = TextRenderer.MeasureText("99.", fFuente).Width
+        iAnchoNumeroPasos = TextRenderer.MeasureText(iLongitudReceta.ToString & ".", fFuenteEtiqueta).Width
         If Me.Columns.Count > 1 Then
             Me.Columns(0).Width = iAnchoNumeroPasos
             Me.Columns(1).Width = Me.Width - iAnchoBarra - iAnchoNumeroPasos - 3
@@ -635,7 +627,7 @@ Public Class hhGridDisplay
     Private Sub hhGridDisplay_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles Me.RowsAdded
         Dim i As Integer
         For i = 0 To Me.Columns.Count - 1
-            Me.Rows(e.RowIndex).Cells(i).Style.Font = fFuente
+            Me.Rows(e.RowIndex).Cells(i).Style.Font = fFuenteEtiqueta
         Next
     End Sub
 End Class

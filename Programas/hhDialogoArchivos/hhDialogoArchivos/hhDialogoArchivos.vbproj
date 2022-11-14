@@ -50,8 +50,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\hhMomentaryButton\hhMomentaryButton\bin\Debug\hhMomentaryButton.dll</HintPath>
     </Reference>
-    <Reference Include="MasterKlib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\masterklib\masterklib\lib\masterklib.dll</HintPath>
+    <Reference Include="IniFileVb">
+      <HintPath>..\..\IniFileVb\IniFileVb\bin\Debug\IniFileVb.dll</HintPath>
+    </Reference>
+    <Reference Include="LavadoraLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LavadoraLib\LavadoraLib\bin\Debug\LavadoraLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MasterKlib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\masterklib\masterklib\bin\Debug\MasterKlib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

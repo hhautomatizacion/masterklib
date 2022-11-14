@@ -4,8 +4,6 @@ Imports System.Windows.Forms
 <System.ComponentModel.DefaultEvent("Click")> Public Class hhToggleButton
     Inherits System.Windows.Forms.CheckBox
     Dim sId As String
-    'Dim cEtiquetaForecolor As Color
-    'Dim cEtiquetaBackcolor As Color
     Dim mMasterk As MasterKlib.MasterK
     Dim fFuenteBoton As Font
     Dim fFuenteEtiqueta As Font
@@ -19,7 +17,6 @@ Imports System.Windows.Forms
     Dim sTooltip As String
     Dim iAltoRenglonTooltip As Integer
     Dim iAnchoTooltip As Integer
-
     Dim tHint As ToolTip
     Sub New()
         MyBase.New()
@@ -46,11 +43,7 @@ Imports System.Windows.Forms
         cColorBotonTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "ButtonTextColor", System.Drawing.SystemColors.ControlText.ToArgb.ToString))
         cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
         cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-
-        'iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
         iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
-        'cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        'cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         GuardarOpciones()
     End Sub
     Private Sub GuardarOpciones()
@@ -61,8 +54,7 @@ Imports System.Windows.Forms
         SaveSetting("hhControls", "Colors", "HighlightColor", cColorseleccion.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "ButtonColor", cColorboton.ToArgb.ToString)
-        SaveSetting("hhControls", "Colors", "ButtonTextColor", cColorbotontexto.ToArgb.ToString)
-        'SaveSetting("hhControls", "Refresh", "AlertInterval", iIntervaloAlerta.ToString)
+        SaveSetting("hhControls", "Colors", "ButtonTextColor", cColorBotonTexto.ToArgb.ToString)
         SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     Public Overrides Property Font() As System.Drawing.Font
@@ -112,7 +104,6 @@ Imports System.Windows.Forms
             bAutoActualizar = value
         End Set
     End Property
-
     Property Tooltip() As String
         Get
             Return sTooltip
@@ -174,7 +165,6 @@ Imports System.Windows.Forms
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 4)
     End Sub
-
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not IsNothing(tHint) Then
@@ -197,7 +187,6 @@ Imports System.Windows.Forms
         Else
             MyBase.ForeColor = cColorBotonTexto
             MyBase.BackColor = cColorBoton
-            'MyBase.UseVisualStyleBackColor = True
         End If
     End Sub
     Private Sub hhToggleButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Click

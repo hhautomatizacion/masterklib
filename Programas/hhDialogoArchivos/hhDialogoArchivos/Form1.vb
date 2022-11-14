@@ -13,7 +13,6 @@ Public Class Form1
         CheckedListBox1.ForeColor = cColorNormalTexto
         CheckedListBox1.BackColor = cColorNormal
 
-        'Label1.Font = fFuente
         Button1.Texto = "Aceptar"
 
         Button2.Texto = "Cancelar"
@@ -39,9 +38,6 @@ Public Class Form1
         End Try
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         cColorNormalTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalTextColor", System.Drawing.SystemColors.WindowText.ToArgb.ToString))
-        'cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
-        'cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-
         GuardarOpciones()
     End Sub
     Private Sub GuardarOpciones()
@@ -49,8 +45,6 @@ Public Class Form1
         SaveSetting("hhControls", "Font", "FontSize", fFuente.Size)
         SaveSetting("hhControls", "Colors", "NormalBackColor", cColorNormal.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "NormalTextColor", cColorNormalTexto.ToArgb.ToString)
-        'SaveSetting("hhControls", "Colors", "HighlightColor", cColorSeleccion.ToArgb.ToString)
-        'SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
     End Sub
 
 
@@ -227,20 +221,39 @@ Public Class Form1
         Next
     End Sub
     Private Sub CheckedListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckedListBox1.SelectedIndexChanged
+        Dim pPaso As LavadoraLib.Receta.Paso
+        Dim iIdPaso As Integer
+        Dim sNombreArchivoSeleccionado As String
+        Dim iContador As Integer
+        Dim i As New IniFileVb.IniFileVb
         If CheckedListBox1.SelectedItem Is Nothing Then
         Else
-            HhCharacterEntry1.Text = CheckedListBox1.SelectedItem.ToString
-            If HhCharacterEntry1.Text.ToUpper.EndsWith(".REC") Then
+            sNombreArchivoSeleccionado = CheckedListBox1.SelectedItem.ToString.ToUpper
+            If sNombreArchivoSeleccionado.EndsWith(".REC") Then
                 Dim cPasos As New Collection
-                Dim bf As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-                Dim fs As New System.IO.FileStream(RutaCompleta() & HhCharacterEntry1.Text, IO.FileMode.Open)
-                Try
-                    cPasos = bf.Deserialize(fs)
-                Catch ex As Exception
-                Finally
-                    HhGridDisplay1.Receta = cPasos
-                End Try
-                fs.Close()
+                i.Load(RutaCompleta() & sNombreArchivoSeleccionado)
+
+                sDescripcion = i.GetKeyValue("Receta", "Descripcion")
+                For iContador = 1 To 200
+                    pPaso = New LavadoraLib.Receta.Paso
+                    iIdPaso = Val(i.GetKeyValue("Paso" & iContador.ToString, "IdPaso"))
+                    If iIdPaso <> 0 Then
+                        pPaso.IdPaso = iIdPaso
+                        pPaso.ParametroAuxiliar = Val(i.GetKeyValue("Paso" & iContador.ToString, "ParametroAuxiliar"))
+                        pPaso.Centigrados = Val(i.GetKeyValue("Paso" & iContador.ToString, "Centigrados"))
+                        pPaso.Litros = Val(i.GetKeyValue("Paso" & iContador.ToString, "Litros"))
+                        pPaso.RPM = Val(i.GetKeyValue("Paso" & iContador.ToString, "RPM"))
+                        pPaso.Segundos = Val(i.GetKeyValue("Paso" & iContador.ToString, "Segundos"))
+                        pPaso.Minutos = Val(i.GetKeyValue("Paso" & iContador.ToString, "Minutos"))
+                        pPaso.Argumentos = Val(i.GetKeyValue("Paso" & iContador.ToString, "Argumentos"))
+
+                        cPasos.Add(pPaso)
+                        Threading.Thread.Sleep(5)
+                    End If
+                Next
+                HhCharacterEntry1.Text = sNombreArchivoSeleccionado
+                HhCharacterEntry2.Text = sDescripcion
+                HhGridDisplay1.Receta = cPasos
             End If
         End If
     End Sub
@@ -268,5 +281,9 @@ Public Class Form1
                 HhCharacterEntry1.Text = HhCharacterEntry1.Text & ExtensionCompleta(sExtension)
             End If
         End If
+    End Sub
+
+    Private Sub HhCharacterEntry2_TextChanged(sender As Object, e As EventArgs) Handles HhCharacterEntry2.TextChanged
+        sDescripcion = HhCharacterEntry2.Text
     End Sub
 End Class

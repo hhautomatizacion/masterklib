@@ -11,8 +11,6 @@ Public Class hhTimeCounterDisplay
     Dim cColorNormal As Color
     Dim cColorAlertaTexto As Color
     Dim cColorNormalTexto As Color
-    'Dim cEtiquetaBackcolor As Color
-    'Dim cEtiquetaForecolor As Color
     Dim iIntervaloAlerta As Integer
     Dim fFuente As Font
     Dim fFuenteEtiqueta As Font
@@ -47,8 +45,6 @@ Public Class hhTimeCounterDisplay
         Catch ex As Exception
             fFuenteEtiqueta = New Font("Verdana", 14)
         End Try
-        'cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        'cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         cColorAlerta = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertBackColor", System.Drawing.Color.Red.ToArgb.ToString))
         cColorNormal = Color.FromArgb(GetSetting("hhControls", "Colors", "NormalBackColor", System.Drawing.SystemColors.Window.ToArgb.ToString))
         cColorAlertaTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "AlertTextColor", System.Drawing.Color.Black.ToArgb.ToString))

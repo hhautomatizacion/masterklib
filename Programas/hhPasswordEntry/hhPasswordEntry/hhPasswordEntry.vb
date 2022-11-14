@@ -3,10 +3,8 @@ Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.Net.Mime.MediaTypeNames
-
 Public Class hhPasswordEntry
     Inherits System.Windows.Forms.CommonDialog
-
     Sub New()
         MyBase.New()
         f = New Form1
@@ -42,7 +40,6 @@ Public Class hhPasswordEntry
         iAltoBoton = Val(GetSetting("hhControls", "Size", "ButtonHeight", "70"))
         iAnchoBoton = Val(GetSetting("hhControls", "Size", "ButtonWidth", "70"))
     End Sub
-
     Property NivelDeAutorizacion() As Integer
         Get
             Return iNivelAutorizacion
@@ -51,7 +48,6 @@ Public Class hhPasswordEntry
             iNivelAutorizacion = value
         End Set
     End Property
-
     Property Aplicacion As String
         Get
             Return sAplicacion
@@ -60,7 +56,6 @@ Public Class hhPasswordEntry
             sAplicacion = value
         End Set
     End Property
-
     Property Seccion As String
         Get
             Return sSeccion

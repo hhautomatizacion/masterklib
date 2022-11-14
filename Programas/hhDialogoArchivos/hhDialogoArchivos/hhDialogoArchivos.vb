@@ -4,8 +4,6 @@ Imports System.Drawing
 Public Class hhDialogoArchivos
     Inherits CommonDialog
 
-    'Dim iAltoBoton As Integer
-    'Dim iAnchoBoton As Integer
     Dim cSeleccion As Collection
     Dim iLongitud As Integer
     Sub New()
@@ -20,16 +18,20 @@ Public Class hhDialogoArchivos
 
     End Sub
     Protected Overrides Function RunDialog(ByVal hwndOwner As System.IntPtr) As Boolean
-
         sNombreArchivo = ""
+        sDescripcion = ""
 
         f.CheckedListBox1.Items.Clear()
 
+        f.HhGridDisplay1.LongitudReceta = 200
+
         f.HhCharacterEntry1.LongitudTexto = iLongitud
+
+        f.HhCharacterEntry2.LongitudTexto = 100
+
         f.HhLabel1.Texto = RutaCompleta().Replace("&", "&&")
 
         f.Inicializar()
-
 
         If f.ShowDialog() = DialogResult.OK Then
             cSeleccion = f.c
@@ -38,9 +40,12 @@ Public Class hhDialogoArchivos
 
             dResultado = DialogResult.Cancel
         End If
-
-
     End Function
+    Public ReadOnly Property Descripcion As String
+        Get
+            Return sDescripcion
+        End Get
+    End Property
     Public ReadOnly Property NombreArchivo() As String
         Get
             Return sNombreArchivo

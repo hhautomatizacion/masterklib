@@ -18,6 +18,9 @@ Public Class hhNumericDisplay
     Dim iValorMinimo As Integer
     Dim mMasterk As MasterKlib.MasterK
     Dim sDireccionLectura As String
+    Dim sFactor As Single
+    Dim sUnidades As String
+    Dim iDecimales As Integer
     Dim sTooltip As String
     Dim iAltoRenglonTooltip As Integer
     Dim iAnchoTooltip As Integer
@@ -90,6 +93,16 @@ Public Class hhNumericDisplay
         End If
         Return Valor
     End Function
+    Private Sub Verificar()
+        If EnRango(iValor, iValorMaximo, iValorMinimo) Then
+            MyBase.ForeColor = cColorNormalTexto
+            MyBase.BackColor = cColorNormal
+            tAlerta.Enabled = False
+        Else
+            tAlerta.Enabled = True
+        End If
+
+    End Sub
     Property ValorMinimo() As Integer
         Get
             Return iValorMinimo
@@ -125,7 +138,14 @@ Public Class hhNumericDisplay
             End If
         End Set
     End Property
-
+    Property Unidades() As String
+        Get
+            Return sUnidades
+        End Get
+        Set(ByVal value As String)
+            sUnidades = value
+        End Set
+    End Property
     Property Valor() As Integer
         Get
             If Not bAutoActualizar Then
@@ -135,7 +155,25 @@ Public Class hhNumericDisplay
         End Get
         Set(ByVal value As Integer)
             iValor = value
-            DarFormato()
+            Actualizar()
+        End Set
+    End Property
+    Property Factor() As Single
+        Get
+            Return sFactor
+        End Get
+        Set(ByVal value As Single)
+            sFactor = value
+            Actualizar()
+        End Set
+    End Property
+    Property Decimales() As Integer
+        Get
+            Return iDecimales
+        End Get
+        Set(ByVal value As Integer)
+            iDecimales = value
+            Actualizar()
         End Set
     End Property
     Property Tooltip() As String
@@ -195,6 +233,34 @@ Public Class hhNumericDisplay
         Finally
         End Try
     End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+        Dim iAnchoUnidades As Integer
+        Dim iAnchoTexto As Integer
+        Dim sUnidadesAjuste As String
+        MyBase.WndProc(m)
+        If m.Msg = &HF Then
+            If Len(sUnidades) Then
+                sUnidadesAjuste = sUnidades
+                Using g As Graphics = Me.CreateGraphics
+                    iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
+                    iAnchoTexto = g.MeasureString(Me.Text, fFuenteEtiqueta).Width
+                    While iAnchoUnidades >= (Me.Width / 2)
+                        sUnidadesAjuste = sUnidadesAjuste.Replace(Chr(26), "")
+                        If sUnidadesAjuste.Length <= 1 Then
+                            Exit Sub
+                        End If
+                        sUnidadesAjuste = sUnidadesAjuste.Substring(0, sUnidadesAjuste.Length - 1)
+                        sUnidadesAjuste = sUnidadesAjuste & Chr(26)
+                        iAnchoUnidades = g.MeasureString(sUnidadesAjuste, fFuenteEtiqueta).Width
+                    End While
+                    If iAnchoUnidades < (Me.Width / 2) Then
+                        g.DrawString(sUnidadesAjuste, fFuenteEtiqueta, New SolidBrush(cColorNormalTexto), Me.Width - iAnchoUnidades, 0)
+                    End If
+                End Using
+            End If
+        End If
+    End Sub
     Private Sub Popup(ByVal sender As Object, ByVal e As System.Windows.Forms.PopupEventArgs)
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", ffuenteetiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 5)
@@ -229,20 +295,35 @@ Public Class hhNumericDisplay
         If Not IsNothing(mMasterk) Then
             iValor = mMasterk.ObtenerEntero(sDireccionLectura)
         End If
-        DarFormato()
+        Me.Text = DarFormato(iValor)
+        Verificar()
     End Sub
-    Private Sub DarFormato()
-        MyBase.Text = iValor.ToString
-        If Not IsNothing(tAlerta) Then
-            If EnRango(iValor, iValorMaximo, iValorMinimo) Then
-                tAlerta.Enabled = False
-                MyBase.ForeColor = ccolornormaltexto
-                MyBase.BackColor = cColorNormal
+    Private Function DarFormato(ByVal i As Integer) As String
+        Dim sFormato As String
+        If sFactor = 0 Then sFactor = 1
+        If sFactor = 1 Then
+            sFormato = "0"
+        Else
+            If iDecimales > 0 Then
+                sFormato = "0." & StrDup(iDecimales, "0")
             Else
-                tAlerta.Enabled = True
+                sFormato = "0\."
             End If
         End If
-    End Sub
+        Return (i * sFactor).ToString(sFormato)
+    End Function
+    'Private Sub DarFormato()
+    '    MyBase.Text = iValor.ToString
+    '    If Not IsNothing(tAlerta) Then
+    '        If EnRango(iValor, iValorMaximo, iValorMinimo) Then
+    '            tAlerta.Enabled = False
+    '            MyBase.ForeColor = ccolornormaltexto
+    '            MyBase.BackColor = cColorNormal
+    '        Else
+    '            tAlerta.Enabled = True
+    '        End If
+    '    End If
+    'End Sub
     Private Function EnRango(ByVal Valor As Integer, ByVal ValorMaximo As Integer, ByVal ValorMinimo As Integer) As Boolean
         Return ((Valor <= ValorMaximo) And (Valor >= ValorMinimo))
     End Function

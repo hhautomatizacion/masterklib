@@ -251,7 +251,6 @@ Public Class hhCharacterDisplay
                 tAlerta.Enabled = True
             End If
         End If
-        Debug.Print("===== " & sTexto)
         MyBase.Text = sTexto
     End Sub
     Private Sub Alerta(ByVal s As Object, ByVal e As System.EventArgs) Handles tAlerta.Tick

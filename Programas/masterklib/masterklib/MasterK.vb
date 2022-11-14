@@ -225,7 +225,6 @@ Public Class MasterK
                 iValor = ObtenerEntero(Device)
             End If
         End If
-        'NetEnviar(Device, "I", iValor.ToString)
         Return iValor
     End Function
 
@@ -246,7 +245,6 @@ Public Class MasterK
                     If Len(sValor) Then
                         Try
                             bValor = -Val(sValor)
-                            'NetEnviar(Device, "B", bValor.ToString)
                         Catch ex As Exception
                             Fallo("ObtenerBoolean " & Device & " " & ex.Message)
                         End Try
@@ -310,7 +308,6 @@ Public Class MasterK
             Else
                 sValor = sValor.PadLeft(Longitud)
             End If
-            'NetEnviar(Device, "S", sValor)
         Else
             If bTimeout Then
             Else
@@ -319,21 +316,6 @@ Public Class MasterK
         End If
         Return sValor
     End Function
-    'Sub NetEnviar(ByVal sDevice As String, ByVal sTipo As String, ByVal sValor As String)
-    '    If bNetActivado Then
-    '        If dDatos.ContainsKey(sDevice) Then
-    '            If dDatos.Item(sDevice) < Now Then
-    '                Try
-    '                    ' uTerminal.SendMessage(sTerminal & "|" & sDevice & "|" & sTipo & "|" & sValor)
-    '                Catch
-    '                End Try
-    '                dDatos.Item(sDevice) = Now.AddSeconds(iIntervalo)
-    '            End If
-    '        Else
-    '            dDatos.Add(sDevice, Now.AddSeconds(iIntervalo))
-    '        End If
-    '    End If
-    'End Sub
     Public Function EstablecerCadena(ByVal Device As String, ByVal Value As String) As String
         Dim sBytes As String
         Dim sTexto As String
@@ -515,12 +497,9 @@ Public Class MasterK
             If sPuerto.IsOpen Then
                 Try
                     bFail = False
-
                     sPuerto.Write(bM, 0, longitud)
-
                 Catch ex As Exception
                     bFail = True
-                    'bTimeout = True
                     RaiseEvent Timeout(Me, New MyEventArgs(System.Text.Encoding.UTF8.GetString(bM)))
                 End Try
                 If Not bFail Then
@@ -538,11 +517,8 @@ Public Class MasterK
             Fallo("El puerto no es valido")
         Else
             Try
-
                 sRespuesta = sPuerto.ReadTo(Chr(3))
-
             Catch
-
                 bTimeout = True
             End Try
         End If
@@ -579,7 +555,6 @@ Public Class MasterK
     End Function
     Public Function ByteArrayToStr(b As Byte()) As String
         Dim i As Integer
-        'Dim l As Integer
         Dim s As String
         s = ""
         For i = 0 To b.GetUpperBound(0)

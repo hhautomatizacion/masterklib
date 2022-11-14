@@ -3,7 +3,6 @@ Public Class hhWordRegister
     Dim sId As String
     Dim sNombre As String
     Dim bAutoActualizar As Boolean
-    'Dim bAlerta As Boolean
     Dim iValor As Integer
     Dim iValorAnterior As Integer
     Dim iValorMaximo As Integer

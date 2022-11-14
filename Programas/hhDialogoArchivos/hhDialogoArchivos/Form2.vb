@@ -22,10 +22,5 @@ Public Class Form2
         Catch ex As Exception
             fFuente = New System.Drawing.Font("Verdana", 18)
         End Try
-        'Try
-        'fFuenteEtiqueta = New Font(GetSetting("hhControls", "Font", "LabelFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "LabelFontSize", "14")))
-        'Catch ex As Exception
-        'fFuenteEtiqueta = New Font("Verdana", 14)
-        'End Try
     End Sub
 End Class

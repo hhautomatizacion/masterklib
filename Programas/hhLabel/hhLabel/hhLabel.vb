@@ -219,4 +219,8 @@ Public Class hhLabel
             End Try
         End If
     End Sub
+
+    Private Sub hhLabel_Click(sender As Object, e As EventArgs) Handles Me.Click
+        MostrarTooltip(sender, e)
+    End Sub
 End Class

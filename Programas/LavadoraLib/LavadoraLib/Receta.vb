@@ -1,5 +1,11 @@
 ﻿Public Class Receta
-    <Serializable()> Public Structure Paso
+    Public Structure Receta
+        Public Nombre As String
+        Public Descripcion As String
+        Public Adjunto As String
+        Public Pasos As Collection
+    End Structure
+    Public Structure Paso
         Public NombrePaso As String
         Public IdPaso As Integer
         Public Minutos As Integer

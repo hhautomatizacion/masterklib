@@ -27,15 +27,18 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
     Sub New()
         MyBase.New()
         CargarOpciones()
-        Me.Appearance = Windows.Forms.Appearance.Button
+        MyBase.Appearance = Windows.Forms.Appearance.Button
 
-        Me.TextAlign = ContentAlignment.MiddleCenter
-        Me.Cursor = Cursors.Cross
-        Me.Font = fFuenteBoton
-        'Me.UseVisualStyleBackColor = False
+        MyBase.TextAlign = ContentAlignment.MiddleCenter
+        MyBase.Cursor = Cursors.Cross
+        MyBase.Font = fFuenteBoton
+
+        MyBase.UseVisualStyleBackColor = False
+        MyBase.BackColor = cColorBoton
+        MyBase.ForeColor = cColorBotonTexto
+        MyBase.Checked = False
         DarFormato()
     End Sub
-
     Private Sub CargarOpciones()
         Try
             fFuenteBoton = New Font(GetSetting("hhControls", "Font", "ButtonFontName", "Verdana"), Val(GetSetting("hhControls", "Font", "ButtonFontSize", "10")))
@@ -51,11 +54,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
         cColorBotonTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "ButtonTextColor", System.Drawing.SystemColors.ControlText.ToArgb.ToString))
         cColorSeleccion = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightColor", SystemColors.Highlight.ToArgb.ToString))
         cColorSeleccionTexto = Color.FromArgb(GetSetting("hhControls", "Colors", "HighlightTextColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
-
-        'iIntervaloAlerta = Val(GetSetting("hhcontrols", "refresh", "alertinterval", "1000"))
         iAnchoTooltip = Val(GetSetting("hhControls", "Tooltip", "TooltipWidth", "200"))
-        'cEtiquetaBackcolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelBackColor", System.Drawing.SystemColors.Highlight.ToArgb.ToString))
-        'cEtiquetaForecolor = Color.FromArgb(GetSetting("hhControls", "Colors", "LabelForeColor", System.Drawing.SystemColors.HighlightText.ToArgb.ToString))
         GuardarOpciones()
     End Sub
     Private Sub GuardarOpciones()
@@ -67,7 +66,6 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
         SaveSetting("hhControls", "Colors", "HighlightTextColor", cColorSeleccionTexto.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "ButtonColor", cColorBoton.ToArgb.ToString)
         SaveSetting("hhControls", "Colors", "ButtonTextColor", cColorBotonTexto.ToArgb.ToString)
-        'SaveSetting("hhControls", "Refresh", "AlertInterval", iIntervaloAlerta.ToString)
         SaveSetting("hhControls", "Tooltip", "TooltipWidth", iAnchoTooltip.ToString)
     End Sub
     <System.ComponentModel.DefaultValue(False)> Public Overrides Property AutoSize() As Boolean
@@ -221,7 +219,6 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
         iAltoRenglonTooltip = TextRenderer.MeasureText("Receta", fFuenteEtiqueta).Height
         e.ToolTipSize = New System.Drawing.Size(ianchotooltip, iAltoRenglonTooltip * 4)
     End Sub
-
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not IsNothing(mMasterk) Then
@@ -244,9 +241,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
         Else
             MyBase.ForeColor = cColorBotonTexto
             MyBase.BackColor = cColorBoton
-            'MyBase.UseVisualStyleBackColor = True
         End If
-
     End Sub
     Sub Actualizar()
         If Not IsNothing(mMasterk) Then
@@ -254,22 +249,11 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
         End If
         DarFormato()
     End Sub
-
     Private Sub hhMomentaryButton_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
-        Dim iContador As Integer
         If Not IsNothing(mMasterk) Then
-            iContador = 0
-            Do
-                iContador = iContador + 1
-                mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
-                Application.DoEvents()
-            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = True Or iContador >= 3
-            iContador = 0
-            Do
-                iContador = iContador + 1
-                mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
-                Application.DoEvents()
-            Loop Until mMasterk.ObtenerBoolean(sDireccionEscritura) = False Or iContador >= 3
+            mMasterk.EstablecerBoolean(sDireccionEscritura, 1)
+            Threading.Thread.Sleep(5)
+            mMasterk.EstablecerBoolean(sDireccionEscritura, 0)
         End If
         Actualizar()
     End Sub
